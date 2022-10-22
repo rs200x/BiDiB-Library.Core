@@ -1,0 +1,18 @@
+﻿namespace org.bidib.netbidibc.core.Enumerations;
+
+public enum TargetMode : byte
+{
+    BIDIB_TARGET_MODE_UID = 0x00,
+
+    BIDIB_TARGET_MODE_ALL = 0x01,
+
+    BIDIB_TARGET_MODE_DISPATCH_SWITCH = 0x08,
+
+    BIDIB_TARGET_MODE_DISPATCH_BOOSTER = 0x09,
+
+    BIDIB_TARGET_MODE_DISPATCH_ACCESSORY = 0x0A,
+
+    BIDIB_TARGET_MODE_DISPATCH_DCCGEN = 0x0C,
+
+    BIDIB_TARGET_MODE_DISPATCH_TOP = 0x0F,
+}

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/schema/vendorcv" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.bidib.org/schema/vendorcv /xsd/vendor_cv.xsd">
+    
+    <Version Version="0.6" Lastupdate="20150126" Author="Tillner, Andreas" Pid="104" Vendor="013" Description="GBMBoost Master, Booster, Interface"></Version>
+    <Templates>
+        <Template Name="ServiceMode" SkipOnTimeout="true">
+            <CV Number="81" Type="Byte" Min="0" Max="10" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="zus. RESET Pakets" Help="Durch zusätzliche Resetpakete wird die Startphase beim Programmiermode länger"/>
+                <Description Lang="en-EN" Text="additional reset pakets" />
+            </CV>
+            <CV Number="82" Type="Byte" Min="0" Max="10" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="zus. Programmbefehle" Help="Durch zusätzliche Pakete wird beim Programmiermode länger beim Dekoder angefragt"/>
+                <Description Lang="en-EN" Text="additional program pakets"/>
+            </CV>
+            <CV Number="86" Type="Byte" Min="20" Max="100" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Stromschwelle für Programmierquittung" Help="Normal 50mA, mit geringerer Schwelle auch LED Dekoder oder Faulhabermotoren möglich"/>
+                <Description Lang="en-EN" Text="service mode current threshold for ACK"/>
+            </CV>
+        </Template>
+        <Template Name="GBM16T" SkipOnTimeout="true">
+            <Node Offset="0" Template="Common">
+                <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Common settings"/>
+            </Node>
+            <Node Offset="0" Template="Reverser">
+                <Nodetext Lang="de-DE" Text="Kehrschleife"/>
+                <Nodetext Lang="en-EN" Text="Reverser"/>
+            </Node>
+            <Node Offset="0" Template="Inhibit">
+                <Nodetext Lang="de-DE" Text="Inhibit Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Inhibit settings"/>
+            </Node>
+            <Node Offset="0" Template="Speed">
+                <Nodetext Lang="de-DE" Text="Geschwindigkeitsmessung"/>
+                <Nodetext Lang="en-EN" Text="Speed measuring"/>
+            </Node>
+        </Template>
+        <Template Name="Common">
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Vendor GBM16T"/>
+                <Description Lang="en-EN" Text="Vendor GBM16T"/>
+            </CV>
+            <CV Number="36" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1" Mode="rw">
+                <Description Lang="de-DE" Text="0: keine Stromquelle, 1: 10mA, wenn kein DCC" Help="Ersatzspeisung nötig; Analogmode in den Dekodern sollte abgeschaltet sein"/>
+                <Description Lang="en-EN" Text="0: no I source, 1: 10mA, if no DCC" Help="Extra power supply required; turn off analogue mode in decoders"/>
+            </CV>
+            <CV Number="37" Type="Byte" Min="1" Max="10" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Gedulteter Offset ADC" Help="nur bei Kalibierung relevant"/>
+                <Description Lang="en-EN" Text="Allowed Offset ADC" Help="only for calibration"/>
+            </CV>
+            <CV Number="38" Type="Byte" Min="2" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Channel 1 Filter" Help="So oft muss eine Adressnachricht in Channel 1 fehlerfrei empfangen werden."/>
+                <Description Lang="en-EN" Text="Channel 1 Filter" Help="Number of required channel 1 address maessages"/>
+            </CV>
+            <CV Number="42" Type="Byte" Min="1" Max="200" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Störungsunterdrückung" Help="So lange muß das Eingangssignal mind. über der Schwelle sein. Einheit 1ms"/>
+                <Description Lang="en-EN" Text="Spike Suppression" Help="Required time for input above threshold, unit 1ms"/>
+            </CV>
+            <CV Number="43" Type="Bit" Min="2" Max="100" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Memory (Einheit 100ms)" Help="Haltezeit des Melders, so lange bleibt er mind. an"/>
+                <Description Lang="en-EN" Text="Memory (Unit 100ms" Help="Hodltime"/>
+            </CV>
+            <CV Number="44" Type="Byte" Min="4" Max="100" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Ansprechschwelle (DCC an)" Help="Einheit 0,5mV; 12: erkennt 40kOhm, 24: erkennt 20kOhm"/>
+                <Description Lang="en-EN" Text="Threshold (DCC on)" Help="unit 0.5mV; 12: detects 40kOhm; 24: detects 20kOhm"/>
+            </CV>
+            <CV Number="45" Type="Byte" Min="2" Max="50" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Ansprechschwelle (DCC aus)" Help="Einheit 0,5mV; empfohlen: etwas halber Wert wie bei DCC an"/>
+                <Description Lang="en-EN" Text="Threshold (DCC off)" Help="unit 0.5mV; recommended: half the value of DCC on"/>
+            </CV>
+        </Template>
+        <Template Name="Reverser">
+            <CV Number="1" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Adr. (low)" Help="Dekoderadresse, nicht Weichenadresse"/>
+                <Description Lang="en-EN" Text="DCC Addr. (low)"/>
+            </CV>
+            <CV Number="9" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Adr. (high)"/>
+                <Description Lang="en-EN" Text="DCC Addr. (high)"/>
+            </CV>
+            <CV Number="51" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Kehrschleife aktuelle Stellung"/>
+                <Description Lang="en-EN" Text="Reverser Current Position"/>
+            </CV>
+            <CV Number="46" Type="GBM16TReverser" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife Modus"/>
+                <Description Lang="en-EN" Text="Reverser Mode"/>
+            </CV>
+            <CV Number="47" Type="GBM16TReverser" Min="0" Max="255" Low="47" High="48" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife On Low"/>
+                <Description Lang="en-EN" Text="Reverser On Low"/>
+            </CV>
+            <CV Number="48" Type="GBM16TReverser" Min="0" Max="255" Low="47" High="48" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife On High"/>
+                <Description Lang="en-EN" Text="Reverser On High"/>
+            </CV>
+            <CV Number="49" Type="GBM16TReverser" Min="0" Max="255" Low="49" High="50" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife Off Low"/>
+                <Description Lang="en-EN" Text="Reverser Off Low"/>
+            </CV>
+            <CV Number="50" Type="GBM16TReverser" Min="0" Max="255" Low="49" High="50" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife Off High"/>
+                <Description Lang="en-EN" Text="Reverser Off High"/>
+            </CV>
+            <CV Number="65" Type="GBM16TReverser" Min="0" Max="255" Low="65" High="66" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife Prio Low"/>
+                <Description Lang="en-EN" Text="Reverser Prio Low"/>
+            </CV>
+            <CV Number="66" Type="GBM16TReverser" Min="0" Max="255" Low="65" High="66" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kehrschleife Prio High"/>
+                <Description Lang="en-EN" Text="Reverser Prio High"/>
+            </CV>
+        </Template>
+        <Template Name="Inhibit">
+            <CV Number="61" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Inhibit On, aktueller Zustand"/>
+                <Description Lang="en-EN" Text="Inhibit On, current state"/>
+            </CV>
+            <CV Number="59" Type="DCC_ADDR_RG" Min="0" Max="255" Low="59" High="60" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Inhibit On, Addr (Low)"/>
+                <Description Lang="en-EN" Text="Inhibit On, Addr (Low)"/>
+            </CV>
+            <CV Number="60" Type="DCC_ADDR_RG" Min="0" Max="255" Low="59" High="60" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Inhibit On, Addr (High)"/>
+                <Description Lang="en-EN" Text="Inhibit On, Addr (High)"/>
+            </CV>
+            <CV Number="64" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Inhibit Off, aktueller Zustand"/>
+                <Description Lang="en-EN" Text="Inhibit Off, current state"/>
+            </CV>
+            <CV Number="62" Type="DCC_ADDR_RG" Min="0" Max="255" Low="62" High="63" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Inhibit Off, Addr (Low)"/>
+                <Description Lang="en-EN" Text="Inhibit Off, Addr (Low)"/>
+            </CV>
+            <CV Number="63" Type="DCC_ADDR_RG" Min="0" Max="255" Low="62" High="63" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Inhibit Off, Addr (High)"/>
+                <Description Lang="en-EN" Text="Inhibit Off, Addr (High)"/>
+            </CV>
+        </Template>
+        <Template Name="Speed">
+            <CV Number="52" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Maßstab"/>
+                <Description Lang="en-EN" Text="Scale"/>
+            </CV>
+            <CV Number="53" Type="Int" Min="0" Max="255" Low="53" High="54" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Länge [mm] (low)"/>
+                <Description Lang="en-EN" Text="Length [mm] (low)"/>
+            </CV>
+            <CV Number="54" Type="Int" Min="0" Max="255" Low="53" High="54" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Länge [mm] (high)"/>
+                <Description Lang="en-EN" Text="Length [mm] (high)"/>
+            </CV>
+            <CV Number="55" Type="Int" Min="0" Max="255" Low="55" High="56" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Startmelder (low)"/>
+                <Description Lang="en-EN" Text="Start detector (low)"/>
+            </CV>
+            <CV Number="56" Type="Int" Min="0" Max="255" Low="55" High="56" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Startmelder (high)"/>
+                <Description Lang="en-EN" Text="Start detector (high)"/>
+            </CV>
+            <CV Number="57" Type="Int" Min="0" Max="255" Low="57" High="58" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Stopmelder (low)"/>
+                <Description Lang="en-EN" Text="Stop detector (low)"/>
+            </CV>
+            <CV Number="58" Type="Int" Min="0" Max="255" Low="57" High="58" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Stopmelder (high)"/>
+                <Description Lang="en-EN" Text="Stop detector (high)"/>
+            </CV>
+        </Template>
+    </Templates>
+    <CVDefinition>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+            <Nodetext Lang="en-EN" Text="Basis"/>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Parser Modus"/>
+                <Description Lang="en-EN" Text="Parser Mode"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="DCC Herstellerkennung"/>
+                <Description Lang="en-EN" Text="DCC Vendor ID"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produkt-ID 1"/>
+                <Description Lang="en-EN" Text="Pruduct ID 1"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produkt-ID 2"/>
+                <Description Lang="en-EN" Text="Pruduct ID 2"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Seriel-Nr. 1"/>
+                <Description Lang="en-EN" Text="Serial-Nr. 1"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Seriel-Nr. 2"/>
+                <Description Lang="en-EN" Text="Serial-Nr. 2"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Jumper"/>
+                <Description Lang="en-EN" Text="Jumper"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Extended control: Generiert zus. Feedback Byte für Booster/GBM Fehler"/>
+                <Description Lang="en-EN" Text="Extended control: create extra feedback byte for booster/gbm fail"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="extended_didl: Generiert zus. s88 Byte für Booster/GBM Fehler"/>
+                <Description Lang="en-EN" Text="extended_didl: create extra s88 byte for booster/gbm fail"/>
+            </CV>
+            <CV Number="10" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="extended_didh: Generiert zus. s88 Byte für Booster/GBM Fehler"/>
+                <Description Lang="en-EN" Text="extended_didh: create extra s88 byte for booster/gbm fail"/>
+            </CV>
+            <CV Number="11" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="xp_slot_mode: Automatisch oder manuel"/>
+                <Description Lang="en-EN" Text="xp_slot_mode: automatic or manuel"/>
+            </CV>
+            <CV Number="12" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="xp_slot_addr: Adresse 1..31"/>
+                <Description Lang="en-EN" Text="xp_slot_addr: Address 1..31"/>
+            </CV>
+            <CV Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt"/>
+                <Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
+            </CV>
+            <CV Number="16" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Voreinstellung DCC-Format: 0=DCC14, 2=DCC28, 3=DCC128" Help="Nur relevant bei erstmaligen Aufruf einer Lok über Xpressnet."/>
+                <Description Lang="en-EN" Text="Default DCC format: 0=DCC14, 2=DCC28, 3=DCC128"/>
+            </CV>
+            <CV Number="23" Type="SignedChar" Min="-20" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Temperaturoffset: 0=standard, positiv/negativ: Korrektur zu höheren/tieferen Werten" Help="Die Temperaturmessung mit dem atxmega ist nicht sehr genau, mit diesem Offsetwert kann ein individueller Abgleich vorgenommen werden."/>
+                <Description Lang="en-EN" Text="Temperature offset: 0 default, otherwise add or subtract this value"/>
+            </CV>
+            <CV Number="83" Type="SignedChar" Min="-8" Max="8" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Weichenbefehlsoffset bei XPressnet: 0=standard, positiv/negativ: XP hat höhere/tiefere Adressen" Help="Für Multimaus passt 4."/>
+                <Description Lang="en-EN" Text="Accessory offset on xpressnet: 0 default, otherwise add or subtract this value"/>
+            </CV>
+        </Node>
+        <Node Offset="0" Template="ServiceMode">
+            <Nodetext Lang="de-DE" Text="ServiceMode Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="ServiceMode Settings"/>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="GBM16T"/>
+            <Nodetext Lang="en-EN" Text="GBM16T"/>
+            <Node Offset="10000" Template="GBM16T" Count="3" Next="10000">
+                <Nodetext Lang="de-DE" Text="GBM16T-%%d"/>
+                <Nodetext Lang="en-EN" Text="GBM16T-%%d"/>
+            </Node>
+        </Node>
+    </CVDefinition>
+</VendorCV>

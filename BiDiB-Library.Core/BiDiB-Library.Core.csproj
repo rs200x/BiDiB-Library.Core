@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>org.bidib.netbidibc.core</AssemblyName>
+    <RootNamespace>org.bidib.netbidibc.core</RootNamespace>
+	<TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <BclBuildImported>Ignore</BclBuildImported>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.de.resx">
+			<DependentUpon>Resources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.nl.resx">
+			<DependentUpon>Resources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+</Project>

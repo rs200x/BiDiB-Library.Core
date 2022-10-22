@@ -1,0 +1,234 @@
+﻿<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BIDIB_BST_STATE_OFF" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_GO_REQ" xml:space="preserve">
+    <value>Uit (aanzetten gevraagd)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_HERE" xml:space="preserve">
+    <value>Uit (door lokale knop)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_HOT" xml:space="preserve">
+    <value>Uit (hoge temperatuur)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_NOPOWER" xml:space="preserve">
+    <value>Uit (geen netspanning)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_NO_DCC" xml:space="preserve">
+    <value>Uit (DCC uit)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_SHORT" xml:space="preserve">
+    <value>Uit (kortsluiting)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON" xml:space="preserve">
+    <value>Aan</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_HERE" xml:space="preserve">
+    <value>Aan (door lokale knop)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_HOT" xml:space="preserve">
+    <value>Aan (kritische temperatuur bereikt)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_LIMIT" xml:space="preserve">
+    <value>Aan (stroomgrens bereikt)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_STOP_REQ" xml:space="preserve">
+    <value>Aan (uitzetten gevraagd)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_BUSY" xml:space="preserve">
+    <value>Bezig</value>
+  </data>
+  <data name="BIDIB_CS_STATE_GO" xml:space="preserve">
+    <value>Aan (met Watchdog)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_GO_IGN_WD" xml:space="preserve">
+    <value>Aan (permanent)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_OFF" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="BIDIB_CS_STATE_PROG" xml:space="preserve">
+    <value>Programmeermodus</value>
+  </data>
+  <data name="BIDIB_CS_STATE_PROGBUSY" xml:space="preserve">
+    <value>Programmeermode bezig</value>
+  </data>
+  <data name="BIDIB_CS_STATE_SOFTSTOP" xml:space="preserve">
+    <value>Softstop</value>
+  </data>
+  <data name="BIDIB_CS_STATE_STOP" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Car" xml:space="preserve">
+    <value>Voertuig</value>
+  </data>
+  <data name="Centimeter" xml:space="preserve">
+    <value>cm</value>
+  </data>
+  <data name="ConnectionClosedByRemote" xml:space="preserve">
+    <value>Verbinding werd door de remote kant gesloten!</value>
+  </data>
+  <data name="EmergencyStop" xml:space="preserve">
+    <value>Noodstop</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fout</value>
+  </data>
+  <data name="Error_CouldNotConnectToInterface" xml:space="preserve">
+    <value>Verbinding naar de interface kon niet worden gemaakt!</value>
+  </data>
+  <data name="Error_CouldNotConnectToSerialInterface" xml:space="preserve">
+    <value>Verbinding naar de seriële Com Poort '{0}' kon niet worden gemaakt! 
+Controleer alstublieft de interface instellingen en de verbinding. 
+- is het de juiste COM-poort? 
+- is de USB-kabel aangesloten?
+- wordt de poort al door een andere toepassing gebruikt?</value>
+  </data>
+  <data name="Error_NoResponseFromInterface" xml:space="preserve">
+    <value>De interface heeft niet gereageerd. Controleer alstublieft de configuratie. </value>
+  </data>
+  <data name="ExtendedAccessory" xml:space="preserve">
+    <value>Accessoires (ext.)</value>
+  </data>
+  <data name="FileHasNoDefinedSchema" xml:space="preserve">
+    <value>Het bestand '{0}' is niet voor dit schema gedefinieerd.</value>
+  </data>
+  <data name="FileNotValidWithSchema" xml:space="preserve">
+    <value>Xml bestand '{0}' is niet geldig volgens het schema {1}.</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Functie</value>
+  </data>
+  <data name="Hertz" xml:space="preserve">
+    <value>Hz</value>
+  </data>
+  <data name="Idle" xml:space="preserve">
+    <value>in bedrijf</value>
+  </data>
+  <data name="InputQueueProcessingCanceled" xml:space="preserve">
+    <value>Binnenkomende berichten stroom geannuleerd</value>
+  </data>
+  <data name="InputQueueProcessingFinished" xml:space="preserve">
+    <value>Binnenkomende berichten stroom verwerkt</value>
+  </data>
+  <data name="InterfaceNotConnectedNoTransmission" xml:space="preserve">
+    <value>Interface is niet verbonden! Bericht wordt niet verstuurd!</value>
+  </data>
+  <data name="KilometerPerHour" xml:space="preserve">
+    <value>km/h</value>
+  </data>
+  <data name="Kilowatts" xml:space="preserve">
+    <value>kw</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Locomotief</value>
+  </data>
+  <data name="Meter" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="MilliAmpere" xml:space="preserve">
+    <value>mA</value>
+  </data>
+  <data name="Millimeter" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="MillimeterPerSecond" xml:space="preserve">
+    <value>mm/s</value>
+  </data>
+  <data name="MilliOhm" xml:space="preserve">
+    <value>mΩ</value>
+  </data>
+  <data name="MilliSecond" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minimaliseren</value>
+  </data>
+  <data name="NetBiDiB" xml:space="preserve">
+    <value>netBiDiB</value>
+  </data>
+  <data name="NetworkSimulation" xml:space="preserve">
+    <value>Simulatie (netwerk)</value>
+  </data>
+  <data name="NetworkTcp" xml:space="preserve">
+    <value>TCP Interface</value>
+  </data>
+  <data name="Ohm" xml:space="preserve">
+    <value>Ω</value>
+  </data>
+  <data name="OutputQueueProcessingCanceled" xml:space="preserve">
+    <value>Uitgaande berichtenstroom geannuleerd</value>
+  </data>
+  <data name="OutputQueueProcessingFinished" xml:space="preserve">
+    <value>Uitgaande berichtenstroom verwerkt</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="RadPerSecond" xml:space="preserve">
+    <value>rad/s</value>
+  </data>
+  <data name="RevolutionsPerMinute" xml:space="preserve">
+    <value>rpm</value>
+  </data>
+  <data name="RevolutionsPerMinutePerVolt" xml:space="preserve">
+    <value>rpm/V</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>in beweging</value>
+  </data>
+  <data name="SchemaMustNotBeNull" xml:space="preserve">
+    <value>Het XML schema mag niet nul zijn.</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="SerialOverTcp" xml:space="preserve">
+    <value>Seriëel over TCP</value>
+  </data>
+  <data name="SerialPort" xml:space="preserve">
+    <value>Seriële Interface</value>
+  </data>
+  <data name="SerialPortConnectionError" xml:space="preserve">
+    <value>Verbinding naar seriële poort '{0}' kon niet worden geopend! {1}</value>
+  </data>
+  <data name="SerialSimulation" xml:space="preserve">
+    <value>Simulatie (serieel)</value>
+  </data>
+  <data name="Simulation" xml:space="preserve">
+    <value>Simulatie</value>
+  </data>
+  <data name="StandardAccessory" xml:space="preserve">
+    <value>Accessoire</value>
+  </data>
+  <data name="Susi" xml:space="preserve">
+    <value>Susi</value>
+  </data>
+  <data name="Tonnes" xml:space="preserve">
+    <value>t</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="Volts" xml:space="preserve">
+    <value>V</value>
+  </data>
+  <data name="XmlValidationFileError" xml:space="preserve">
+    <value>XML validatie kon niet worden uitgevoerd. Het bestand '{0}' bestaat niet of is leeg.</value>
+  </data>
+  <data name="XmlValidationProcessError" xml:space="preserve">
+    <value>Bestand {0} kon niet met schema {1} {2} worden gevalideerd.</value>
+  </data>
+</root>

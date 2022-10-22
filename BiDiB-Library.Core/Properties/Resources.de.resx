@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BIDIB_BST_STATE_OFF" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_GO_REQ" xml:space="preserve">
+    <value>Aus (Einschalt-Anforderung vorhanden)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_HERE" xml:space="preserve">
+    <value>Aus (lokaler Tastendruck)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_HOT" xml:space="preserve">
+    <value>Aus (Übertemperaturr)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_NOPOWER" xml:space="preserve">
+    <value>Aus (keine Netzspannung)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_NO_DCC" xml:space="preserve">
+    <value>Aus (DCC aus)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_OFF_SHORT" xml:space="preserve">
+    <value>Aus (Kurzschluss)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON" xml:space="preserve">
+    <value>Ein</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_HERE" xml:space="preserve">
+    <value>Ein (lokaler Tastendruck)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_HOT" xml:space="preserve">
+    <value>Ein (kritischer Temperaturbereich)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_LIMIT" xml:space="preserve">
+    <value>Ein (Strombegrenzung erreicht)</value>
+  </data>
+  <data name="BIDIB_BST_STATE_ON_STOP_REQ" xml:space="preserve">
+    <value>Ein (Ausschalt-Anforderung vorhanden)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_BUSY" xml:space="preserve">
+    <value>Beschäftigt</value>
+  </data>
+  <data name="BIDIB_CS_STATE_GO" xml:space="preserve">
+    <value>Ein (mit Watchdog)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_GO_IGN_WD" xml:space="preserve">
+    <value>Ein (permanent)</value>
+  </data>
+  <data name="BIDIB_CS_STATE_OFF" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="BIDIB_CS_STATE_PROG" xml:space="preserve">
+    <value>Programmiermodus</value>
+  </data>
+  <data name="BIDIB_CS_STATE_PROGBUSY" xml:space="preserve">
+    <value>Programmiermode beschäftigt</value>
+  </data>
+  <data name="BIDIB_CS_STATE_SOFTSTOP" xml:space="preserve">
+    <value>Softstop</value>
+  </data>
+  <data name="BIDIB_CS_STATE_STOP" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Car" xml:space="preserve">
+    <value>Fahrzeug</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="ConnectionClosedByRemote" xml:space="preserve">
+    <value>Verbindung wurde durch die Gegenseite getrennt!</value>
+  </data>
+  <data name="EmergencyStop" xml:space="preserve">
+    <value>Nothalt</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="Error_CouldNotConnectToInterface" xml:space="preserve">
+    <value>Verbindung zum Interface konnte nicht hergestellt werden!</value>
+  </data>
+  <data name="Error_CouldNotConnectToSerialInterface" xml:space="preserve">
+    <value>Verbindung zur seriellen Schnittstelle an Port '{0}' konnte nicht hergestellt werden! 
+Bitte prüfen Sie die Einstellungen der Schnittstelle bzw. die Verbindung. 
+- Ist der COM-Port korrekt? 
+- Ist das USB-Kabel angeschlossen?
+- Wird der Port bereits durch eine andere Anwendung verwendet?</value>
+  </data>
+  <data name="Error_NoResponseFromInterface" xml:space="preserve">
+    <value>Das Interface antwortet auf keine Anfragen. Bitte überprüfen Sie die aktuelle Konfiguration!</value>
+  </data>
+  <data name="ExtendedAccessory" xml:space="preserve">
+    <value>Zubehör (Erw.)</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="FileHasNoDefinedSchema" xml:space="preserve">
+    <value>Die Datei '{0}' ist nicht für das Schema {1} definiert.</value>
+  </data>
+  <data name="FileNotValidWithSchema" xml:space="preserve">
+    <value>Die Xml Datei '{0}' ist nicht valide bezüglich des Schemas {1}.</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Funktion</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="Idle" xml:space="preserve">
+    <value>in Betrieb</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Lokomotive</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="NetBiDiB" xml:space="preserve">
+    <value>netBiDiB</value>
+  </data>
+  <data name="NetworkSimulation" xml:space="preserve">
+    <value>Simulation (Netzwerk)</value>
+  </data>
+  <data name="NetworkTcp" xml:space="preserve">
+    <value>TCP Schnittstelle</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>in Bewegung</value>
+  </data>
+  <data name="SchemaMustNotBeNull" xml:space="preserve">
+    <value>Das xml schema darf nicht null sein.</value>
+  </data>
+  <data name="SerialOverTcp" xml:space="preserve">
+    <value>Seriell über TCP</value>
+  </data>
+  <data name="SerialPort" xml:space="preserve">
+    <value>Serielle Schnittstelle</value>
+  </data>
+  <data name="SerialPortConnectionError" xml:space="preserve">
+    <value>Verbindung zum seriellen Port '{0}' konnte nicht geöffnet werden! {1}</value>
+  </data>
+  <data name="SerialSimulation" xml:space="preserve">
+    <value>Simulation (seriell)</value>
+  </data>
+  <data name="Simulation" xml:space="preserve">
+    <value>Simulation</value>
+  </data>
+  <data name="StandardAccessory" xml:space="preserve">
+    <value>Zubehör</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="Susi" xml:space="preserve">
+    <value>Susi</value>
+    <comment>DeviceType enum</comment>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="XmlValidationFileError" xml:space="preserve">
+    <value>Xml validierung konnte nicht durchgeführt werden. Die Datei '{0}' existiert nicht oder ist null.</value>
+  </data>
+  <data name="XmlValidationProcessError" xml:space="preserve">
+    <value>Datei {0} konnte nicht mit dem Schema {1} {2} validiert werden.</value>
+  </data>
+  <data name="Centimeter" xml:space="preserve">
+    <value>cm</value>
+  </data>
+  <data name="InterfaceNotConnectedNoTransmission" xml:space="preserve">
+    <value>Interface ist nicht verbunden! Nachrichten werden nicht übertragen.</value>
+  </data>
+  <data name="Error_CouldNotConnectToSocket" xml:space="preserve">
+    <value>Verbindung zum Interface über IP '{0}' konnte nicht hergestellt werden.</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Verfügbar</value>
+  </data>
+  <data name="NodeAvailableForControl" xml:space="preserve">
+    <value>Knotenkontrolle kann übernommen werden</value>
+  </data>
+  <data name="NodeControlledByOther" xml:space="preserve">
+    <value>Node wird aktuell von '{0}' kontrolliert</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>Nicht verfügbar</value>
+  </data>
+  <data name="LocoSound" xml:space="preserve">
+    <value>Lok m. Sound</value>
+  </data>
+  <data name="SusiSound" xml:space="preserve">
+    <value>Susi m. Sound</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>nur lesen</value>
+  </data>
+  <data name="ReadWrite" xml:space="preserve">
+    <value>lesen / schreiben</value>
+  </data>
+  <data name="WriteOnly" xml:space="preserve">
+    <value>nur schreiben</value>
+  </data>
+  <data name="ConnectionProcessTimedOut" xml:space="preserve">
+    <value>Timeout! Verbindung konnte nicht hergestellt werden.</value>
+  </data>
+  <data name="PairingProcessAborted" xml:space="preserve">
+    <value>Der Pairingvorgang wurde abgebrochen!</value>
+  </data>
+  <data name="PairingRejectedByRemote" xml:space="preserve">
+    <value>Die Gegenseite hat die Pairinganfrage abgelehnt!</value>
+  </data>
+  <data name="Identifying" xml:space="preserve">
+	  <value>Identifiziere ...</value>
+  </data>
+</root>
