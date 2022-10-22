@@ -71,3 +71,21 @@ steps:
       coverageUpperThreshold: "70"
       baseDefinitionId: 21
       baseBranchRef: "refs/heads/master"
+  
+  - task: NuGetAuthenticate@1
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'pack'
+      packagesToPack: 'BiDiB-Library.Core/*.csproj'
+      versioningScheme: byPrereleaseNumber
+      majorVersion: '0'
+      minorVersion: '0'
+      patchVersion: '1-Dev$(Build.BuildId)'
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: '11cfb857-a459-41bf-a18f-5b64083932ef/7c0f4f40-53aa-4b6d-89b8-e0d0c65737a3'
