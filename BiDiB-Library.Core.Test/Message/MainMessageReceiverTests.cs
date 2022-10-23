@@ -9,6 +9,7 @@ using org.bidib.netbidibc.core.Models.Messages.Input;
 using org.bidib.netbidibc.core.Services.Interfaces;
 using Moq;
 using Microsoft.Extensions.Logging.Abstractions;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Message
 {

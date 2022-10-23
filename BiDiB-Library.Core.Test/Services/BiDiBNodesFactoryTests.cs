@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Models;
 using org.bidib.netbidibc.core.Services;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Services
 {

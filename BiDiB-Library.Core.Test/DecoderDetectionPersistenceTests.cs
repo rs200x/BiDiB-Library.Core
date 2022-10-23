@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Models;
 using org.bidib.netbidibc.core.Models.Common;
 using org.bidib.netbidibc.core.Models.Decoder;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test
 {

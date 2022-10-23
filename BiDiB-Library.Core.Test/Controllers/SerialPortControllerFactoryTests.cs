@@ -5,6 +5,7 @@ using Moq;
 using org.bidib.netbidibc.core.Controllers;
 using org.bidib.netbidibc.core.Controllers.Interfaces;
 using org.bidib.netbidibc.core.Enumerations;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Controllers
 {

@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Models;
 using org.bidib.netbidibc.core.Models.Common;
 using org.bidib.netbidibc.core.Models.Firmware;
+using org.bidib.netbidibc.Testing;
 using Version = org.bidib.netbidibc.core.Models.Common.Version;
 
 namespace org.bidib.netbidibc.core.Test

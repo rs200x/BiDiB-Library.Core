@@ -13,6 +13,7 @@ using FeatureInputMessage = org.bidib.netbidibc.core.Models.Messages.Input.Featu
 using FeatureGetAllOutputMessage = org.bidib.netbidibc.core.Models.Messages.Output.FeatureGetAllMessage;
 using System.Reflection;
 using Microsoft.Extensions.Logging.Abstractions;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Models
 {

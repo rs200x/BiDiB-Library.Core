@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Models.BiDiB;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Models
 {

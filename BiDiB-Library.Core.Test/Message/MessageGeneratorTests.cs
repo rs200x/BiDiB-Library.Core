@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Message;
 using org.bidib.netbidibc.core.Models.Messages.Output;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Message
 {

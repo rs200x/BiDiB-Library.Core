@@ -7,10 +7,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using org.bidib.netbidibc.core.Controllers;
 using org.bidib.netbidibc.core.Message;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Controllers
 {
     [TestClass]
+    [TestCategory(TestCategory.UnitTest)]
     public class SocketControllerTests : TestClass<SocketController>
     {
         private readonly byte[] data = new byte[50];

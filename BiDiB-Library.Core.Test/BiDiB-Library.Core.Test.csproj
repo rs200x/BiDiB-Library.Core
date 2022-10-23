@@ -21,6 +21,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="org.bidib.netbidibc.Testing" Version="1.0.1772-CI-20221023-164652" />
 	</ItemGroup>
 
 	<ItemGroup>

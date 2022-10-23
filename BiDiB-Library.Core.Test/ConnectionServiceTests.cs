@@ -9,6 +9,7 @@ using org.bidib.netbidibc.core.Enumerations;
 using org.bidib.netbidibc.core.Message;
 using org.bidib.netbidibc.core.Models;
 using org.bidib.netbidibc.core.Services;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test
 {

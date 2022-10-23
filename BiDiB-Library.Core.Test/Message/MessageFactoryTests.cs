@@ -6,6 +6,7 @@ using org.bidib.netbidibc.core.Enumerations;
 using org.bidib.netbidibc.core.Models.BiDiB.Base;
 using org.bidib.netbidibc.core.Models.Messages;
 using org.bidib.netbidibc.core.Models.Messages.Input;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Message
 {

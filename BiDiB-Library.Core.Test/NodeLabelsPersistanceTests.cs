@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.bidib.netbidibc.core.Models.BiDiB.Base;
 using org.bidib.netbidibc.core.Models.BiDiB.Labels;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test
 {

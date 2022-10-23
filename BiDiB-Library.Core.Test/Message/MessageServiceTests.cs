@@ -2,13 +2,13 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using org.bidib.netbidibc.core.Message;
 using org.bidib.netbidibc.core.Services.Interfaces;
+using org.bidib.netbidibc.Testing;
 
 namespace org.bidib.netbidibc.core.Test.Message
 {
