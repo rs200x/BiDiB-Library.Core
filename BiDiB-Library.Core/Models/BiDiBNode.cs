@@ -35,7 +35,7 @@ namespace org.bidib.netbidibc.core.Models
         public event EventHandler<PositionPortUpdatedEventArgs> PositionPortUpdated;
         public event EventHandler<OccupanciesCollectionUpdatedEventArgs> GlobalOccupanciesCollectionChanged;
 
-        internal BiDiBNode() : this(NullLogger<BiDiBNode>.Instance) { }
+        public BiDiBNode() : this(NullLogger<BiDiBNode>.Instance) { }
 
         internal BiDiBNode(IBiDiBMessageProcessor messageProcessor, ILogger<BiDiBNode> logger) : this(logger)
         {
