@@ -363,6 +363,24 @@ namespace org.bidib.netbidibc.core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File save aborted. File path or content can&apos;t be empty..
+        /// </summary>
+        public static string Error_FilePathContentEmpty {
+            get {
+                return ResourceManager.GetString("Error_FilePathContentEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content could not be exported to &apos;{0}&apos;..
+        /// </summary>
+        public static string Error_FileSaveException {
+            get {
+                return ResourceManager.GetString("Error_FileSaveException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface did not respond on any request. Please check your configuration!.
         /// </summary>
         public static string Error_NoResponseFromInterface {
@@ -413,6 +431,16 @@ namespace org.bidib.netbidibc.core.Properties {
         public static string Error_SocketDisposed {
             get {
                 return ResourceManager.GetString("Error_SocketDisposed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings could not be saved!
+        ///Please check the writing rights for &apos;{0}&apos;..
+        /// </summary>
+        public static string ErrorCouldNotSaveSetting {
+            get {
+                return ResourceManager.GetString("ErrorCouldNotSaveSetting", resourceCulture);
             }
         }
         
@@ -737,6 +765,15 @@ namespace org.bidib.netbidibc.core.Properties {
         public static string Percent {
             get {
                 return ResourceManager.GetString("Percent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Please_check_the_writing_rights_for___0___ {
+            get {
+                return ResourceManager.GetString("Please check the writing rights for \'{0}\'.", resourceCulture);
             }
         }
         

@@ -49,7 +49,7 @@ namespace org.bidib.netbidibc.core.Services.Interfaces
         /// </summary>
         /// <param name="filePath">The full file path</param>
         /// <returns>file data lines</returns>
-        //IEnumerable<string> GetDataLines(string filePath);
+        IEnumerable<string> GetDataLines(string filePath);
 
         /// <summary>
         /// Reads all lines from the specified file contained within a zip source file
@@ -57,7 +57,7 @@ namespace org.bidib.netbidibc.core.Services.Interfaces
         /// <param name="fileName">The file name</param>
         /// <param name="sourceFile">The full source file path</param>
         /// <returns>file data lines</returns>
-        //IEnumerable<string> GetDataLines(string fileName, string sourceFile);
+        IEnumerable<string> GetDataLines(string fileName, string sourceFile);
 
         /// <summary>
         /// Returns the names of subdirectories in the specified directory
@@ -86,7 +86,7 @@ namespace org.bidib.netbidibc.core.Services.Interfaces
         /// </summary>
         /// <param name="fileName">The file path</param>
         /// <returns>The directory path.</returns>
-        //string GetDirectory(string fileName);
+        string GetDirectory(string fileName);
 
         /// <summary>
         /// Determines the SHA1 value of the file
@@ -101,28 +101,28 @@ namespace org.bidib.netbidibc.core.Services.Interfaces
         /// <param name="archiveFileName">The archive file name</param>
         /// <param name="entryFileName">The archive entry file name</param>
         /// <returns></returns>
-        //Stream GetFileStreamFromArchive(string archiveFileName, string entryFileName);
+        Stream GetFileStreamFromArchive(string archiveFileName, string entryFileName);
 
         /// <summary>
         /// Determines the extension of the file
         /// </summary>
         /// <param name="fileName">The file path</param>
         /// <returns></returns>
-        //string GetFileExtension(string fileName);
+        string GetFileExtension(string fileName);
 
         /// <summary>
         /// Writes the content to the specified file
         /// </summary>
         /// <param name="filePath">The target file path</param>
         /// <param name="fileContent">The file content</param>
-        //bool SaveToFile(string filePath, string fileContent);
+        bool SaveToFile(string filePath, string fileContent);
 
         /// <summary>
         /// Stores the files into the specified file
         /// </summary>
         /// <param name="filePath">The target file path</param>
         /// <param name="files">The content files</param>
-        //void SaveToZip(string filePath, ICollection<string> files);
+        void SaveToZip(string filePath, ICollection<string> files);
 
 
         string GetPath(params string[] paths);

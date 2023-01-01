@@ -420,6 +420,19 @@ Please check the interface settings and the connection.
     <value>Socket has been disposed!</value>
   </data>
   <data name="Identifying" xml:space="preserve">
-	  <value>Identifying ...</value>
+    <value>Identifying ...</value>
+  </data>
+  <data name="ErrorCouldNotSaveSetting" xml:space="preserve">
+    <value>The settings could not be saved!
+Please check the writing rights for '{0}'.</value>
+  </data>
+  <data name="Error_FilePathContentEmpty" xml:space="preserve">
+    <value>File save aborted. File path or content can't be empty.</value>
+  </data>
+  <data name="Error_FileSaveException" xml:space="preserve">
+    <value>Content could not be exported to '{0}'.</value>
+  </data>
+  <data name="Please check the writing rights for '{0}'." xml:space="preserve">
+    <value />
   </data>
 </root>
