@@ -36,8 +36,8 @@ namespace org.bidib.netbidibc.core.Test.Controllers
         {
             // Arrange
             var config = new Mock<ISerialPortConfig>();
-            config.Object.Comport = "COM1";
-            config.Object.Baudrate = 115200;
+            config.Setup(x=>x.Comport).Returns("COM1");
+            config.Setup(x => x.Baudrate).Returns(115200);
 
             // Act
             var controller = Target.GetController(config.Object);

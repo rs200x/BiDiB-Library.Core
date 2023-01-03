@@ -37,8 +37,8 @@ namespace org.bidib.netbidibc.core.Test.Controllers
         {
             // Arrange
             var config = new Mock<INetConfig>();
-            config.Object.NetworkHostAddress = "127.0.0.1";
-            config.Object.NetworkPortNumber = 123;
+            config.Setup(x => x.NetworkHostAddress).Returns("127.0.0.1");
+            config.Setup(x => x.NetworkPortNumber).Returns(123);
 
             // Act
             var controller = Target.GetController(config.Object);

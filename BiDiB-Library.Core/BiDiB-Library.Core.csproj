@@ -3,16 +3,22 @@
   <PropertyGroup>
     <AssemblyName>org.bidib.netbidibc.core</AssemblyName>
     <RootNamespace>org.bidib.netbidibc.core</RootNamespace>
-	<TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <BclBuildImported>Ignore</BclBuildImported>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Description>BiDiB Infrastructure Library for connecting tools to BiDiB Bus</Description>
+    <PackageId>org.bidib.netbidibc.core</PackageId>
+    <PackageIcon>bidib_logo.png</PackageIcon>    
   </PropertyGroup>
 
-  
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bidib_logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,22 +30,22 @@
     <PackageReference Include="System.Management" Version="7.0.0" />
   </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.de.resx">
-			<DependentUpon>Resources.resx</DependentUpon>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Properties\Resources.nl.resx">
-			<DependentUpon>Resources.resx</DependentUpon>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.de.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.nl.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

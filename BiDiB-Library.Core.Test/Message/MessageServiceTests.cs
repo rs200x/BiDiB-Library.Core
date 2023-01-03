@@ -14,9 +14,8 @@ namespace org.bidib.netbidibc.core.Test.Message
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    public class MessageServiceTests : TestClass
+    public class MessageServiceTests : TestClass<BiDiBMessageService>
     {
-        private BiDiBMessageService target;
         private Mock<IConnectionService> connectionServiceMock;
         private IBiDiBMessageExtractor messageExtractor;
 
@@ -27,9 +26,8 @@ namespace org.bidib.netbidibc.core.Test.Message
             connectionServiceMock = new Mock<IConnectionService>();
             messageExtractor = new BiDiBMessageExtractor();
             var loggerFactory = new Mock<ILoggerFactory>();
-            target = new BiDiBMessageService(connectionServiceMock.Object, messageExtractor, loggerFactory.Object);
+            Target = new BiDiBMessageService(connectionServiceMock.Object, messageExtractor, loggerFactory.Object);
         }
-
 
         [TestMethod]
         public void GetAddressHash()
@@ -70,13 +68,13 @@ namespace org.bidib.netbidibc.core.Test.Message
         {
             // Arrange
             byte[] defaultAddress = { 0 };
-            MethodInfo dynMethod = target.GetType().GetMethod("GetNextSequenceNumber", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo dynMethod = Target.GetType().GetMethod("GetNextSequenceNumber", BindingFlags.NonPublic | BindingFlags.Instance);
 
             // Act
-            byte sequence1 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence2 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence3 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence4 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
+            byte sequence1 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence2 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence3 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence4 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
 
             // Assert
             sequence1.Should().Be(0x00);
@@ -90,16 +88,15 @@ namespace org.bidib.netbidibc.core.Test.Message
         {
             // Arrange
             byte[] defaultAddress = { 0 };
-            MethodInfo dynMethod = target.GetType().GetMethod("GetNextSequenceNumber", BindingFlags.NonPublic | BindingFlags.Instance);
-            var start = new ConcurrentDictionary<int, byte> ();
-            start.AddOrUpdate(0, 254, null);
-            target.GetType().GetProperty("addressSequenceNumbers", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, start);
+            MethodInfo dynMethod = Target.GetType().GetMethod("GetNextSequenceNumber", BindingFlags.NonPublic | BindingFlags.Instance);
+            var start = (ConcurrentDictionary<int, byte>)Target.GetType().GetField("addressSequenceNumbers", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Target);
+            start.AddOrUpdate(0, 254, (_, value) => value);
 
             // Act
-            byte sequence1 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence2 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence3 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
-            byte sequence4 = (byte)dynMethod.Invoke(target, new object[] { defaultAddress });
+            byte sequence1 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence2 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence3 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
+            byte sequence4 = (byte)dynMethod.Invoke(Target, new object[] { defaultAddress });
 
             // Assert
             sequence1.Should().Be(0xff);

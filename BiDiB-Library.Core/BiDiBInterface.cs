@@ -246,11 +246,11 @@ namespace org.bidib.netbidibc.core
                 messageProcessor.GetChildNodes(newNode.Address);
             }
 
-            //var root = nodesFactory.GetRootNode();
-            //if (root != newNode && root.IsEnabled)
-            //{
-            //    newNode.Enable();
-            //}
+            var root = nodesFactory.GetRootNode();
+            if (root != newNode && root.IsEnabled)
+            {
+                newNode.Enable();
+            }
         }
 
         private void HandleNodesFactoryNodeRemoved(BiDiBNode removedNode)

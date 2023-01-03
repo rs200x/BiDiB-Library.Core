@@ -21,11 +21,11 @@ namespace org.bidib.netbidibc.core.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            serialPortMock = new Mock<ISerialPort>();
+            serialPortMock = new Mock<ISerialPort>();            
 
             target = new SerialPortController(NullLoggerFactory.Instance);
 
-            target.GetType().GetProperty("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, serialPortMock.Object);
+            target.GetType().GetField("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, serialPortMock.Object);
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace org.bidib.netbidibc.core.Test
             target = new SerialPortController(NullLoggerFactory.Instance);
 
             // Assert
-            ISerialPort serialPort = target.GetType().GetProperty("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target) as ISerialPort;
+            ISerialPort serialPort = target.GetType().GetField("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target) as ISerialPort;
 
             serialPort.ReadBufferSize.Should().Be(8192);
             serialPort.WriteBufferSize.Should().Be(4096);
@@ -53,15 +53,15 @@ namespace org.bidib.netbidibc.core.Test
         {
             // Arrange
             var portConfig = new Mock<ISerialPortConfig>();
-            portConfig.Object.Baudrate = 115200;
-            portConfig.Object.Comport = "COM1";
+            portConfig.Setup(x => x.Baudrate).Returns(115200);
+            portConfig.Setup(x => x.Comport).Returns("COM1");
 
             // Act
             target.Initialize(portConfig.Object);
 
             // Assert
-            serialPortMock.Object.PortName.Should().Be("COM1");
-            serialPortMock.Object.BaudRate.Should().Be(115200);
+            serialPortMock.VerifySet(x=>x.PortName = "COM1");
+            serialPortMock.VerifySet(x=>x.BaudRate = 115200);
         }
 
         [TestMethod]
@@ -70,8 +70,8 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
             serialPortMock.Setup(x => x.IsOpen).Returns(true);
             var portConfig = new Mock<ISerialPortConfig>();
-            portConfig.Object.Baudrate = 115200;
-            portConfig.Object.Comport = "COM1";
+            portConfig.Setup(x => x.Baudrate).Returns(115200);
+            portConfig.Setup(x => x.Comport).Returns("COM1");
 
             // Act
             target.Initialize(portConfig.Object);
@@ -88,8 +88,8 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
             serialPortMock.Setup(x => x.IsOpen).Returns(true);
             var portConfig = new Mock<ISerialPortConfig>();
-            portConfig.Object.Baudrate = 11;
-            portConfig.Object.Comport = "COM1";
+            portConfig.Setup(x => x.Baudrate).Returns(11);
+            portConfig.Setup(x => x.Comport).Returns("COM1");
 
             // Act
             Action action = () => target.Initialize(portConfig.Object);

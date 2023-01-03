@@ -28,6 +28,8 @@ namespace org.bidib.netbidibc.core.Test
             messageService = new Mock<IBiDiBMessageService>();
             messageProcessor = new Mock<IBiDiBMessageProcessor>();
             nodesFactory = new Mock<IBiDiBNodesFactory>();
+            nodesFactory.SetupProperty(x => x.NodeAdded);
+            nodesFactory.SetupProperty(x => x.NodeRemoved);
             boosterNodesManager = new Mock<IBiDiBBoosterNodesManager>();
 
             Target = new BiDiBInterface(connectionService.Object, messageService.Object, messageProcessor.Object, nodesFactory.Object, 
@@ -42,7 +44,7 @@ namespace org.bidib.netbidibc.core.Test
             root.Enable();
             var newNode = new BiDiBNode(messageProcessor.Object, NullLogger<BiDiBNode>.Instance);
 
-            nodesFactory.Setup(x => x.GetRootNode()).Returns(root);
+            nodesFactory.Setup(x => x.GetRootNode()).Returns(root);            
             Target.Initialize();
 
             // Act

@@ -74,7 +74,7 @@ namespace org.bidib.netbidibc.core.Test.Message
 
             byte messageSendCount = 0;
             messageService.Setup(x => x.SendMessages(It.Is<List<BiDiBOutputMessage>>(l=>l.Count == 1 && l[0].MessageType == BiDiBMessage.MSG_NODETAB_GETALL)))
-                .Callback<List<BiDiBOutputMessage>>(mi =>
+                .Callback<ICollection<BiDiBOutputMessage>>(mi =>
                 {
                 var message = new NodeTabCountMessage(BiDiBMessageGenerator.GenerateMessage(new byte[] { 0 }, BiDiBMessage.MSG_NODETAB_COUNT, 0, messageSendCount));
                 messageReceiver.ProcessMessage(message);
@@ -102,7 +102,7 @@ namespace org.bidib.netbidibc.core.Test.Message
 
             byte getAllSendCount = 0;
             messageService.Setup(x => x.SendMessages(It.Is<List<BiDiBOutputMessage>>(l=>l.Count == 1 && l[0].MessageType == BiDiBMessage.MSG_NODETAB_GETALL)))
-                .Callback<List<BiDiBOutputMessage>>(mi =>
+                .Callback<ICollection<BiDiBOutputMessage>>(mi =>
             {
                 var message = new NodeTabCountMessage(BiDiBMessageGenerator.GenerateMessage(new byte[] { 0 }, BiDiBMessage.MSG_NODETAB_COUNT, 0, 0));
                 messageReceiver.ProcessMessage(message);
