@@ -27,7 +27,7 @@ namespace org.bidib.netbidibc.core.Test.Message
             nodesFactory = new Mock<IBiDiBNodesFactory>();
             messageService = new Mock<IBiDiBMessageService>();
 
-            Target = new BiDiBMessageProcessor(nodesFactory.Object, messageService.Object, NullLogger<BiDiBMessageProcessor>.Instance);
+            Target = new BiDiBMessageProcessor(nodesFactory.Object, messageService.Object, NullLoggerFactory.Instance);
         }
 
         [TestMethod]

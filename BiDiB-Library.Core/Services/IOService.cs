@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -12,13 +13,16 @@ using org.bidib.netbidibc.core.Services.Interfaces;
 
 namespace org.bidib.netbidibc.core.Services
 {
+    [Export(typeof(IIoService))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class IoService : IIoService
     {
         private readonly ILogger<IoService> logger;
 
-        public IoService(ILogger<IoService> logger)
+        [ImportingConstructor]
+        public IoService(ILoggerFactory loggerFactory)
         {
-            this.logger = logger;
+            logger = loggerFactory.CreateLogger<IoService>();
         }
 
         public bool DirectoryExists(string directoryPath)

@@ -10,14 +10,13 @@ namespace org.bidib.netbidibc.core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    [DeploymentItem("data/" + ManufacturersFileName)]
-    [DeploymentItem("data/Schema/DecoderDB/" + ManufacturersXsd)]
-    [DeploymentItem("data/Schema/DecoderDB/" + CommonTypesXsd)]
+    [DeploymentItem(ManufacturersFileName, "TestData")]
+    [DeploymentItem(ManufacturersXsd, "TestData")]
+    [DeploymentItem("TestData/commonTypes.xsd", "TestData")]
     public class ManufacturersPersistenceTests : TestClass
     {
-        private const string ManufacturersFileName = "Manufacturers.decdb";
-        private const string ManufacturersXsd = "manufacturers.xsd";
-        private const string CommonTypesXsd = "commonTypes.xsd";
+        private const string ManufacturersFileName = "TestData/Manufacturers.decdb";
+        private const string ManufacturersXsd = "TestData/manufacturers.xsd";
 
         [TestMethod]
         public void TestFile1_ShouldBeSchemaValid()
@@ -25,7 +24,6 @@ namespace org.bidib.netbidibc.core.Test
             // Act & Assert
             ValidateFile(ManufacturersFileName, Namespaces.ManufacturersNamespaceUrl, ManufacturersXsd);
         }
-
 
         [TestMethod]
         public void TestFile1_ShouldBeDeserializable()
@@ -77,6 +75,5 @@ namespace org.bidib.netbidibc.core.Test
             ManufacturersList loadedManufacturers = LoadFromXmlFile<ManufacturersList>("ManufacturersTest.xml");
             loadedManufacturers.Should().NotBeNull();
         }
-
     }
 }

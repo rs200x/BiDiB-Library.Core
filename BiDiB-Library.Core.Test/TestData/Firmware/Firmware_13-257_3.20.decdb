@@ -1,0 +1,2860 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © by DecoderDB. Licence see https://www.decoderdb.de/licence/ -->
+<decoderFirmwareDefinition xmlns="http://www.decoderdb.de/schema/decoderFirmware/1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ct="http://www.decoderdb.de/schema/commonTypes/1.2">
+  <version createdBy="DecoderDB" creatorLink="https://www.decoderdb.de" author="Wilhelm Toralf" lastUpdate="2021-09-22T11:50:18" created="2016-08-22"/>
+  <firmware version="3.20" releaseDate="2016-08-22" manufacturerId="13" manufacturerExtendedId="257" manufacturerName="OpenCarSystem" manufacturerShortName="OpenCar" manufacturerUrl="www.opencarsystem.de" decoderDBLink="https://www.decoderdb.de/?decoderFirmwarePage=12">
+    <decoders>
+      <decoder name="Car Decoder V3" typeIds="20;30;31;32;40" type="car"/>
+    </decoders>
+    <protocols>
+      <protocol type="dcc" speedSteps="28;128" functions="25" progModes="POM" options="POMCV1;POMCV17/CV18;POMreset">
+        <decoderDetection>
+          <detection type="decoderId">
+            <ct:cv number="111" type="byte" mode="ro"/>
+          </detection>
+          <detection type="firmwareVersion" displayFormat="{0}.{1}.{2}">
+            <ct:cv number="7" type="byte" mode="ro"/>
+            <ct:cv number="109" type="byte" mode="ro"/>
+            <ct:cv number="110" type="byte" mode="ro"/>
+          </detection>
+          <detection type="serialNumber">
+            <ct:cvGroup id="284" type="int" mode="ro">
+              <ct:cv number="103" type="byte" mode="ro"/>
+              <ct:cv number="104" type="byte" mode="ro"/>
+            </ct:cvGroup>
+          </detection>
+        </decoderDetection>
+        <resets>
+          <reset cv="24" value="0">
+            <ct:description language="all" text="Reset minimale Akkuspannung"/>
+          </reset>
+          <reset cv="8" value="8">
+            <ct:description language="all" text="Decoder-Reset"/>
+          </reset>
+          <reset cv="25" value="0">
+            <ct:description language="all" text="Reset maximale Akkuspannung"/>
+          </reset>
+          <reset cv="111" value="170">
+            <ct:description language="de" text="Reset HDW_ID"/>
+          </reset>
+        </resets>
+        <cvs>
+          <ct:cv id="1" number="1" type="byte" possibleValues="1-127" defaultValue="3" mode="rw">
+            <ct:description language="de" text="Adresse kurz"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="29" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="339" number="2" type="byte" possibleValues="1-50" defaultValue="1" mode="rw">
+            <ct:description language="all" text="Start-Geschwindigkeit"/>
+          </ct:cv>
+          <ct:cv id="340" number="3" type="byte" possibleValues="1-100" defaultValue="30" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Anfahrverzögerung"/>
+          </ct:cv>
+          <ct:cv id="341" number="4" type="byte" possibleValues="1-100" defaultValue="10" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Bremsverzögerung"/>
+          </ct:cv>
+          <ct:cv id="342" number="5" type="byte" possibleValues="25-100" defaultValue="80" mode="rw">
+            <ct:valueCalculation unit="%">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Maximale Geschwindigkeit"/>
+          </ct:cv>
+          <ct:cv id="25" number="7" type="byte" possibleValues="0-255" defaultValue="3" mode="ro">
+            <ct:description language="de" text="Softwareversion"/>
+          </ct:cv>
+          <ct:cv id="26" number="8" type="byte" possibleValues="0-255" defaultValue="13" mode="ro">
+            <ct:description language="de" text="Herstellerkennung"/>
+          </ct:cv>
+          <ct:cv id="343" number="9" type="select" possibleValues="0;1" defaultValue="0" mode="rw">
+            <ct:description language="de" text="PWM-Periode" help="(with load control only 1 = 32kHz) Change after restart!"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="125 Hz"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="32 kHz"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="344" number="10" type="byte" possibleValues="1-100" defaultValue="5" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Lastregelung Messinterval"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="0"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cvGroup id="1724" type="list" options="bitListSort">
+            <ct:description language="de" text="Decoder-Start Status F-Tasten"/>
+            <ct:cv id="417" number="13" type="select" possibleValues="0-255" defaultValue="0" mode="rw">
+              <ct:description language="de" text="F1-8 beim Decoderstart"/>
+              <ct:bit number="0" value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:bit>
+              <ct:bit number="1" value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:bit>
+              <ct:bit number="2" value="4">
+                <ct:description language="all" text="F3"/>
+              </ct:bit>
+              <ct:bit number="3" value="8">
+                <ct:description language="all" text="F4"/>
+              </ct:bit>
+              <ct:bit number="4" value="16">
+                <ct:description language="all" text="F5"/>
+              </ct:bit>
+              <ct:bit number="5" value="32">
+                <ct:description language="all" text="F6"/>
+              </ct:bit>
+              <ct:bit number="6" value="64">
+                <ct:description language="all" text="F7"/>
+              </ct:bit>
+              <ct:bit number="7" value="128">
+                <ct:description language="all" text="F8"/>
+              </ct:bit>
+            </ct:cv>
+            <ct:cv id="418" number="14" type="select" possibleValues="0-1;4-5;8-9;12-13;16-17;20-21;24-25;28-29;32-33;36-37;40-41;44-45;48-49;52-53;56-57;60;61" defaultValue="0" mode="rw">
+              <ct:description language="de" text="FL,F9-12 beim Decoderstart"/>
+              <ct:bit number="0" value="1">
+                <ct:description language="de" text="F0f (vorwärts)"/>
+              </ct:bit>
+              <ct:bit number="2" value="4">
+                <ct:description language="all" text="F9"/>
+              </ct:bit>
+              <ct:bit number="3" value="8">
+                <ct:description language="all" text="F10"/>
+              </ct:bit>
+              <ct:bit number="4" value="16">
+                <ct:description language="all" text="F11"/>
+              </ct:bit>
+              <ct:bit number="5" value="32">
+                <ct:description language="all" text="F12"/>
+              </ct:bit>
+            </ct:cv>
+          </ct:cvGroup>
+          <ct:cvGroup id="337" type="dccLongAddr" possibleValues="128-10239" defaultValue="128" mode="rw">
+            <ct:description language="de" text="Adresse lang"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="29" selection="bit:5" value="0"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:cv number="18" type="byte" possibleValues="0-255" defaultValue="128" mode="rw">
+              <ct:description language="de" text="Niederwertiges Byte"/>
+            </ct:cv>
+            <ct:cv number="17" type="byte" possibleValues="192-231" defaultValue="192" mode="rw">
+              <ct:description language="de" text="Höherwertiges Byte"/>
+            </ct:cv>
+          </ct:cvGroup>
+          <ct:cv id="419" number="23" type="byte" possibleValues="10-50" defaultValue="20" mode="rw">
+            <ct:valueCalculation unit="%">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Akku Low Meldung"/>
+          </ct:cv>
+          <ct:cv id="420" number="24" type="byte" possibleValues="0-255" mode="ro">
+            <ct:description language="de" text="minimale Akkuspannung" help="0 -&gt; Reset"/>
+          </ct:cv>
+          <ct:cv id="421" number="25" type="byte" possibleValues="0-255" mode="ro">
+            <ct:description language="de" text="maximale Akkuspannung" help="0 -&gt; Reset"/>
+          </ct:cv>
+          <ct:cv id="422" number="26" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Geschwindigkeit beim Decoderstart"/>
+          </ct:cv>
+          <ct:cv id="345" number="27" type="byte" possibleValues="0-83" defaultValue="8" mode="rw">
+            <ct:description language="de" text="2,4 GHz Funkkanal"/>
+          </ct:cv>
+          <ct:cv id="346" number="29" type="select" possibleValues="0;16;32;48" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Konfiguration" help="Bit 4 nur im IR Betrieb aktiv!"/>
+            <ct:bitSelection number="4" value="16">
+              <ct:option value="0">
+                <ct:description language="de" text="Geschwindigkeit gemäß CV2, 5 u. 6"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Individuelle Kurve gemäß CV67-94"/>
+              </ct:option>
+            </ct:bitSelection>
+            <ct:bitSelection number="5" value="32">
+              <ct:option value="0">
+                <ct:description language="de" text="Kurze Adresse (CV1)"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Lange Adresse (CV17/18)"/>
+              </ct:option>
+            </ct:bitSelection>
+          </ct:cv>
+          <ct:cv id="347" number="33" type="select" possibleValues="0-2" defaultValue="1" mode="rw">
+            <ct:description language="de" text="Licht_5 Konfiguration" help="siehe Handbuch"/>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Licht_5 aus -&gt; hochohmig / Licht_5 ein -&gt; GND"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Licht_5 aus -&gt; +UB / Licht_5 ein -&gt; GND"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Licht_5 aus -&gt; GND / Licht_5 ein -&gt; +UB"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="348" number="34" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Fahrzeugtyp"/>
+          </ct:cv>
+          <ct:cv id="349" number="35" type="byte" possibleValues="1-50" defaultValue="16" mode="rw">
+            <ct:valueCalculation unit="mm/s">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Geschwindigkeit bei Fahrstufe 1"/>
+          </ct:cv>
+          <ct:cv id="350" number="36" type="byte" possibleValues="30-255" defaultValue="140" mode="rw">
+            <ct:valueCalculation unit="mm/s">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Geschwindigkeit bei Fahrstufe 64"/>
+          </ct:cv>
+          <ct:cv id="351" number="37" type="byte" possibleValues="22-220" defaultValue="87" mode="rw">
+            <ct:description language="de" text="Maßstab" help="z.B. H0 -&gt; 87, N -&gt; 160"/>
+          </ct:cv>
+          <ct:cv id="352" number="38" type="byte" possibleValues="2-10" defaultValue="5" mode="rw">
+            <ct:valueCalculation unit="sec">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Zeit bis Twinstop gelöscht wird"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V5"/>
+                  <ct:condition type="logical" operation="or">
+                    <ct:condition type="relational" operation="equal" cv="59" selection="bit:3" value="0"/>
+                    <ct:condition type="relational" operation="equal" cv="59" selection="bit:4" value="1"/>
+                  </ct:condition>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="353" number="39" type="byte" possibleValues="1-30" defaultValue="10" mode="rw">
+            <ct:valueCalculation unit="sec">
+              <ct:item type="self"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Zeit bis ASR speed nach der ASR gelöscht wird"/>
+          </ct:cv>
+          <ct:cv id="354" number="59" type="select" possibleValues="0-1;4-5;8-9;12-13;64-65;68-69;72-73;76-77;128-129;132-133;136-137;140-141;192-193;196-197;200-201;204;205" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Konfiguration"/>
+            <ct:bit number="0" value="1">
+              <ct:description language="de" text="Anhängerbetrieb, kein ASR Signal, nur Anhängersteuerung hat Vorrang vor F15"/>
+            </ct:bit>
+            <ct:bit number="2" value="4">
+              <ct:description language="de" text="Schlusslicht aus für Decoder V3 kann dann auf anderen Lichtausgang gelegt werden"/>
+            </ct:bit>
+            <ct:bit number="3" value="8">
+              <ct:description language="de" text="Twin Stopp Modus 1. bremsen und 2. stoppen"/>
+            </ct:bit>
+            <ct:bit number="6" value="64">
+              <ct:description language="de" text="ASR Testmodus (Blinker zeigen IR Signal der ASR an)"/>
+            </ct:bit>
+            <ct:bit number="7" value="128">
+              <ct:description language="de" text="Lastregelung aktiv, Licht_3 deaktiviert"/>
+            </ct:bit>
+          </ct:cv>
+          <ct:cv id="703" number="61" type="byte" possibleValues="1-10" defaultValue="3" mode="rw">
+            <ct:description language="de" text="Lastregelung proportionaler Anteil"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="0"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="356" number="62" type="byte" possibleValues="1-10" defaultValue="1" mode="rw">
+            <ct:description language="de" text="Lastregelung integraler Anteil"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="0"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="357" number="63" type="byte" possibleValues="1-10" defaultValue="1" mode="rw">
+            <ct:description language="de" text="Lastregelung differentieller Anteil"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="0"/>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="358" number="64" type="select" possibleValues="0;1" defaultValue="1" mode="rw">
+            <ct:description language="de" text="Bootloader"/>
+            <ct:bit number="0" value="1">
+              <ct:description language="de" text="Mode aktiv"/>
+            </ct:bit>
+          </ct:cv>
+          <ct:cvGroup id="359" type="dccSpeedCurve">
+            <ct:description language="de" text="Geschwindigkeitskurve"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="29" selection="bit:4" value="0"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:cv number="67" type="byte" possibleValues="1-255" defaultValue="9" mode="rw">
+              <ct:description language="de" text="Fahrstufe 1"/>
+            </ct:cv>
+            <ct:cv number="68" type="byte" possibleValues="1-255" defaultValue="18" mode="rw">
+              <ct:description language="de" text="Fahrstufe 2"/>
+            </ct:cv>
+            <ct:cv number="69" type="byte" possibleValues="1-255" defaultValue="27" mode="rw">
+              <ct:description language="de" text="Fahrstufe 3"/>
+            </ct:cv>
+            <ct:cv number="70" type="byte" possibleValues="1-255" defaultValue="36" mode="rw">
+              <ct:description language="de" text="Fahrstufe 4"/>
+            </ct:cv>
+            <ct:cv number="71" type="byte" possibleValues="1-255" defaultValue="45" mode="rw">
+              <ct:description language="de" text="Fahrstufe 5"/>
+            </ct:cv>
+            <ct:cv number="72" type="byte" possibleValues="1-255" defaultValue="54" mode="rw">
+              <ct:description language="de" text="Fahrstufe 6"/>
+            </ct:cv>
+            <ct:cv number="73" type="byte" possibleValues="1-255" defaultValue="63" mode="rw">
+              <ct:description language="de" text="Fahrstufe 7"/>
+            </ct:cv>
+            <ct:cv number="74" type="byte" possibleValues="1-255" defaultValue="72" mode="rw">
+              <ct:description language="de" text="Fahrstufe 8"/>
+            </ct:cv>
+            <ct:cv number="75" type="byte" possibleValues="1-255" defaultValue="81" mode="rw">
+              <ct:description language="de" text="Fahrstufe 9"/>
+            </ct:cv>
+            <ct:cv number="76" type="byte" possibleValues="1-255" defaultValue="90" mode="rw">
+              <ct:description language="de" text="Fahrstufe 10"/>
+            </ct:cv>
+            <ct:cv number="77" type="byte" possibleValues="1-255" defaultValue="99" mode="rw">
+              <ct:description language="de" text="Fahrstufe 11"/>
+            </ct:cv>
+            <ct:cv number="78" type="byte" possibleValues="1-255" defaultValue="108" mode="rw">
+              <ct:description language="de" text="Fahrstufe 12"/>
+            </ct:cv>
+            <ct:cv number="79" type="byte" possibleValues="1-255" defaultValue="117" mode="rw">
+              <ct:description language="de" text="Fahrstufe 13"/>
+            </ct:cv>
+            <ct:cv number="80" type="byte" possibleValues="1-255" defaultValue="126" mode="rw">
+              <ct:description language="de" text="Fahrstufe 14"/>
+            </ct:cv>
+            <ct:cv number="81" type="byte" possibleValues="1-255" defaultValue="135" mode="rw">
+              <ct:description language="de" text="Fahrstufe 15"/>
+            </ct:cv>
+            <ct:cv number="82" type="byte" possibleValues="1-255" defaultValue="144" mode="rw">
+              <ct:description language="de" text="Fahrstufe 16"/>
+            </ct:cv>
+            <ct:cv number="83" type="byte" possibleValues="1-255" defaultValue="153" mode="rw">
+              <ct:description language="de" text="Fahrstufe 17"/>
+            </ct:cv>
+            <ct:cv number="84" type="byte" possibleValues="1-255" defaultValue="162" mode="rw">
+              <ct:description language="de" text="Fahrstufe 18"/>
+            </ct:cv>
+            <ct:cv number="85" type="byte" possibleValues="1-255" defaultValue="171" mode="rw">
+              <ct:description language="de" text="Fahrstufe 19"/>
+            </ct:cv>
+            <ct:cv number="86" type="byte" possibleValues="1-255" defaultValue="180" mode="rw">
+              <ct:description language="de" text="Fahrstufe 20"/>
+            </ct:cv>
+            <ct:cv number="87" type="byte" possibleValues="1-255" defaultValue="188" mode="rw">
+              <ct:description language="de" text="Fahrstufe 21"/>
+            </ct:cv>
+            <ct:cv number="88" type="byte" possibleValues="1-255" defaultValue="197" mode="rw">
+              <ct:description language="de" text="Fahrstufe 22"/>
+            </ct:cv>
+            <ct:cv number="89" type="byte" possibleValues="1-255" defaultValue="206" mode="rw">
+              <ct:description language="de" text="Fahrstufe 23"/>
+            </ct:cv>
+            <ct:cv number="90" type="byte" possibleValues="1-255" defaultValue="215" mode="rw">
+              <ct:description language="de" text="Fahrstufe 24"/>
+            </ct:cv>
+            <ct:cv number="91" type="byte" possibleValues="1-255" defaultValue="224" mode="rw">
+              <ct:description language="de" text="Fahrstufe 25"/>
+            </ct:cv>
+            <ct:cv number="92" type="byte" possibleValues="1-255" defaultValue="233" mode="rw">
+              <ct:description language="de" text="Fahrstufe 26"/>
+            </ct:cv>
+            <ct:cv number="93" type="byte" possibleValues="1-255" defaultValue="242" mode="rw">
+              <ct:description language="de" text="Fahrstufe 27"/>
+            </ct:cv>
+            <ct:cv number="94" type="byte" possibleValues="1-255" defaultValue="251" mode="rw">
+              <ct:description language="de" text="Fahrstufe 28"/>
+            </ct:cv>
+          </ct:cvGroup>
+          <ct:cv id="334" number="102" type="byte" possibleValues="0-255" mode="ro">
+            <ct:description language="de" text="CV-Listen Version"/>
+          </ct:cv>
+          <ct:cvGroup id="284" type="int" mode="ro">
+            <ct:description language="de" text="Seriennummer"/>
+            <ct:cv number="103" type="byte" possibleValues="0-255" mode="ro">
+              <ct:description language="de" text="Seriennummer CV 1"/>
+            </ct:cv>
+            <ct:cv number="104" type="byte" possibleValues="0-255" mode="ro">
+              <ct:description language="de" text="Seriennummer CV 2"/>
+            </ct:cv>
+          </ct:cvGroup>
+          <ct:cv id="14R0" number="105" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Benutzerdaten 1"/>
+          </ct:cv>
+          <ct:cv id="14R1" number="106" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Benutzerdaten 2"/>
+          </ct:cv>
+          <ct:cvGroup id="331" type="int" defaultValue="257" mode="ro">
+            <ct:description language="all" text="Erweiterte Hersteller ID"/>
+            <ct:cv number="108" type="byte" possibleValues="0-255" defaultValue="1" mode="ro">
+              <ct:description language="all" text="Erweiterte Hersteller ID CV 1"/>
+            </ct:cv>
+            <ct:cv number="107" type="byte" possibleValues="0-255" defaultValue="1" mode="ro">
+              <ct:description language="all" text="Erweiterte Hersteller ID CV 2"/>
+            </ct:cv>
+          </ct:cvGroup>
+          <ct:cv id="332" number="109" type="byte" possibleValues="0-255" defaultValue="20" mode="ro">
+            <ct:description language="all" text="Software Sub Version"/>
+          </ct:cv>
+          <ct:cv id="333" number="110" type="byte" possibleValues="0-255" mode="ro">
+            <ct:description language="all" text="Software Build"/>
+          </ct:cv>
+          <ct:cv id="330" number="111" type="byte" possibleValues="0-255" mode="ro">
+            <ct:description language="all" text="Hardware ID"/>
+          </ct:cv>
+          <ct:cv id="1449" number="112" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1450" number="113" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1451" number="114" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1452" number="115" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1453" number="116" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1454" number="117" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1455" number="118" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1456" number="119" type="byte" possibleValues="20-60" defaultValue="40" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 0 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R0" number="120" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R0" number="121" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R0" number="122" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R0" number="123" type="byte" possibleValues="0-255" defaultValue="60" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R0" number="124" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R0" number="125" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R0" number="126" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R0" number="127" type="byte" possibleValues="0-255" defaultValue="60" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 1 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R1" number="128" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R1" number="129" type="byte" possibleValues="0-255" defaultValue="60" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R1" number="130" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R1" number="131" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R1" number="132" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R1" number="133" type="byte" possibleValues="0-255" defaultValue="60" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R1" number="134" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R1" number="135" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 2 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R2" number="136" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R2" number="137" type="byte" possibleValues="0-255" defaultValue="50" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R2" number="138" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R2" number="139" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R2" number="140" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R2" number="141" type="byte" possibleValues="0-255" defaultValue="70" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R2" number="142" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R2" number="143" type="byte" possibleValues="0-255" defaultValue="8" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 3 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R3" number="144" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R3" number="145" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R3" number="146" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R3" number="147" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R3" number="148" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R3" number="149" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R3" number="150" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R3" number="151" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 4 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R4" number="152" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R4" number="153" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R4" number="154" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R4" number="155" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R4" number="156" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R4" number="157" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R4" number="158" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R4" number="159" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 5 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="362361R5" number="160" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="388361R5" number="161" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="389361R5" number="162" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="390361R5" number="163" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="391361R5" number="164" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="392361R5" number="165" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="393361R5" number="166" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="394361R5" number="167" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 6 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1457" number="168" type="byte" possibleValues="50-255" defaultValue="128" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 1. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1458" number="169" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 1. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1459" number="170" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 2. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1460" number="171" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 2. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1461" number="172" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 3. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1462" number="173" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 3. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1463" number="174" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 4. aktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="1464" number="175" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:valueCalculation unit="ms">
+              <ct:item type="self"/>
+              <ct:item type="operator" value="*"/>
+              <ct:item type="constant" value="10"/>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Gruppe 7 4. inaktiv Periode"/>
+          </ct:cv>
+          <ct:cv id="368" number="177" type="byte" possibleValues="0-255" defaultValue="7" mode="ro">
+            <ct:description language="de" text="Effekt Gruppe für Bremslicht"/>
+          </ct:cv>
+          <ct:cv id="373" number="178" type="byte" possibleValues="1-10" defaultValue="2" mode="rw">
+            <ct:description language="de" text="Effekt-Wiederholungen Bremslicht"/>
+          </ct:cv>
+          <ct:cv id="374" number="179" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Bremslicht"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="364" number="180" type="select" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:description language="de" text="DCC Funktion für Frontlicht"/>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="369" number="181" type="byte" possibleValues="0-255" defaultValue="7" mode="ro">
+            <ct:description language="de" text="Effekt Gruppe für Frontlicht"/>
+          </ct:cv>
+          <ct:cv id="380" number="182" type="byte" possibleValues="0-255" defaultValue="255" mode="ro">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Frontlicht"/>
+          </ct:cv>
+          <ct:cv id="375" number="183" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Frontlicht"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="366" number="184" type="select" possibleValues="1" defaultValue="1" mode="ro">
+            <ct:description language="de" text="DCC Funktion für Blinklicht links"/>
+            <ct:group number="0">
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="370" number="185" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:description language="de" text="Effekt Gruppe für Blinklicht links"/>
+          </ct:cv>
+          <ct:cv id="381" number="186" type="byte" possibleValues="0-255" defaultValue="254" mode="ro">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Blinklicht links"/>
+          </ct:cv>
+          <ct:cv id="376" number="187" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Blinklicht links"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="365" number="188" type="select" possibleValues="2" defaultValue="2" mode="ro">
+            <ct:description language="de" text="DCC Funktion für Blinklicht rechts"/>
+            <ct:group number="0">
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="371" number="189" type="byte" possibleValues="0-255" defaultValue="0" mode="ro">
+            <ct:description language="de" text="Effekt Gruppe für Blinklicht rechts"/>
+          </ct:cv>
+          <ct:cv id="382" number="190" type="byte" possibleValues="0-255" defaultValue="254" mode="ro">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Blinklicht rechts"/>
+          </ct:cv>
+          <ct:cv id="377" number="191" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Blinklicht rechts"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1958" number="192" type="select" possibleValues="0-2;5-12" defaultValue="5" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 1"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="0"/>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1960" number="193" type="select" possibleValues="0-7" defaultValue="1" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 1"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="0"/>
+                </ct:condition>
+                <ct:condition type="relational" operation="equal" cv="194" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1964" number="194" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 1"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="0"/>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1967" number="195" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 1"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1959" number="196" type="select" possibleValues="0-2;5-12" defaultValue="5" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 2"/>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1961" number="197" type="select" possibleValues="0-7" defaultValue="2" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 2"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="198" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1965" number="198" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 2"/>
+          </ct:cv>
+          <ct:cv id="1968" number="199" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 2"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1963" number="200" type="select" possibleValues="0-2;5-12" defaultValue="12" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 3"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="1"/>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1962" number="201" type="select" possibleValues="0-7" defaultValue="7" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 3"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="1"/>
+                </ct:condition>
+                <ct:condition type="relational" operation="equal" cv="202" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1966" number="202" type="byte" possibleValues="0-255" defaultValue="255" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 3"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="1"/>
+                </ct:condition>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1969" number="203" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 3"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="logical" operation="and">
+                  <ct:condition type="decoderName" operation="equal" value="Car Decoder V3"/>
+                  <ct:condition type="relational" operation="equal" cv="59" selection="bit:7" value="1"/>
+                </ct:condition>
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="3671937R0" number="204" type="select" possibleValues="0-2;5-12" defaultValue="6" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 4"/>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="3721937R0" number="205" type="select" possibleValues="0-7" defaultValue="7" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 4"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="206" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="3831937R0" number="206" type="byte" possibleValues="0-255" defaultValue="255" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 4"/>
+          </ct:cv>
+          <ct:cv id="3781937R0" number="207" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 4"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="3671937R1" number="208" type="select" possibleValues="0-2;5-12" defaultValue="8" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 5"/>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="3721937R1" number="209" type="select" possibleValues="0-7" defaultValue="7" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 5"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="210" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="3831937R1" number="210" type="byte" possibleValues="0-255" defaultValue="255" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 5"/>
+          </ct:cv>
+          <ct:cv id="3781937R1" number="211" type="byte" possibleValues="0-255" defaultValue="0" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 5"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R0" number="212" type="select" possibleValues="0-2;5-12" defaultValue="6" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 6"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R0" number="213" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 6"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="214" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R0" number="214" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 6"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R0" number="215" type="byte" possibleValues="0-255" defaultValue="2" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 6"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R1" number="216" type="select" possibleValues="0-2;5-12" defaultValue="7" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 7"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R1" number="217" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 7"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="218" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R1" number="218" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 7"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R1" number="219" type="byte" possibleValues="0-255" defaultValue="3" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 7"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R2" number="220" type="select" possibleValues="0-2;5-12" defaultValue="8" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 8"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R2" number="221" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 8"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="222" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R2" number="222" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 8"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R2" number="223" type="byte" possibleValues="0-255" defaultValue="4" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 8"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R3" number="224" type="select" possibleValues="0-2;5-12" defaultValue="9" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 9"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R3" number="225" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 9"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="226" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R3" number="226" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 9"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R3" number="227" type="byte" possibleValues="0-255" defaultValue="5" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 9"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R4" number="228" type="select" possibleValues="0-2;5-12" defaultValue="10" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 10"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R4" number="229" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 10"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="230" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R4" number="230" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 10"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R4" number="231" type="byte" possibleValues="0-255" defaultValue="10" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 10"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R5" number="232" type="select" possibleValues="0-2;5-12" defaultValue="11" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 11"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R5" number="233" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 11"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="234" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R5" number="234" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 11"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R5" number="235" type="byte" possibleValues="0-255" defaultValue="11" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 11"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R6" number="236" type="select" possibleValues="0-2;5-12" defaultValue="12" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 12"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R6" number="237" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 12"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="238" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R6" number="238" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 12"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R6" number="239" type="byte" possibleValues="0-255" defaultValue="12" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 12"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1970360R7" number="240" type="select" possibleValues="0-2;5-12" defaultValue="12" mode="rw">
+            <ct:description language="de" text="DCC Funktion für Ausgang 13"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="F0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="all" text="F1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="all" text="F2"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="all" text="F5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="all" text="F6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="all" text="F7"/>
+              </ct:option>
+              <ct:option value="8">
+                <ct:description language="all" text="F8"/>
+              </ct:option>
+              <ct:option value="9">
+                <ct:description language="all" text="F9"/>
+              </ct:option>
+              <ct:option value="10">
+                <ct:description language="all" text="F10"/>
+              </ct:option>
+              <ct:option value="11">
+                <ct:description language="all" text="F11"/>
+              </ct:option>
+              <ct:option value="12">
+                <ct:description language="all" text="F12"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1971360R7" number="241" type="select" possibleValues="0-7" defaultValue="0" mode="rw">
+            <ct:description language="de" text="Effekt Gruppe für Ausgang 13"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+                <ct:condition type="relational" operation="equal" cv="242" value="255"/>
+              </ct:trigger>
+            </ct:conditions>
+            <ct:group number="0">
+              <ct:option value="0">
+                <ct:description language="de" text="Effektgruppe 0"/>
+              </ct:option>
+              <ct:option value="1">
+                <ct:description language="de" text="Effektgruppe 1"/>
+              </ct:option>
+              <ct:option value="2">
+                <ct:description language="de" text="Effektgruppe 2"/>
+              </ct:option>
+              <ct:option value="3">
+                <ct:description language="de" text="Effektgruppe 3"/>
+              </ct:option>
+              <ct:option value="4">
+                <ct:description language="de" text="Effektgruppe 4"/>
+              </ct:option>
+              <ct:option value="5">
+                <ct:description language="de" text="Effektgruppe 5"/>
+              </ct:option>
+              <ct:option value="6">
+                <ct:description language="de" text="Effektgruppe 6"/>
+              </ct:option>
+              <ct:option value="7">
+                <ct:description language="de" text="Effektgruppe 7"/>
+              </ct:option>
+            </ct:group>
+          </ct:cv>
+          <ct:cv id="1972360R7" number="242" type="byte" possibleValues="0-255" defaultValue="254" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="Nur Sound"/>
+                <ct:description language="en" text="sound only"/>
+              </ct:specialValue>
+              <ct:specialValue value="254">
+                <ct:description language="de" text="unendlich"/>
+                <ct:description language="en" text="infinite"/>
+              </ct:specialValue>
+              <ct:specialValue value="255">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Effekt-Wiederholungen Ausgang 13"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+          <ct:cv id="1973360R7" number="243" type="byte" possibleValues="0-255" defaultValue="12" mode="rw">
+            <ct:valueCalculation>
+              <ct:item type="self"/>
+              <ct:specialValue value="0">
+                <ct:description language="de" text="aus"/>
+                <ct:description language="en" text="off"/>
+              </ct:specialValue>
+            </ct:valueCalculation>
+            <ct:description language="de" text="Soundfile Nummer Ausgang 13"/>
+            <ct:conditions>
+              <ct:trigger value="notRelevant">
+                <ct:condition type="relational" operation="equal" cv="59" selection="bit:5" value="1"/>
+              </ct:trigger>
+            </ct:conditions>
+          </ct:cv>
+        </cvs>
+        <cvStructure>
+          <category>
+            <ct:description language="de" text="Informationen"/>
+            <idReference id="25"/>
+            <idReference id="26"/>
+            <idReference id="334"/>
+            <idReference id="284"/>
+            <idReference id="14R0"/>
+            <idReference id="14R1"/>
+            <idReference id="331"/>
+            <idReference id="332"/>
+            <idReference id="333"/>
+            <idReference id="330"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Grundeinstellungen"/>
+            <idReference id="345"/>
+            <idReference id="346"/>
+            <idReference id="358"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Adressen"/>
+            <idReference id="1"/>
+            <idReference id="337"/>
+            <idReference id="346" activeItems="bit:5"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Motorregelung"/>
+            <idReference id="343"/>
+            <idReference id="344"/>
+            <idReference id="354" activeItems="bit:7"/>
+            <idReference id="703"/>
+            <idReference id="356"/>
+            <idReference id="357"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Fahreigenschaften"/>
+            <idReference id="339"/>
+            <idReference id="340"/>
+            <idReference id="341"/>
+            <idReference id="342"/>
+            <idReference id="346" activeItems="bit:4"/>
+            <idReference id="349"/>
+            <idReference id="350"/>
+            <category>
+              <ct:description language="de" text="Bremsen"/>
+              <idReference id="352"/>
+              <idReference id="353"/>
+              <idReference id="354" activeItems="bit:3"/>
+            </category>
+          </category>
+          <category>
+            <ct:description language="de" text="Geschwindigkeitskennline"/>
+            <idReference id="346" activeItems="bit:4"/>
+            <idReference id="359"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Car-Konfiguration"/>
+            <idReference id="1724"/>
+            <idReference id="419"/>
+            <idReference id="420"/>
+            <idReference id="421"/>
+            <idReference id="422"/>
+            <idReference id="348"/>
+            <idReference id="351"/>
+            <idReference id="354"/>
+          </category>
+          <category>
+            <ct:description language="de" text="Effekt-Gruppen"/>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 0 Blinker"/>
+              <idReference id="1449"/>
+              <idReference id="1450"/>
+              <idReference id="1451"/>
+              <idReference id="1452"/>
+              <idReference id="1453"/>
+              <idReference id="1454"/>
+              <idReference id="1455"/>
+              <idReference id="1456"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 1"/>
+              <idReference id="362361R0"/>
+              <idReference id="388361R0"/>
+              <idReference id="389361R0"/>
+              <idReference id="390361R0"/>
+              <idReference id="391361R0"/>
+              <idReference id="392361R0"/>
+              <idReference id="393361R0"/>
+              <idReference id="394361R0"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 2"/>
+              <idReference id="362361R1"/>
+              <idReference id="388361R1"/>
+              <idReference id="389361R1"/>
+              <idReference id="390361R1"/>
+              <idReference id="391361R1"/>
+              <idReference id="392361R1"/>
+              <idReference id="393361R1"/>
+              <idReference id="394361R1"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 3"/>
+              <idReference id="362361R2"/>
+              <idReference id="388361R2"/>
+              <idReference id="389361R2"/>
+              <idReference id="390361R2"/>
+              <idReference id="391361R2"/>
+              <idReference id="392361R2"/>
+              <idReference id="393361R2"/>
+              <idReference id="394361R2"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 4"/>
+              <idReference id="362361R3"/>
+              <idReference id="388361R3"/>
+              <idReference id="389361R3"/>
+              <idReference id="390361R3"/>
+              <idReference id="391361R3"/>
+              <idReference id="392361R3"/>
+              <idReference id="393361R3"/>
+              <idReference id="394361R3"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 5"/>
+              <idReference id="362361R4"/>
+              <idReference id="388361R4"/>
+              <idReference id="389361R4"/>
+              <idReference id="390361R4"/>
+              <idReference id="391361R4"/>
+              <idReference id="392361R4"/>
+              <idReference id="393361R4"/>
+              <idReference id="394361R4"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 6"/>
+              <idReference id="362361R5"/>
+              <idReference id="388361R5"/>
+              <idReference id="389361R5"/>
+              <idReference id="390361R5"/>
+              <idReference id="391361R5"/>
+              <idReference id="392361R5"/>
+              <idReference id="393361R5"/>
+              <idReference id="394361R5"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Effect-Gruppe 7 Bremslicht"/>
+              <idReference id="1457"/>
+              <idReference id="1458"/>
+              <idReference id="1459"/>
+              <idReference id="1460"/>
+              <idReference id="1461"/>
+              <idReference id="1462"/>
+              <idReference id="1463"/>
+              <idReference id="1464"/>
+            </category>
+          </category>
+          <category>
+            <ct:description language="de" text="Licht-Konfiguration"/>
+            <category>
+              <ct:description language="de" text="Bremslicht"/>
+              <idReference id="368"/>
+              <idReference id="373"/>
+              <idReference id="374"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Frontlicht"/>
+              <idReference id="364"/>
+              <idReference id="369"/>
+              <idReference id="380"/>
+              <idReference id="375"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Blinklicht links"/>
+              <idReference id="366"/>
+              <idReference id="370"/>
+              <idReference id="381"/>
+              <idReference id="376"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Blinklicht rechts"/>
+              <idReference id="365"/>
+              <idReference id="371"/>
+              <idReference id="382"/>
+              <idReference id="377"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 1"/>
+              <idReference id="1958"/>
+              <idReference id="1960"/>
+              <idReference id="1964"/>
+              <idReference id="1967"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 2"/>
+              <idReference id="1959"/>
+              <idReference id="1961"/>
+              <idReference id="1965"/>
+              <idReference id="1968"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 3"/>
+              <idReference id="1963"/>
+              <idReference id="1962"/>
+              <idReference id="1966"/>
+              <idReference id="1969"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 4"/>
+              <idReference id="3671937R0"/>
+              <idReference id="3721937R0"/>
+              <idReference id="3831937R0"/>
+              <idReference id="3781937R0"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 5"/>
+              <idReference id="347"/>
+              <idReference id="3671937R1"/>
+              <idReference id="3721937R1"/>
+              <idReference id="3831937R1"/>
+              <idReference id="3781937R1"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 6"/>
+              <idReference id="1970360R0"/>
+              <idReference id="1971360R0"/>
+              <idReference id="1972360R0"/>
+              <idReference id="1973360R0"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 7"/>
+              <idReference id="1970360R1"/>
+              <idReference id="1971360R1"/>
+              <idReference id="1972360R1"/>
+              <idReference id="1973360R1"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 8"/>
+              <idReference id="1970360R2"/>
+              <idReference id="1971360R2"/>
+              <idReference id="1972360R2"/>
+              <idReference id="1973360R2"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 9"/>
+              <idReference id="1970360R3"/>
+              <idReference id="1971360R3"/>
+              <idReference id="1972360R3"/>
+              <idReference id="1973360R3"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 10"/>
+              <idReference id="1970360R4"/>
+              <idReference id="1971360R4"/>
+              <idReference id="1972360R4"/>
+              <idReference id="1973360R4"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 11"/>
+              <idReference id="1970360R5"/>
+              <idReference id="1971360R5"/>
+              <idReference id="1972360R5"/>
+              <idReference id="1973360R5"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 12"/>
+              <idReference id="1970360R6"/>
+              <idReference id="1971360R6"/>
+              <idReference id="1972360R6"/>
+              <idReference id="1973360R6"/>
+            </category>
+            <category>
+              <ct:description language="de" text="Licht 13"/>
+              <idReference id="1970360R7"/>
+              <idReference id="1971360R7"/>
+              <idReference id="1972360R7"/>
+              <idReference id="1973360R7"/>
+            </category>
+          </category>
+        </cvStructure>
+      </protocol>
+    </protocols>
+  </firmware>
+</decoderFirmwareDefinition>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ using org.bidib.netbidibc.core.Services.Interfaces;
 
 namespace org.bidib.netbidibc.core
 {
+    [Export(typeof(IBiDiBInterface))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     internal sealed class BiDiBInterface : IBiDiBInterface
     {
         private readonly ILogger<BiDiBInterface> logger;
@@ -29,13 +32,14 @@ namespace org.bidib.netbidibc.core
         private ConnectionStateInfo connectionState;
         private bool isInitialized;
 
+        [ImportingConstructor]
         public BiDiBInterface(
             IConnectionService connectionService,
             IBiDiBMessageService messageService,
             IBiDiBMessageProcessor messageProcessor,
             IBiDiBNodesFactory nodesFactory,
-            IBiDiBBoosterNodesManager boosterNodesManager, 
-            IEnumerable<IMessageReceiver> messageReceivers,
+            IBiDiBBoosterNodesManager boosterNodesManager,
+            [ImportMany]IEnumerable<IMessageReceiver> messageReceivers,
             ILoggerFactory loggerFactory)
         {
             this.connectionService = connectionService;

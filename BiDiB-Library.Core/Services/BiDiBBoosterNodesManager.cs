@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using org.bidib.netbidibc.core.Enumerations;
@@ -17,15 +18,16 @@ namespace org.bidib.netbidibc.core.Services
     /// <summary>
     /// Internal manager for all booster related information
     /// </summary>
-    //[Export(typeof(IBiDiBBoosterNodesManager))]
-    //[Export(typeof(IMessageReceiver))]
-    //[PartCreationPolicy(CreationPolicy.Shared)]
+    [Export(typeof(IBiDiBBoosterNodesManager))]
+    [Export(typeof(IMessageReceiver))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class BiDiBBoosterNodesManager : IBiDiBBoosterNodesManager
     {
         private readonly ILogger<BiDiBBoosterNodesManager> logger;
         private readonly IList<BiDiBBoosterNode> boosters;
         private readonly ILoggerFactory loggerFactory;
 
+        [ImportingConstructor]
         public BiDiBBoosterNodesManager(IBiDiBMessageService messageService, ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger<BiDiBBoosterNodesManager>();

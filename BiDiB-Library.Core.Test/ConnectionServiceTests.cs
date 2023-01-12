@@ -24,7 +24,7 @@ namespace org.bidib.netbidibc.core.Test
         public void TestInitialize()
         {
             connectionControllerMock = new Mock<IConnectionController>();
-            target = new ConnectionService(Array.Empty<IConnectionControllerFactory>(), NullLogger<ConnectionService>.Instance);
+            target = new ConnectionService(Array.Empty<IConnectionControllerFactory>(), NullLoggerFactory.Instance);
         }
 
         [TestMethod]

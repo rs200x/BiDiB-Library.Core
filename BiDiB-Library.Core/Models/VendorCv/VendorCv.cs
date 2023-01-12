@@ -30,6 +30,9 @@ namespace org.bidib.netbidibc.core.Models.VendorCv
 
         //[XmlIgnore]
         public Cv[] Cvs { get; set; } = Array.Empty<Cv>();
+
+        [XmlIgnore]
+        public static readonly VendorCv Empty = new();
     }
 
 

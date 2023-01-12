@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © by DecoderDB. Licence see https://www.decoderdb.de/licence/ -->
+<decoderDetection xmlns="http://www.decoderdb.de/schema/decoderDetection/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ct="http://www.decoderdb.de/schema/commonTypes/1.2">
+  <version createdBy="DecoderDB" creatorLink="www.decoderdb.de" lastUpdate="2022-01-27T21:13:09"/>
+  <protocols>
+    <protocol type="dcc">
+      <default>
+        <detection type="manufacturerId">
+          <ct:cv number="8" type="byte" mode="ro"/>
+        </detection>
+        <detection type="manufacturerExtendedId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="8" value="13"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="108" type="int" mode="ro">
+            <ct:cv number="108" type="byte" mode="ro"/>
+            <ct:cv number="107" type="byte" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="firmwareVersion">
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+      </default>
+      <manufacturer id="13" extendedId="257" name="OpenCarSystem" shortName="OpenCar">
+        <detection type="decoderId">
+          <ct:cv number="111" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1}.{2}">
+          <ct:cv number="7" type="byte" mode="ro"/>
+          <ct:cv number="109" type="byte" mode="ro"/>
+          <ct:cv number="110" type="byte" mode="ro"/>
+        </detection>
+        <detection type="serialNumber">
+          <ct:cvGroup id="284" type="int" mode="ro">
+            <ct:cv number="103" type="byte" mode="ro"/>
+            <ct:cv number="104" type="byte" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+      <manufacturer id="20" name="T4T - Technology for Trains GmbH" shortName="T4T">
+        <detection type="decoderId">
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0:M0x07}.{0:M0x78}R{1}">
+          <ct:cv number="255" type="byte" mode="ro"/>
+          <ct:cv number="253" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="57" name="Rampino Elektronik" shortName="Rampino">
+        <detection type="decoderId">
+          <ct:cv number="255" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="62" name="Tams Elektronik GmbH" shortName="Tams">
+        <detection type="decoderId">
+          <ct:cv number="61" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0:M0d110}.{0:M0d1}">
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="64" name="Digital Bahn" shortName="Digital Bahn">
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="unEqual" cv="230" value="0"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="230" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="78" name="Tehnologistic (train-O-matic)" shortName="train-O-matic">
+        <detection type="decoderId" displayFormat="{0:F0000000#}">
+          <ct:cvGroup id="1730" type="long" mode="ro">
+            <ct:cv number="508" type="byte" mode="ro"/>
+            <ct:cv number="509" type="byte" mode="ro"/>
+            <ct:cv number="510" type="byte" mode="ro"/>
+            <ct:cv number="505" type="byte" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1}.{2}">
+          <ct:cv number="253" type="byte" mode="ro"/>
+          <ct:cv number="254" type="byte" mode="ro"/>
+          <ct:cvGroup id="1733" type="int" mode="ro">
+            <ct:cv number="256" type="byte" mode="ro"/>
+            <ct:cv number="255" type="byte" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+      <manufacturer id="85" name="Uhlenbrock GmbH" shortName="Uhlenbrock">
+        <detection type="decoderId" indexHigh="31" indexLow="32" displayFormat="{0:M0xFF000000}{0:M0xFF0000:F0#}{0:M0xFF00:F0#}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="31"/>
+                <ct:condition type="relational" operation="valid" cv="32"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="275" type="long" mode="ro">
+            <ct:cv number="261" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="262" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="263" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="264" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="serialNumber" indexHigh="31" indexLow="32" displayFormat="{0:X:F0000000#}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="31"/>
+                <ct:condition type="relational" operation="valid" cv="32"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="274" type="long" mode="ro">
+            <ct:cv number="265" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="266" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="267" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="268" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+      <manufacturer id="97" name="Doehler &amp; Haass" shortName="D&amp;H">
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="greater" cv="7" value="10"/>
+                <ct:condition type="relational" operation="valid" cv="261"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="261" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1:F0#}.{2}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="greater" cv="7" value="10"/>
+                <ct:condition type="relational" operation="valid" cv="262"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="262" type="byte" mode="ro"/>
+          <ct:cv number="264" type="byte" mode="ro"/>
+          <ct:cv number="265" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="99" name="Lenz Elektronik GmbH" shortName="Lenz">
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="1"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="unEqual" cv="128" value="0"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="unEqual" cv="128" value="0"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="128" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="109" name="Viessmann Modellspielwaren GmbH" shortName="Viessmann">
+        <detection type="decoderId" displayFormat="{0}.{1}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="255"/>
+                <ct:condition type="relational" operation="valid" cv="252"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="255" type="byte" mode="ro"/>
+          <ct:cv number="252" type="byte" mode="ro"/>
+        </detection>
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="valid" cv="255"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="255" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="115" name="Dietz Modellbahntechnik" shortName="Dietz">
+        <detection type="decoderId">
+          <ct:cv number="128" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="131" name="Trix Modelleisenbahn" shortName="Trix">
+        <detection type="decoderId" indexHigh="31" indexLow="32">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="31"/>
+                <ct:condition type="relational" operation="valid" cv="32"/>
+                <ct:condition type="relational" operation="equal" cv="260" indexHigh="255" indexLow="255" value="131"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="2709" type="long" mode="ro">
+            <ct:cv number="264" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+            <ct:cv number="263" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+            <ct:cv number="262" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+            <ct:cv number="261" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="firmwareVersion" indexHigh="31" indexLow="32" displayFormat="{0}.{1}.{2}.{3}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="31"/>
+                <ct:condition type="relational" operation="valid" cv="32"/>
+                <ct:condition type="relational" operation="equal" cv="260" indexHigh="255" indexLow="255" value="131"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="271" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+          <ct:cv number="272" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+          <ct:cv number="273" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+          <ct:cv number="274" type="byte" indexHigh="255" indexLow="255" mode="ro"/>
+        </detection>
+        <detection type="decoderId" value="141" valueName="66840B">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="3"/>
+              <ct:condition type="relational" operation="equal" cv="7" value="27"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="firmwareVersion" value="3.01.102">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="3"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="firmwareVersion" value="3.08.27">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="27"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="decoderId" value="141" valueName="66857">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="47"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="firmwareVersion" value="3.09.47">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="47"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+      </manufacturer>
+      <manufacturer id="145" name="Zimo Elektronik" shortName="Zimo">
+        <detection type="decoderId">
+          <ct:cv number="250" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1}">
+          <ct:cv number="7" type="byte" mode="ro"/>
+          <ct:cv number="65" type="byte" mode="ro"/>
+        </detection>
+        <detection type="serialNumber">
+          <ct:cvGroup id="288" type="long" mode="ro">
+            <ct:cv number="250" type="byte" mode="ro"/>
+            <ct:cv number="251" type="byte" mode="ro"/>
+            <ct:cv number="252" type="byte" mode="ro"/>
+            <ct:cv number="253" type="byte" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+      <manufacturer id="151" name="Electronic Solutions Ulm GmbH" shortName="ESU">
+        <detection type="decoderId">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="16-22;40-43;48;56;88-89"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+        <detection type="decoderId" value="33554460" valueName="LokPilot V3.0">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="104"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="decoderId" value="33554461" valueName="LokPilot V3.0 DCC">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="105"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="decoderId" value="16777229" valueName="LokSound V3.5">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="59"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="decoderId" indexHigh="31" indexLow="32" displayFormat="{0:X:F0000000#}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="255"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="275" type="long" mode="ro">
+            <ct:cv number="261" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="262" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="263" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="264" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="firmwareVersion" indexHigh="31" indexLow="32" displayFormat="{0}.{1}.{2}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="255"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="288" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          <ct:cv number="287" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          <ct:cvGroup id="273" type="int" mode="ro">
+            <ct:cv number="285" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="286" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+        <detection type="serialNumber" indexHigh="31" indexLow="32" displayFormat="{0:X:F0000000#}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="7" value="255"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="274" type="long" mode="ro">
+            <ct:cv number="265" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="266" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="267" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="268" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+      <manufacturer id="157" name="Kühn Ing." shortName="Kühn">
+        <detection type="firmwareVersion" displayFormat="{0}.{1}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="valid" cv="127"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="7" type="byte" mode="ro"/>
+          <ct:cv number="127" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="160" name="MD Electronics" shortName="MD Electronics">
+        <detection type="decoderId" displayFormat="{0}.{1}">
+          <ct:cv number="105" type="byte" mode="ro"/>
+          <ct:cv number="106" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0:M0d110}.{0:M0d1}">
+          <ct:cv number="7" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="162" name="PIKO Spielwaren GmbH" shortName="PIKO">
+        <detection type="decoderId" indexHigh="31" indexLow="32" displayFormat="{0:M0xFF:F0#}{0:M0xFF00:F0#}{0:M0xFF0000:M0d10}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="logical" operation="and">
+                <ct:condition type="relational" operation="valid" cv="31"/>
+                <ct:condition type="relational" operation="valid" cv="32"/>
+              </ct:condition>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cvGroup id="275" type="long" mode="ro">
+            <ct:cv number="261" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="262" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="263" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+            <ct:cv number="264" type="byte" indexHigh="0" indexLow="255" mode="ro"/>
+          </ct:cvGroup>
+        </detection>
+      </manufacturer>
+    </protocol>
+    <protocol type="sx2">
+      <default>
+        <detection type="manufacturerId">
+          <ct:cv number="101" type="byte" mode="ro"/>
+        </detection>
+        <detection type="decoderId">
+          <ct:cv number="102" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1:F0#}.{2}">
+          <ct:cv number="103" type="byte" mode="ro"/>
+          <ct:cv number="105" type="byte" mode="ro"/>
+          <ct:cv number="106" type="byte" mode="ro"/>
+        </detection>
+      </default>
+    </protocol>
+    <protocol type="susi">
+      <default>
+        <detection type="manufacturerId" indexHigh="1021">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="valid" cv="1021"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="900" type="byte" indexHigh="0" mode="ro"/>
+        </detection>
+        <detection type="manufacturerId">
+          <ct:cv number="900" type="byte" mode="ro"/>
+        </detection>
+        <detection type="decoderId" indexHigh="1021">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="valid" cv="1021"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="900" type="byte" indexHigh="1" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" indexHigh="1021" displayFormat="{0}.{1}">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="valid" cv="1021"/>
+            </ct:trigger>
+          </ct:conditions>
+          <ct:cv number="901" type="byte" indexHigh="0" mode="ro"/>
+          <ct:cv number="901" type="byte" indexHigh="1" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion">
+          <ct:cv number="901" type="byte" mode="ro"/>
+        </detection>
+      </default>
+      <manufacturer id="85" name="Uhlenbrock GmbH" shortName="Uhlenbrock">
+        <detection type="decoderId" indexHigh="1021">
+          <ct:cv number="900" type="byte" indexHigh="1" mode="ro"/>
+        </detection>
+      </manufacturer>
+      <manufacturer id="97" name="Doehler &amp; Haass" shortName="D&amp;H">
+        <detection type="decoderId" value="51" valueName="DHZ400">
+          <ct:conditions>
+            <ct:trigger value="valid">
+              <ct:condition type="relational" operation="equal" cv="901" value="51"/>
+            </ct:trigger>
+          </ct:conditions>
+        </detection>
+        <detection type="decoderId">
+          <ct:cv number="901" type="byte" mode="ro"/>
+        </detection>
+        <detection type="firmwareVersion" displayFormat="{0}.{1:F0#}.{2}">
+          <ct:cv number="902" type="byte" mode="ro"/>
+          <ct:cv number="904" type="byte" mode="ro"/>
+          <ct:cv number="905" type="byte" mode="ro"/>
+        </detection>
+      </manufacturer>
+    </protocol>
+  </protocols>
+</decoderDetection>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Security;
 using Microsoft.Extensions.Logging;
@@ -8,12 +9,14 @@ using Formatting = Newtonsoft.Json.Formatting;
 
 namespace org.bidib.netbidibc.core.Services
 {
-
+    [Export(typeof(IJsonService))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class JsonService : IJsonService
     {
         private readonly ILogger<JsonService> logger;
         private readonly ILogger exceptionLogger;
 
+        [ImportingConstructor]
         public JsonService(ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger<JsonService>();

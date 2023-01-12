@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,8 @@ using org.bidib.netbidibc.core.Utils;
 
 namespace org.bidib.netbidibc.core.Message
 {
+    [Export(typeof(IBiDiBMessageProcessor))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         private readonly ILogger<BiDiBMessageProcessor> logger;
@@ -21,12 +24,12 @@ namespace org.bidib.netbidibc.core.Message
         private readonly IBiDiBMessageService messageService;
         private const int DefaultTimeout = 500;
 
-
-        public BiDiBMessageProcessor(IBiDiBNodesFactory nodesFactory, IBiDiBMessageService messageService, ILogger<BiDiBMessageProcessor> logger)
+        [ImportingConstructor]
+        public BiDiBMessageProcessor(IBiDiBNodesFactory nodesFactory, IBiDiBMessageService messageService,ILoggerFactory loggerFactory)
         {
             this.nodesFactory = nodesFactory;
             this.messageService = messageService;
-            this.logger = logger;
+            logger = loggerFactory.CreateLogger<BiDiBMessageProcessor>();
         }
 
         public void GetChildNodes(byte[] parentAddress)

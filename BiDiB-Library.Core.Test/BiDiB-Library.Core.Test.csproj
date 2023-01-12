@@ -12,26 +12,97 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-		<PackageReference Include="Moq" Version="4.18.2" />
-		<PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-		<PackageReference Include="coverlet.collector" Version="3.1.2">
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+		<PackageReference Include="Moq" Version="4.18.4" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.0.1" />
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="org.bidib.netbidibc.Testing" Version="1.0.2" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.0.1" />
+		<!--<PackageReference Include="org.bidib.netbidibc.Testing" Version="1.0.3" />-->
+
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="TestData\" />
-	</ItemGroup>
+	<Choose>
+		<When Condition="'$(Configuration)'=='Debug' ">
+			<ItemGroup>
+				<ProjectReference Include="..\..\Testing\BiDiB-Library.Testing\BiDiB-Library.Testing.csproj" />
+			</ItemGroup>
+		</When>
+		<When Condition="'$(Configuration)'=='Release' ">
+			<ItemGroup>
+				<PackageReference Include="org.bidib.netbidibc.Testing" Version="1.0.3" />
+			</ItemGroup>
+		</When>
+	</Choose>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BiDiB-Library.Core\BiDiB-Library.Core.csproj" />
+		<ProjectReference Include="..\BiDiB-Library.Core\BiDiB-Library.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="TestData\BiDiBCV-13-104.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\BiDiBCV-13-120.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\bidib_if2_v2.04.03.zip">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\commonTypes.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\decoder.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\DecoderDetection.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\decoderDetection.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\decoderFirmware.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Decoder\Decoder_0_NMRA-Standard.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Decoder\Decoder_13-257_CarDecoderV3.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Decoder\Decoder_157_N45.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Decoder\Decoder_97_DH05C.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Decoder\Decoder_97_DH10C.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_0_1.0.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_13-257_3.20.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_145_31.57.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_157_35.1.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_97_1.06_sound.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Firmware\Firmware_97_3.06.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\Manufacturers.decdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestData\manufacturers.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="TestData\TestObjects.json">

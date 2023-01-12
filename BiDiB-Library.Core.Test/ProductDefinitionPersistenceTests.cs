@@ -8,58 +8,59 @@ namespace org.bidib.netbidibc.core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    [DeploymentItem(TestDataFolder + "0/" + ProductDefinition0)]
-    [DeploymentItem(TestDataFolder + "13/" + ProductDefinition13)]
-    [DeploymentItem(TestDataFolder + "157/" + ProductDefinition157)]
-    [DeploymentItem(TestDataFolder + "97/" + ProductDefinition971)]
-    [DeploymentItem(TestDataFolder + "97/" + ProductDefinition972)]
-    [DeploymentItem("data/Schema/DecoderDB/" + ProductXsd)]
-    [DeploymentItem("data/Schema/DecoderDB/" + CommonTypesXsd)]
+    [DeploymentItem(ProductDefinition0, TestDataDecoderFolder)]
+    [DeploymentItem(ProductDefinition13, TestDataDecoderFolder)]
+    [DeploymentItem(ProductDefinition157, TestDataDecoderFolder)]
+    [DeploymentItem(ProductDefinition971, TestDataDecoderFolder)]
+    [DeploymentItem(ProductDefinition972, TestDataDecoderFolder)]
+    [DeploymentItem(XsdPath, "TestData")]
+    [DeploymentItem("TestData/commonTypes.xsd", "TestData")]
     public class ProductDefinitionPersistenceTests : TestClass
     {
-        private const string TestDataFolder = "data/Decoder/";
-        private const string ProductDefinition0 = "Decoder_0_NMRA-Standard.decdb";
-        private const string ProductDefinition13 = "Decoder_13-257_CarDecoderV3.decdb";
-        private const string ProductDefinition157 = "Decoder_157_N45.decdb";
-        private const string ProductDefinition971 = "Decoder_97_DH05C.decdb";
-        private const string ProductDefinition972 = "Decoder_97_DH10C.decdb";
+        private const string TestDataFolder = "TestData/";
+        private const string TestDataDecoderFolder = TestDataFolder + "Decoder/";
+        private const string ProductDefinition0 = TestDataDecoderFolder + "Decoder_0_NMRA-Standard.decdb";
+        private const string ProductDefinition13 = TestDataDecoderFolder + "Decoder_13-257_CarDecoderV3.decdb";
+        private const string ProductDefinition157 = TestDataDecoderFolder + "Decoder_157_N45.decdb";
+        private const string ProductDefinition971 = TestDataDecoderFolder + "Decoder_97_DH05C.decdb";
+        private const string ProductDefinition972 = TestDataDecoderFolder + "Decoder_97_DH10C.decdb";
+        private const string XmlNamespace = Namespaces.DecoderNamespaceUrl;
+        private const string XsdPath = TestDataFolder + "decoder.xsd";
 
-        private const string ProductXsd = "decoder.xsd";
-        private const string CommonTypesXsd = "commonTypes.xsd";
 
         [TestMethod]
         public void TestFile1_ShouldBeSchemaValid()
         {
             // Act & Assert
-            ValidateFile(ProductDefinition0, Namespaces.Decoder.Url, Namespaces.Decoder.XsdName);
+            ValidateFile(ProductDefinition0, XmlNamespace, XsdPath);
         }
 
         [TestMethod]
         public void TestFile2_ShouldBeSchemaValid()
         {
             // Act & Assert
-            ValidateFile(ProductDefinition13, Namespaces.Decoder.Url, Namespaces.Decoder.XsdName);
+            ValidateFile(ProductDefinition13, XmlNamespace, XsdPath);
         }
 
         [TestMethod]
         public void TestFile3_ShouldBeSchemaValid()
         {
             // Act & Assert
-            ValidateFile(ProductDefinition157, Namespaces.Decoder.Url, Namespaces.Decoder.XsdName);
+            ValidateFile(ProductDefinition157, XmlNamespace, XsdPath);
         }
 
         [TestMethod]
         public void TestFile4_ShouldBeSchemaValid()
         {
             // Act & Assert
-            ValidateFile(ProductDefinition971, Namespaces.Decoder.Url, Namespaces.Decoder.XsdName);
+            ValidateFile(ProductDefinition971, XmlNamespace, XsdPath);
         }
 
         [TestMethod]
         public void TestFile5_ShouldBeSchemaValid()
         {
             // Act & Assert
-            ValidateFile(ProductDefinition971, Namespaces.Decoder.Url, Namespaces.Decoder.XsdName);
+            ValidateFile(ProductDefinition971, XmlNamespace, XsdPath);
         }
 
         [TestMethod]
@@ -68,19 +69,17 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            DecoderDefinition definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition0);
+            var definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition0);
 
             // Assert
             definition.Should().NotBeNull();
 
             definition.Decoder.Should().NotBeNull();
-            Decoder decoder = definition.Decoder;
+            var decoder = definition.Decoder;
 
             decoder.Name.Should().Be("NMRA-Standard");
             decoder.ManufacturerId.Should().Be(0);
-            //product.ManufacturerName.Should().Be("NMRA");
             decoder.ManufacturerShortName.Should().Be("Standard");
-            //product.ManufacturerUrl.Should().Be("www.nmra.org");
         }
 
         [TestMethod]
@@ -89,7 +88,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            DecoderDefinition definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition13);
+            var definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition13);
 
             // Assert
             definition.Should().NotBeNull();
@@ -101,7 +100,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            DecoderDefinition definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition157);
+            var definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition157);
 
             // Assert
             definition.Should().NotBeNull();
@@ -113,7 +112,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            DecoderDefinition definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition971);
+            var definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition971);
 
             // Assert
             definition.Should().NotBeNull();
@@ -134,7 +133,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            DecoderDefinition definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition972);
+            var definition = LoadFromXmlFile<DecoderDefinition>(ProductDefinition972);
 
             // Assert
             definition.Should().NotBeNull();

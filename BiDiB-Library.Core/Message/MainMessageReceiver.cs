@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,8 @@ using org.bidib.netbidibc.core.Services.Interfaces;
 
 namespace org.bidib.netbidibc.core.Message
 {
+    [Export(typeof(IMessageReceiver))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class MainMessageReceiver : IMessageReceiver
     {
         private readonly ILogger<MainMessageReceiver> logger;
@@ -20,11 +23,12 @@ namespace org.bidib.netbidibc.core.Message
         private readonly IBiDiBNodesFactory nodesFactory;
         private readonly Dictionary<BiDiBMessage, Action<BiDiBInputMessage>> messageHandlers;
 
-        public MainMessageReceiver(IBiDiBMessageService messageService, IBiDiBNodesFactory nodesFactory, ILogger<MainMessageReceiver> logger)
+        [ImportingConstructor]
+        public MainMessageReceiver(IBiDiBMessageService messageService, IBiDiBNodesFactory nodesFactory, ILoggerFactory loggerFactory)
         {
             this.messageService = messageService;
             this.nodesFactory = nodesFactory;
-            this.logger = logger;
+            logger = loggerFactory.CreateLogger<MainMessageReceiver>();
             messageHandlers = new Dictionary<BiDiBMessage, Action<BiDiBInputMessage>>();
             RegisterMessageHandlers();
         }

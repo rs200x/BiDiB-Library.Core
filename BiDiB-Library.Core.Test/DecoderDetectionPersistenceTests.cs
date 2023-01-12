@@ -9,15 +9,13 @@ namespace org.bidib.netbidibc.core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    [DeploymentItem("data/" + TestFileName1)]
-    [DeploymentItem("data/Schema/DecoderDB/" + DecoderDetectionXsd)]
-    [DeploymentItem("data/Schema/DecoderDB/" + CommonTypesXsd)]
+    [DeploymentItem(TestFileName1, "TestData")]
+    [DeploymentItem(DecoderDetectionXsd, "TestData")]
+    [DeploymentItem("TestData/commonTypes.xsd", "TestData")]
     public class DecoderDetectionPersistenceTests : TestClass
     {
-        private const string TestFileName1 = "DecoderDetection.decdb";
-
-        private const string DecoderDetectionXsd = "decoderDetection.xsd";
-        private const string CommonTypesXsd = "commonTypes.xsd";
+        private const string TestFileName1 = "TestData/DecoderDetection.decdb";
+        private const string DecoderDetectionXsd = "TestData/decoderDetection.xsd";
 
         [TestMethod]
         public void TestFiles_ShouldBeSchemaValid()

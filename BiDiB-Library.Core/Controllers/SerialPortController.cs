@@ -41,7 +41,7 @@ namespace org.bidib.netbidibc.core.Controllers
             };
         }
 
-        public override ConnectionStateInfo ConnectionState => serialPort is {IsOpen: true}
+        public override ConnectionStateInfo ConnectionState => serialPort is { IsOpen: true }
             ? new ConnectionStateInfo(InterfaceConnectionState.FullyConnected, InterfaceConnectionType.SerialPort)
             : new ConnectionStateInfo(InterfaceConnectionState.Disconnected, InterfaceConnectionType.SerialPort);
 
@@ -76,7 +76,7 @@ namespace org.bidib.netbidibc.core.Controllers
         {
             logger.LogInformation($"Received serial pin change event: {e}");
             if (e.EventType != SerialPinChange.CtsChanged) { return; }
-            
+
             try
             {
                 logger.LogError($"The CTS pin has changed: {serialPort.CtsHolding}");

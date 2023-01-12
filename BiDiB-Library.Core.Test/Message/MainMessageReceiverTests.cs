@@ -29,7 +29,7 @@ namespace org.bidib.netbidibc.core.Test.Message
             messageService = new Mock<IBiDiBMessageService>();
             nodesFactory = new Mock<IBiDiBNodesFactory>();
 
-            target = new MainMessageReceiver(messageService.Object, nodesFactory.Object, NullLogger<MainMessageReceiver>.Instance);
+            target = new MainMessageReceiver(messageService.Object, nodesFactory.Object, NullLoggerFactory.Instance);
         }
 
         [TestMethod]

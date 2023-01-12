@@ -12,26 +12,26 @@ namespace org.bidib.netbidibc.core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    [DeploymentItem(TestDataFolder + "13/"+ TestFileName13)]
-    [DeploymentItem(TestDataFolder + "145/" + TestFileName145)]
-    [DeploymentItem(TestDataFolder + "157/" + TestFileName157)]
-    [DeploymentItem(TestDataFolder + "97/" + TestFileName971)]
-    [DeploymentItem(TestDataFolder + "97/" + TestFileName972)]
-    [DeploymentItem(TestDataFolder + "0/" +TestFileName0)]
-    [DeploymentItem("data/Schema/DecoderDB/" + FirmwareXsd)]
-    [DeploymentItem("data/Schema/DecoderDB/" + CommonTypesXsd)]
+    [DeploymentItem(TestFileName13, TestDataFirmwareFolder)]
+    [DeploymentItem(TestFileName145, TestDataFirmwareFolder)]
+    [DeploymentItem(TestFileName157, TestDataFirmwareFolder)]
+    [DeploymentItem(TestFileName971, TestDataFirmwareFolder)]
+    [DeploymentItem(TestFileName972, TestDataFirmwareFolder)]
+    [DeploymentItem(TestFileName0, TestDataFirmwareFolder)]
+    [DeploymentItem(FirmwareXsd, TestDataFolder)]
+    [DeploymentItem("TestData/commonTypes.xsd", TestDataFolder)]
     public class FirmwarePersistenceTests : TestClass
     {
-        private const string TestDataFolder = "data/Firmware/";
-        private const string TestFileName13 = "Firmware_13-257_3.20.decdb";
-        private const string TestFileName145 = "Firmware_145_31.57.decdb";
-        private const string TestFileName157 = "Firmware_157_35.1.decdb";
-        private const string TestFileName971 = "Firmware_97_3.06.decdb";
-        private const string TestFileName972 = "Firmware_97_1.06_sound.decdb";
-        private const string TestFileName0 = "Firmware_0_1.0.decdb";
+        private const string TestDataFolder = "TestData/";
+        private const string TestDataFirmwareFolder = TestDataFolder + "Firmware/";
+        private const string TestFileName13 = TestDataFirmwareFolder + "Firmware_13-257_3.20.decdb";
+        private const string TestFileName145 = TestDataFirmwareFolder + "Firmware_145_31.57.decdb";
+        private const string TestFileName157 = TestDataFirmwareFolder + "Firmware_157_35.1.decdb";
+        private const string TestFileName971 = TestDataFirmwareFolder + "Firmware_97_3.06.decdb";
+        private const string TestFileName972 = TestDataFirmwareFolder + "Firmware_97_1.06_sound.decdb";
+        private const string TestFileName0 = TestDataFirmwareFolder + "Firmware_0_1.0.decdb";
 
-        private const string FirmwareXsd = "decoderFirmware.xsd";
-        private const string CommonTypesXsd = "commonTypes.xsd";
+        private const string FirmwareXsd = TestDataFolder + "decoderFirmware.xsd";
 
         [TestMethod]
         public void TestFile1_ShouldBeSchemaValid()
@@ -82,30 +82,30 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName13);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName13);
 
             // Assert
             definition.Should().NotBeNull();
 
-            Version version = definition.Version;
+            var version = definition.Version;
             version.Should().NotBeNull();
             version.CreatedBy.Should().Be("DecoderDB");
 
-            Firmware firmware = definition.Firmware;
+            var firmware = definition.Firmware;
             firmware.Should().NotBeNull();
             firmware.Version.Should().Be("3.20");
 
             firmware.Decoders.Should().NotBeNull();
-            Decoder decoder = firmware.Decoders[0];
+            var decoder = firmware.Decoders[0];
             decoder.Name.Should().Be("Car Decoder V3");
             decoder.Type.Should().Be(DecoderType.Car);
 
-            FirmwareProtocol protocol = firmware.Protocols.FirstOrDefault(x => x.Type == ProtocolType.DCC);
+            var protocol = firmware.Protocols.FirstOrDefault(x => x.Type == ProtocolType.DCC);
             protocol.Should().NotBeNull();
 
             protocol.CVs.Should().NotBeNull();
             protocol.CvStructure.Should().NotBeNull();
-            Category category = protocol.CvStructure[0];
+            var category = protocol.CvStructure[0];
             category.Descriptions.Should().NotBeNull();
             category.Items.Should().NotBeNull();
         }
@@ -116,24 +116,24 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName145);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName145);
 
             // Assert
             definition.Should().NotBeNull();
 
-            Version version = definition.Version;
+            var version = definition.Version;
             version.Should().NotBeNull();
             version.CreatedBy.Should().Be("DecoderDB");
 
-            Firmware firmware = definition.Firmware;
+            var firmware = definition.Firmware;
             firmware.Should().NotBeNull();
             firmware.Version.Should().Be("31.57");
             firmware.ManufacturerId.Should().Be(145);
 
-            FirmwareProtocol protocol = firmware.Protocols.FirstOrDefault(x => x.Type == ProtocolType.DCC);
+            var protocol = firmware.Protocols.FirstOrDefault(x => x.Type == ProtocolType.DCC);
             protocol.Should().NotBeNull();
 
-            Cv cv49 = protocol.CVs.OfType<Cv>().FirstOrDefault(x => x.Number == 49);
+            var cv49 = protocol.CVs.OfType<Cv>().FirstOrDefault(x => x.Number == 49);
             cv49.Should().NotBeNull();
 
             cv49.ValueCalculation.Should().NotBeNull();
@@ -153,7 +153,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName157);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName157);
 
             // Assert
             definition.Should().NotBeNull();
@@ -165,7 +165,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName971);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName971);
 
             // Assert
             definition.Should().NotBeNull();
@@ -177,7 +177,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName972);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName972);
 
             // Assert
             definition.Should().NotBeNull();
@@ -189,7 +189,7 @@ namespace org.bidib.netbidibc.core.Test
             // Arrange
 
             // Act
-            FirmwareDefinition definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName0);
+            var definition = LoadFromXmlFile<FirmwareDefinition>(TestFileName0);
 
             // Assert
             definition.Should().NotBeNull();
@@ -199,26 +199,26 @@ namespace org.bidib.netbidibc.core.Test
         public void FirmwareDefinition_ShouldBeSerializable()
         {
             // Arrange
-            FirmwareDefinition definition = new FirmwareDefinition
+            var definition = new FirmwareDefinition
             {
                 Version = new Version { LastUpdate = DateTime.Today }
             };
 
-            Description[] descriptions = { new Description { Language = "de", Text = "xx" } };
+            Description[] descriptions = { new() { Language = "de", Text = "xx" } };
 
-            Cv cv1 = new Cv { Type = CvType.Byte, Number = 1, Descriptions = descriptions };
-            Cv cv2 = new Cv { Type = CvType.Byte, Number = 2, Descriptions = descriptions };
-            Cv cv3 = new Cv { Type = CvType.Byte, Number = 3, Descriptions = descriptions };
+            var cv1 = new Cv { Type = CvType.Byte, Number = 1, Descriptions = descriptions };
+            var cv2 = new Cv { Type = CvType.Byte, Number = 2, Descriptions = descriptions };
+            var cv3 = new Cv { Type = CvType.Byte, Number = 3, Descriptions = descriptions };
 
 
-            Detection detection = new Detection
+            var detection = new Detection
             {
                 Type = DetectionType.FirmwareVersion,
                 Items = new object[] { cv1, cv3 }
             };
 
 
-            CvGroup cvGroup = new CvGroup
+            var cvGroup = new CvGroup
             {
                 Id = "g1",
                 Descriptions = descriptions,
@@ -226,19 +226,19 @@ namespace org.bidib.netbidibc.core.Test
             };
 
 
-            Detection detection2 = new Detection
+            var detection2 = new Detection
             {
                 Type = DetectionType.FirmwareVersion,
                 Items = new object[] { cvGroup }
             };
 
-            Category category = new Category
+            var category = new Category
             {
                 Descriptions = descriptions,
                 Items = new object[] { new CvReference { Id = "1" } }
             };
 
-            FirmwareProtocol protocol = new FirmwareProtocol
+            var protocol = new FirmwareProtocol
             {
                 Type = ProtocolType.DCC,
                 DecoderDetection = new[] { detection, detection2 },
@@ -247,7 +247,7 @@ namespace org.bidib.netbidibc.core.Test
             };
 
 
-            Firmware firmware = new Firmware
+            var firmware = new Firmware
             {
                 Version = "27.7",
                 ManufacturerId = 13,
@@ -261,7 +261,7 @@ namespace org.bidib.netbidibc.core.Test
             SaveToXmlFile(definition, "TestFirmware.xml");
 
             // Assert
-            FirmwareDefinition loadedDefinition = LoadFromXmlFile<FirmwareDefinition>("TestFirmware.xml");
+            var loadedDefinition = LoadFromXmlFile<FirmwareDefinition>("TestFirmware.xml");
             loadedDefinition.Should().NotBeNull();
             loadedDefinition.Version.LastUpdate.Should().Be(DateTime.Today);
             loadedDefinition.Firmware.Version.Should().Be("27.7");

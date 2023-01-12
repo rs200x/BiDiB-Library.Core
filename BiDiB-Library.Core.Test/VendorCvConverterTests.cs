@@ -10,8 +10,9 @@ namespace org.bidib.netbidibc.core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
-    [DeploymentItem("data/BiDiBNode/VendorData/BiDiBCV-13-120.xml", "data/BiDiBNode/VendorData/")]
-    [DeploymentItem("data/BiDiBNode/VendorData/BiDiBCV-13-104.xml", "data/BiDiBNode/VendorData/")]
+    [DeploymentItem("TestData/BiDiBCV-13-120.xml", "TestData")]
+    [DeploymentItem("TestData/BiDiBCV-13-104.xml", "TestData")]
+    [DeploymentItem("TestData/commonTypes.xsd", "TestData")]
     public class VendorCvConverterTests : TestClass<VendorCvConverter>
     {
         protected override void OnTestInitialize()
@@ -25,7 +26,7 @@ namespace org.bidib.netbidibc.core.Test
         public void ConvertToV2Structure_ShouldResolveCvList()
         {
             // Arrange
-            string fileName = "data/BiDiBNode/VendorData/BiDiBCV-13-120.xml";
+            string fileName = "TestData/BiDiBCV-13-120.xml";
             VendorCv vendorCv = LoadVendorCv(fileName);
 
             // Act
@@ -39,7 +40,7 @@ namespace org.bidib.netbidibc.core.Test
         public void ConvertToV2Structure_ShouldResolveTemplates()
         {
             // Arrange
-            string fileName = "data/BiDiBNode/VendorData/BiDiBCV-13-104.xml";
+            string fileName = "TestData/BiDiBCV-13-104.xml";
             VendorCv vendorCv = LoadVendorCv(fileName);
 
             // Act

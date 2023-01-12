@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -13,16 +14,20 @@ using org.bidib.netbidibc.core.Services.Interfaces;
 
 namespace org.bidib.netbidibc.core.Services
 {
-
+    [Export(typeof(IConnectionService))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     internal sealed class ConnectionService : IConnectionService
     {
         private readonly ILogger<ConnectionService> logger;
         private IConnectionController activeConnectionController;
         private readonly IEnumerable<IConnectionControllerFactory> connectionControllerFactories;
 
-        public ConnectionService(IEnumerable<IConnectionControllerFactory> connectionControllerFactories, ILogger<ConnectionService> logger)
+        [ImportingConstructor]
+        public ConnectionService(
+            [ImportMany]IEnumerable<IConnectionControllerFactory> connectionControllerFactories, 
+            ILoggerFactory loggerFactory)
         {
-            this.logger = logger;
+            logger = loggerFactory.CreateLogger<ConnectionService>();
             this.connectionControllerFactories = connectionControllerFactories;
         }
 

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © by DecoderDB. Licence see https://www.decoderdb.de/licence/ -->
+<manufacturersList xmlns="http://www.decoderdb.de/schema/manufacturers/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <version createdBy="DecoderDB" creatorLink="https://www.decoderdb.de" nmraListDate="2021-03-06" lastUpdate="2022-06-20T18:27:57"/>
+  <manufacturers decoderDBLink="www.decoderdb.de?manufacturersPage">
+    <manufacturer id="0" name="Standard" shortName="Standard" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=157"/>
+    <manufacturer id="1" name="CML Electronics Limited" shortName="CML" country="GB" url="www.cmlelectronics.co.uk"/>
+    <manufacturer id="2" name="Train Technology" shortName="Train Technology" country="BE"/>
+    <manufacturer id="11" name="NCE Corporation (formerly North Coast Engineering)" shortName="NCE" country="US" url="www.ncedcc.com"/>
+    <manufacturer id="12" name="Wangrow Electronics" shortName="Wangrow" country="US"/>
+    <manufacturer id="13" name="Public Domain &amp; Do-It-Yourself Decoders" shortName="DIY"/>
+    <manufacturer id="13" extendedId="256" name="DecoderDB" shortName="DecoderDB" country="DE" url="www.decoderdb.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=159"/>
+    <manufacturer id="13" extendedId="257" name="OpenCarSystem" shortName="OpenCar" country="DE" url="www.opencarsystem.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=158"/>
+    <manufacturer id="13" extendedId="258" name="OpenDCC" shortName="OpenDCC" country="DE" url="www.opendcc.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=161"/>
+    <manufacturer id="13" extendedId="259" name="Schwedes &amp; Kuhn" shortName="S&amp;K" country="DE"/>
+    <manufacturer id="13" extendedId="260" name="moba-licht.de" shortName="moba-licht.de" country="DE" url="www.moba-licht.de"/>
+    <manufacturer id="13" extendedId="261" name="sfx Engineering" shortName="sfx" country="DE"/>
+    <manufacturer id="13" extendedId="262" name="Beri" shortName="Beri" country="DE"/>
+    <manufacturer id="13" extendedId="263" name="MicroBahner" shortName="MicroBahner" country="DE" url="github.com/MicroBahner"/>
+    <manufacturer id="13" extendedId="264" name="Fichtelbahn" shortName="Fichtelbahn" country="DE" url="www.fichtelbahn.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=175"/>
+    <manufacturer id="13" extendedId="265" name="RTB" shortName="RTB" country="DE"/>
+    <manufacturer id="14" name="PSI - Dynatrol" shortName="PSI" country="US"/>
+    <manufacturer id="15" name="Ramfixx Technologies (Wangrow)" shortName="Ramfixx" country="CA"/>
+    <manufacturer id="17" name="Advance IC Engineering" shortName="Advice" country="US" url="www.advice1.com"/>
+    <manufacturer id="18" name="JMRI" shortName="JMRI" country="US" url="jmri.sf.net"/>
+    <manufacturer id="19" name="AMW" shortName="AMW" country="AT" url="amw.huebsch.at"/>
+    <manufacturer id="20" name="T4T - Technology for Trains GmbH" shortName="T4T" country="DE" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=131"/>
+    <manufacturer id="21" name="Kreischer Datentechnik" shortName="Kreischer" country="DE"/>
+    <manufacturer id="22" name="KAM Industries" shortName="KAM" country="US" url="www.trainpriority.com"/>
+    <manufacturer id="23" name="S Helper Service" shortName="S Helper Service" country="US"/>
+    <manufacturer id="24" name="mobatron.de" shortName="MoBaTron" country="DE" url="MoBaTron.de"/>
+    <manufacturer id="25" name="Team Digital" shortName="Team Digital" country="US" url="www.teamdigital1.com"/>
+    <manufacturer id="26" name="MBTronik - PiN GITmBH" shortName="MBTronik" country="DE" url="www.mbtronik.de"/>
+    <manufacturer id="27" name="MTH Electric Trains, Inc." shortName="MTH" country="US" url="mthtrains.com"/>
+    <manufacturer id="28" name="Heljan A/S" shortName="Heljan" country="DK" url="www.heljan.dk"/>
+    <manufacturer id="29" name="Mistral Train Models" shortName="Mistral" country="BE" url="www.mistraltrains.be"/>
+    <manufacturer id="30" name="Digisight" shortName="Digisight" country="CN" url="www.digsight.com"/>
+    <manufacturer id="31" name="Brelec" shortName="Brelec" country="BE" url="www.brelec.be"/>
+    <manufacturer id="32" name="Regal Way Co. Ltd" shortName="Regal Way" country="HK" url="www.regalway.com"/>
+    <manufacturer id="33" name="Praecipuus" shortName="Praecipuus" country="CA"/>
+    <manufacturer id="34" name="Aristo-Craft Trains" shortName="Aristo-Craft" country="US"/>
+    <manufacturer id="35" name="Electronik &amp; Model Produktion" shortName="Electronik &amp; Model Produktion" country="SE" url="www.emp-trains.com"/>
+    <manufacturer id="36" name="DCCconcepts" shortName="DCCconcepts" country="AU" url="www.dccconcepts.com"/>
+    <manufacturer id="37" name="NAC Services, Inc" shortName="NAC Services" country="US"/>
+    <manufacturer id="38" name="Broadway Limited Imports, LLC" shortName="BLI" country="US" url="www.broadway-limited.com"/>
+    <manufacturer id="39" name="Educational Computer, Inc." shortName="Educational Computer" country="US" url="www.dccdevices.com"/>
+    <manufacturer id="40" name="KATO Precision Models" shortName="KATO" country="JP" url="www.katomodels.com"/>
+    <manufacturer id="41" name="Passmann" shortName="Passmann" country="DE"/>
+    <manufacturer id="42" name="Digirails / Digikeijs" shortName="Digikeijs" country="NL" url="www.digikeijs.com" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=35"/>
+    <manufacturer id="43" name="Ngineering" shortName="Ngineering" country="US" url="www.ngineering.com"/>
+    <manufacturer id="44" name="SPROG-DCC" shortName="SPROG" country="GB" url="www.sprog-dcc.co.uk"/>
+    <manufacturer id="45" name="ANE Model Co, Ltd" shortName="ANE" country="TW" url="www.anemodel.com"/>
+    <manufacturer id="46" name="GFB Designs" shortName="GFB Designs" country="GB"/>
+    <manufacturer id="47" name="Capecom" shortName="Capecom" country="AU"/>
+    <manufacturer id="48" name="Hornby Hobbies Ltd" shortName="Hornby" country="GB" url="www.hornby.com"/>
+    <manufacturer id="49" name="Joka Electronic" shortName="Joka" country="DE" url="www.jokashop.de"/>
+    <manufacturer id="50" name="N&amp;Q Electronics" shortName="N&amp;Q Electronics" country="ES"/>
+    <manufacturer id="51" name="DCC Supplies, Ltd" shortName="DCC Supplies" country="GB" url="www.dccsupplies.com"/>
+    <manufacturer id="52" name="Krois-Modell" shortName="Krois" country="AT" url="www.krois-modell.at"/>
+    <manufacturer id="53" name="Rautenhaus Digital Vertrieb" shortName="Rautenhaus" country="DE" url="www.rautenhaus-digital.de"/>
+    <manufacturer id="54" name="TCH Technology" shortName="TCH Technology" country="US"/>
+    <manufacturer id="55" name="QElectronics GmbH" shortName="QElectronics" country="DE" url="www.qdecoder.de"/>
+    <manufacturer id="56" name="LDH" shortName="LDH" country="AR" url="www.ldhtrenes.com.ar"/>
+    <manufacturer id="57" name="Rampino Elektronik" shortName="Rampino" country="DE" url="moba.rampino.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=118"/>
+    <manufacturer id="58" name="KRES GmbH" shortName="KRES" country="DE" url="www.kres.de"/>
+    <manufacturer id="59" name="Tam Valley Depot" shortName="Tam Valley Depot" country="US" url="www.tamvalleydepot.com"/>
+    <manufacturer id="60" name="Blücher-Electronic" shortName="Blücher" country="DE" url="www.bluecher-elektronik.de"/>
+    <manufacturer id="61" name="TrainModules" shortName="TrainModules" country="HU" url="www.trainmodules.com"/>
+    <manufacturer id="62" name="Tams Elektronik GmbH" shortName="Tams" country="DE" url="www.tams-online.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=133"/>
+    <manufacturer id="63" name="Noarail" shortName="Noarail" country="AU"/>
+    <manufacturer id="64" name="Digital Bahn" shortName="Digital Bahn" country="DE" url="www.digital-bahn.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=36"/>
+    <manufacturer id="65" name="Gaugemaster" shortName="Gaugemaster" country="GB" url="www.gaugemaster.com"/>
+    <manufacturer id="66" name="Railnet Solutions, LLC" shortName="Railnet" country="US" url="www.railnetsolutions.com"/>
+    <manufacturer id="67" name="Heller Modelbahn" shortName="Heller" country="DE" url="www.heller-modellbahn.de"/>
+    <manufacturer id="68" name="MAWE Elektronik" shortName="MAWE" country="CH"/>
+    <manufacturer id="69" name="E-Modell" shortName="E-Modell" country="DE" url="www.e-modell.eu"/>
+    <manufacturer id="70" name="Rocrail" shortName="Rocrail" country="DE" url="rocrail.net"/>
+    <manufacturer id="71" name="New York Byano Limited" shortName="New York Byano Limited" country="HK"/>
+    <manufacturer id="72" name="MTB Model" shortName="MTB" country="CZ" url="www.mtb-model.com"/>
+    <manufacturer id="73" name="The Electric Railroad Company" shortName="Electric Railroad" country="US" url="www.electricrr.com"/>
+    <manufacturer id="74" name="PpP Digital" shortName="PpP Digital" country="ES" url="www.ppp-digital.es"/>
+    <manufacturer id="75" name="Digitools Elektronika, Kft" shortName="Digitools Elektronika" country="HU" url="www.digitools.hu"/>
+    <manufacturer id="76" name="Auvidel" shortName="Auvidel" country="DE"/>
+    <manufacturer id="77" name="LS Models Sprl" shortName="LS Models" country="BE" url="www.lsmodels.com"/>
+    <manufacturer id="78" name="Tehnologistic (train-O-matic)" shortName="train-O-matic" country="RO" url="www.train-o-matic.com" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=137"/>
+    <manufacturer id="79" name="Hattons Model Railways" shortName="Hattons" country="GB" url="www.hattons.co.uk"/>
+    <manufacturer id="80" name="Spectrum Engineering" shortName="Spectrum Engineering" country="US"/>
+    <manufacturer id="81" name="GooVerModels" shortName="GooVerModels" country="BE" url="www.goovermodels.be"/>
+    <manufacturer id="82" name="HAG Modelleisenbahn AG" shortName="HAG" country="CH" url="www.hag.ch"/>
+    <manufacturer id="83" name="JSS-Elektronic" shortName="JSS" country="DE" url="www.jss-elektronik.eu"/>
+    <manufacturer id="84" name="Railflyer Model Prototypes, Inc." shortName="Railflyer" country="CA"/>
+    <manufacturer id="85" name="Uhlenbrock GmbH" shortName="Uhlenbrock" country="DE" url="www.uhlenbrock.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=147"/>
+    <manufacturer id="86" name="Wekomm Engineering GmbH" shortName="Wekomm" country="DE" url="www.wekomm.com"/>
+    <manufacturer id="87" name="RR-Cirkits" shortName="RR-Cirkits" country="US" url="www.rr-cirkits.com"/>
+    <manufacturer id="88" name="HONS Model" shortName="HONS Model" country="HK"/>
+    <manufacturer id="89" name="Pojezdy.EU" shortName="Pojezdy" country="CZ" url="www.pojezdy.eu"/>
+    <manufacturer id="90" name="Shourt Line" shortName="Shourt Line" country="US" url="www.shourtline.com"/>
+    <manufacturer id="91" name="Railstars Limited" shortName="Railstars" country="US"/>
+    <manufacturer id="92" name="Tawcrafts" shortName="Tawcrafts" country="GB"/>
+    <manufacturer id="93" name="Kevtronics cc" shortName="Kevtronics" country="ZA"/>
+    <manufacturer id="94" name="Electroniscript, Inc" shortName="Electroniscript" country="US"/>
+    <manufacturer id="95" name="Sanda Kan Industrial, Ltd" shortName="Sanda Kan" country="HK"/>
+    <manufacturer id="96" name="PRICOM Design" shortName="PRICOM" country="US" url="www.pricom.com"/>
+    <manufacturer id="97" name="Doehler &amp; Haass" shortName="D&amp;H" country="DE" url="www.doehler-haass.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=40"/>
+    <manufacturer id="98" name="Harman DCC" shortName="Harman" country="GB" url="signalist.co.uk"/>
+    <manufacturer id="99" name="Lenz Elektronik GmbH" shortName="Lenz" country="DE" url="www.lenz-elektronik.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=73"/>
+    <manufacturer id="100" name="Trenes Digitales" shortName="Trenes Digitales" country="AR" url="www.trenesdigitales.com.ar"/>
+    <manufacturer id="101" name="Bachmann Trains" shortName="Bachmann" country="US" url="www.bachmanntrains.com"/>
+    <manufacturer id="102" name="Integrated Signal Systems" shortName="ISS" country="US" url="www.integratedsignalsystems.com"/>
+    <manufacturer id="103" name="Nagasue System Design Office" shortName="Nagasue" country="JP" url="www.snjpn.com"/>
+    <manufacturer id="104" name="TrainTech" shortName="TrainTech" country="NL" url="www.traintech.nl"/>
+    <manufacturer id="105" name="Computer Dialysis France" shortName="Computer Dialysis" country="FR" url="www.cdfinformatique.com"/>
+    <manufacturer id="106" name="Opherline1" shortName="Opherline1" country="FR"/>
+    <manufacturer id="107" name="Phoenix Sound Systems, Inc." shortName="Phoenix Sound" country="US" url="www.phoenixsound.com"/>
+    <manufacturer id="108" name="Nagoden" shortName="Nagoden" country="JP" url="www007.upp.so-net.ne.jp/nagoden/"/>
+    <manufacturer id="109" name="Viessmann Modellspielwaren GmbH" shortName="Viessmann" country="DE" url="www.viessmann-modell.com" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=149"/>
+    <manufacturer id="110" name="AXJ Electronics" shortName="AXJ" country="CN" url="www.axj-electronic.com"/>
+    <manufacturer id="111" name="Haber &amp; Koenig Electronics GmbH" shortName="HKE" country="AT"/>
+    <manufacturer id="112" name="LSdigital" shortName="LSdigital" country="DE" url="www.lsdigital.de"/>
+    <manufacturer id="113" name="QS Industries (QSI)" shortName="QSI" country="US" url="www.qsindustries.com"/>
+    <manufacturer id="114" name="Benezan Electronics" shortName="Benezan" country="ES"/>
+    <manufacturer id="115" name="Dietz Modellbahntechnik" shortName="Dietz" country="DE" url="www.d-i-e-t-z.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=33"/>
+    <manufacturer id="116" name="MyLocoSound" shortName="MyLocoSound" country="AU" url="www.mylocosound.com"/>
+    <manufacturer id="117" name="cT Elektronik" shortName="cT" country="AT" url="www.tran.at" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=25"/>
+    <manufacturer id="118" name="Digirail - Digitale Modellbahnsteuerung" shortName="Digirail" country="DE" url="www.digirail.de"/>
+    <manufacturer id="119" name="W. S. Ataras Engineering" shortName="W. S. Ataras Engineering" country="US" url="www.wsaeng.com"/>
+    <manufacturer id="120" name="csikos-muhely" shortName="csikos-muhely" country="HU" url="www.csikos-muhely.hu"/>
+    <manufacturer id="122" name="Berros" shortName="Berros" country="NL" url="www.berros.eu"/>
+    <manufacturer id="123" name="Massoth Elektronik GmbH" shortName="Massoth" country="DE" url="www.massoth.de"/>
+    <manufacturer id="124" name="DCC-Gaspar-Electronic" shortName="DCC-Gaspar-Electronic" country="HU" url="www.dcc-gaspar-electronic.com"/>
+    <manufacturer id="125" name="ProfiLok Modellbahntechnik GmbH" shortName="ProfiLok" country="DE"/>
+    <manufacturer id="126" name="Möllehem Gårdsproduktion" shortName="Möllehem Gårdsproduktion" country="SE" url="mollehem.se"/>
+    <manufacturer id="127" name="Atlas Model Railroad Products" shortName="Atlas" country="US" url="www.atlasrr.com"/>
+    <manufacturer id="128" name="Frateschi Model Trains" shortName="Frateschi" country="BR" url="www.frateschi.com.br"/>
+    <manufacturer id="129" name="Digitrax" shortName="Digitrax" country="US" url="www.digitrax.com"/>
+    <manufacturer id="130" name="cmOS Engineering" shortName="cmOS" country="AU" url="cmoseng.com.au"/>
+    <manufacturer id="131" name="Trix Modelleisenbahn" shortName="Trix" country="DE" url="www.trix.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=146"/>
+    <manufacturer id="132" name="ZTC" shortName="ZTC" country="GB" url="tauntoncontrolsltd.co.uk"/>
+    <manufacturer id="133" name="Intelligent Command Control" shortName="Intelligent Command Control" country="US"/>
+    <manufacturer id="134" name="LaisDCC" shortName="LaisDCC" country="CN" url="laisdcc.com"/>
+    <manufacturer id="135" name="CVP Products" shortName="CVP" country="US" url="www.cvpusa.com"/>
+    <manufacturer id="136" name="NYRS" shortName="NYRS" country="US" url="www.nyrs.com"/>
+    <manufacturer id="138" name="Train ID Systems" shortName="Train ID Systems" country="US" url="trainidsystems.com"/>
+    <manufacturer id="139" name="RealRail Effects" shortName="RealRail Effects" country="US"/>
+    <manufacturer id="140" name="Desktop Station" shortName="Desktop Station" country="JP" url="desktopstation.net"/>
+    <manufacturer id="141" name="Throttle-Up (Soundtraxx)" shortName="Soundtraxx" country="US" url="www.soundtraxx.com"/>
+    <manufacturer id="142" name="SLOMO Railroad Models" shortName="SLOMO" country="JP" url="www.slomo.jp.net/eng/"/>
+    <manufacturer id="143" name="Model Rectifier Corp" shortName="MRC" country="US" url="www.modelrectifier.com"/>
+    <manufacturer id="144" name="DCC Train Automation" shortName="DCC Train Automation" country="GB" url="www.dcctrainautomation.co.uk"/>
+    <manufacturer id="145" name="Zimo Elektronik" shortName="Zimo" country="AT" url="www.zimo.at" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=155"/>
+    <manufacturer id="146" name="Rails Europ Express" shortName="Rails Europ Express" country="FR" url="www.raileuropexpress.com"/>
+    <manufacturer id="147" name="Umelec Ing. Buero" shortName="Umelec" country="CH" url="www.umelec.ch"/>
+    <manufacturer id="148" name="BLOCKsignalling" shortName="BLOCKsignalling" country="GB" url="www.blocksignalling.co.uk"/>
+    <manufacturer id="149" name="Rock Junction Controls" shortName="Rock Junction Controls" country="US"/>
+    <manufacturer id="150" name="Wm. K. Walthers, Inc" shortName="Walthers" country="US" url="www.walthers.com"/>
+    <manufacturer id="151" name="Electronic Solutions Ulm GmbH" shortName="ESU" country="DE" url="www.esu.eu" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=43"/>
+    <manufacturer id="152" name="Digi-CZ" shortName="Digi-CZ" country="CZ" url="www.digi-cz.cz"/>
+    <manufacturer id="153" name="Train Control Systems" shortName="TCS" country="US" url="www.tcsdcc.com"/>
+    <manufacturer id="154" name="Dapol Limited" shortName="Dapol" country="GB" url="www.dapol.co.uk"/>
+    <manufacturer id="155" name="Gebr. Fleischmann GmbH &amp; Co." shortName="Fleischmann" country="DE" url="www.fleischmann.de"/>
+    <manufacturer id="156" name="Nucky" shortName="Nucky" country="JP" url="web.nucky.jp"/>
+    <manufacturer id="157" name="Kühn Ing." shortName="Kühn" country="DE" url="www.kuehn-digital.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=71"/>
+    <manufacturer id="158" name="Fučík" shortName="Fučík" country="CZ" url="www.fucik.name/DCC/"/>
+    <manufacturer id="159" name="LGB (Ernst Paul Lehmann Patentwerk)" shortName="LGB" country="DE" url="www.lgb.de"/>
+    <manufacturer id="160" name="MD Electronics" shortName="MD Electronics" country="DE" url="www.md-electronics.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=164"/>
+    <manufacturer id="161" name="Modelleisenbahn GmbH (formerly Roco)" shortName="ROCO" country="AT" url="www.roco.cc"/>
+    <manufacturer id="162" name="PIKO Spielwaren GmbH" shortName="PIKO" country="DE" url="www.piko.de" decoderDBLink="https://www.decoderdb.de/?manufacturerPage=167"/>
+    <manufacturer id="163" name="WP Railshops" shortName="WP Railshops" country="CA"/>
+    <manufacturer id="164" name="drM" shortName="drM" country="TW" url="drm.com.tw"/>
+    <manufacturer id="165" name="Model Electronic Railway Group" shortName="MERG" country="GB" url="www.merg.org.uk"/>
+    <manufacturer id="166" name="Maison de DCC" shortName="Maison de DCC" country="JP" url="dcc.client.jp"/>
+    <manufacturer id="167" name="Helvest Systems GmbH" shortName="Helvest" country="CH" url="helvest.ch"/>
+    <manufacturer id="168" name="Model Train Technology" shortName="Model Train Technology" country="US" url="modeltraintechnology.com"/>
+    <manufacturer id="169" name="AE Electronic Ltd." shortName="AE Electronic" country="CN" url="www.ae-model.com"/>
+    <manufacturer id="170" name="AuroTrains" shortName="AuroTrains" country="IT" url="www.aurotrains.com"/>
+    <manufacturer id="173" name="Arnold - Rivarossi" shortName="Arnold" country="DE" url="www.rivarossi.com"/>
+    <manufacturer id="186" name="BRAWA Modellspielwaren GmbH &amp; Co." shortName="BRAWA" country="DE" url="www.brawa.de"/>
+    <manufacturer id="204" name="Con-Com GmbH" shortName="Con-Com" country="AT"/>
+    <manufacturer id="225" name="Blue Digital" shortName="Blue Digital" country="PL"/>
+    <manufacturer id="238" name="NMRA Reserved (for extended ID #’s)" shortName="NMRA Reserved" country="US" url="www.nmra.org"/>
+  </manufacturers>
+</manufacturersList>

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Timers;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using org.bidib.netbidibc.core.Enumerations;
 using org.bidib.netbidibc.core.Models.BiDiB.Extensions;
 using org.bidib.netbidibc.core.Models.Messages.Input;
@@ -22,6 +23,11 @@ namespace org.bidib.netbidibc.core.Models
         private readonly Timer watchdogTimer;
         private readonly Stopwatch watchdogWatch;
         private BoosterControl boosterControl;
+
+        public BiDiBBoosterNode(BiDiBNode node) : this(node, NullLogger<BiDiBBoosterNode>.Instance)
+        {
+
+        }
 
         public BiDiBBoosterNode(BiDiBNode node, ILogger<BiDiBBoosterNode> logger)
         {

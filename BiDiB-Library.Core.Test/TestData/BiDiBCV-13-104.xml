@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/schema/vendorcv" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.bidib.org/schema/vendorcv /xsd/vendor_cv.xsd">
+    xsi:schemaLocation="http://www.bidib.org/schema/vendorcv /xsd/vendor_cv.xsd">
     
-    <Version Version="0.6" Lastupdate="20150126" Author="Tillner, Andreas" Pid="104" Vendor="013" Description="GBMBoost Master, Booster, Interface"></Version>
+    <Version Version="0.8" Lastupdate="20210112" Author="Tillner, Andreas" Pid="104" Vendor="013" Description="GBMBoost Master, Booster, Interface"></Version>
     <Templates>
         <Template Name="ServiceMode" SkipOnTimeout="true">
+            <CV Number="89" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Freischaltung" Help="Durch Sperren der Freischaltung (Wert 0) kann versehentlicher Servicemode verhindert werden"/>
+                <Description Lang="en-EN" Text="Enabled" Help="A value of 0 will disable service mode and block unintended service mode"/>
+            </CV>
             <CV Number="81" Type="Byte" Min="0" Max="10" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="zus. RESET Pakets" Help="Durch zusätzliche Resetpakete wird die Startphase beim Programmiermode länger"/>
-                <Description Lang="en-EN" Text="additional reset pakets" />
+                <Description Lang="en-EN" Text="additional reset packets" />
             </CV>
             <CV Number="82" Type="Byte" Min="0" Max="10" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="zus. Programmbefehle" Help="Durch zusätzliche Pakete wird beim Programmiermode länger beim Dekoder angefragt"/>
-                <Description Lang="en-EN" Text="additional program pakets"/>
+                <Description Lang="en-EN" Text="additional program packets"/>
             </CV>
             <CV Number="86" Type="Byte" Min="20" Max="100" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Stromschwelle für Programmierquittung" Help="Normal 50mA, mit geringerer Schwelle auch LED Dekoder oder Faulhabermotoren möglich"/>
@@ -52,10 +56,18 @@
             </CV>
             <CV Number="38" Type="Byte" Min="2" Max="20" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Channel 1 Filter" Help="So oft muss eine Adressnachricht in Channel 1 fehlerfrei empfangen werden."/>
-                <Description Lang="en-EN" Text="Channel 1 Filter" Help="Number of required channel 1 address maessages"/>
+                <Description Lang="en-EN" Text="Channel 1 Filter" Help="Number of required channel 1 address messages"/>
+            </CV>
+            <CV Number="39" Type="Byte" Min="2" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Channel 2 Filter" Help="So oft muss eine Quittung in Channel 2 mind. empfangen werden."/>
+                <Description Lang="en-EN" Text="Channel 2 Filter" Help="Number of required channel 2 response messages"/>
+            </CV>
+            <CV Number="40" Type="Byte" Min="0" Max="16" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Channel for Accessory" Help="An diesem Eingang sind Accessory angeschlossen (16=keine Accessory)"/>
+                <Description Lang="en-EN" Text="Channel 2 Filter" Help="Accessory decoders are connected to this input channel (16=off)"/>
             </CV>
             <CV Number="42" Type="Byte" Min="1" Max="200" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Störungsunterdrückung" Help="So lange muß das Eingangssignal mind. über der Schwelle sein. Einheit 1ms"/>
+                <Description Lang="de-DE" Text="Störungsunterdrückung" Help="So lange muss das Eingangssignal mind. über der Schwelle sein. Einheit 1ms"/>
                 <Description Lang="en-EN" Text="Spike Suppression" Help="Required time for input above threshold, unit 1ms"/>
             </CV>
             <CV Number="43" Type="Bit" Min="2" Max="100" Low="-" High="-" Values="-" Mode="rw">
@@ -70,15 +82,19 @@
                 <Description Lang="de-DE" Text="Ansprechschwelle (DCC aus)" Help="Einheit 0,5mV; empfohlen: etwas halber Wert wie bei DCC an"/>
                 <Description Lang="en-EN" Text="Threshold (DCC off)" Help="unit 0.5mV; recommended: half the value of DCC on"/>
             </CV>
+            <CV Number="70" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kalibrierung gültig" Help="0=ungültig, 1=ungültig, auch Backup löschen"/>
+                <Description Lang="en-EN" Text="Adjustment valid" Help="0=void, 1=void, also delete backup"/>
+            </CV>
         </Template>
         <Template Name="Reverser">
-            <CV Number="1" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="DCC Adr. (low)" Help="Dekoderadresse, nicht Weichenadresse"/>
-                <Description Lang="en-EN" Text="DCC Addr. (low)"/>
+            <CV Number="1" Type="DccAccAddr" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Dekoderadresse (low)"/>
+                <Description Lang="en-EN" Text="Decoder address (low)"/>
             </CV>
-            <CV Number="9" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="DCC Adr. (high)"/>
-                <Description Lang="en-EN" Text="DCC Addr. (high)"/>
+            <CV Number="9" Type="DccAccAddr" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Dekoderadresse (high)"/>
+                <Description Lang="en-EN" Text="Decoder address (high)"/>
             </CV>
             <CV Number="51" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
                 <Description Lang="de-DE" Text="Kehrschleife aktuelle Stellung"/>
@@ -214,21 +230,25 @@
                 <Description Lang="de-DE" Text="extended_didh: Generiert zus. s88 Byte für Booster/GBM Fehler"/>
                 <Description Lang="en-EN" Text="extended_didh: create extra s88 byte for booster/gbm fail"/>
             </CV>
-            <CV Number="11" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="xp_slot_mode: Automatisch oder manuel"/>
-                <Description Lang="en-EN" Text="xp_slot_mode: automatic or manuel"/>
+            <CV Number="11" Type="Bit" DefaultValue="3" Mode="rw">
+                <Description Lang="de-DE" Text="xp_mode: Verhalten am Xpressnet"/>
+                <Description Lang="en-EN" Text="xp_mode: Mode on Xpressnet"/>
+                <Bitdescription Bitnum="1" Lang="de-DE" Text="Service Mode gesperrt" Help="" />
+                <Bitdescription Bitnum="1" Lang="en-EN" Text="service mode disabled" Help="" />
+                <Bitdescription Bitnum="2" Lang="de-DE" Text="Lokstatus XL-Antwort als Broadcast an alle Busteilnehmer"/>
+                <Bitdescription Bitnum="2" Lang="en-EN" Text="Send loco state as XL broadcast"/>
             </CV>
-            <CV Number="12" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="xp_slot_addr: Adresse 1..31"/>
-                <Description Lang="en-EN" Text="xp_slot_addr: Address 1..31"/>
-            </CV>
-            <CV Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt"/>
-                <Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
+            <CV Number="12" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="xp simulierte Zentralenkennung: 0=LZ100, 19=z21"/>
+                <Description Lang="en-EN" Text="xp simulated command id: 0=LZ100, 19=z21"/>
             </CV>
             <CV Number="16" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Voreinstellung DCC-Format: 0=DCC14, 2=DCC28, 3=DCC128" Help="Nur relevant bei erstmaligen Aufruf einer Lok über Xpressnet."/>
                 <Description Lang="en-EN" Text="Default DCC format: 0=DCC14, 2=DCC28, 3=DCC128"/>
+            </CV>
+            <CV Number="22" Type="Byte" Min="1" Max="10" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Anzahl DCC Accessory Pakete" Help="Default=2. DCC Accessory Nachrichten werden sooft gesendet. Zu viele Wiederholungen behindern das Fahren"/>
+                <Description Lang="en-EN" Text="No. of DCC accessory pakets"/>
             </CV>
             <CV Number="23" Type="SignedChar" Min="-20" Max="20" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Temperaturoffset: 0=standard, positiv/negativ: Korrektur zu höheren/tieferen Werten" Help="Die Temperaturmessung mit dem atxmega ist nicht sehr genau, mit diesem Offsetwert kann ein individueller Abgleich vorgenommen werden."/>
@@ -237,6 +257,26 @@
             <CV Number="83" Type="SignedChar" Min="-8" Max="8" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Weichenbefehlsoffset bei XPressnet: 0=standard, positiv/negativ: XP hat höhere/tiefere Adressen" Help="Für Multimaus passt 4."/>
                 <Description Lang="en-EN" Text="Accessory offset on xpressnet: 0 default, otherwise add or subtract this value"/>
+            </CV>
+            <CV Number="87" Type="Byte" Min="14" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Präambelbits" Help="Default=16. Kann ev. bei Problemen mit nicht normkonformen Dekodern erhöht werden."/>
+                <Description Lang="en-EN" Text="DCC preamble bits" Help="Default=16. Could be incremented to support legacy, non spec decoders."/>
+            </CV>
+       </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Booster"/>
+            <Nodetext Lang="en-EN" Text="Booster"/>
+            <CV Number="92" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Booster Wiedereinschaltungen: 0=nie, 1...249 Anzahl Versuche, >250=immer" Help=" Anzahl Versuche der Wiedereinschaltung nach Kurzschluss. (1s)"/>
+                <Description Lang="en-EN" Text="Booster activation retries: 0=never, 1...249 retry count, >250=forever" Help="Number of activation retries after shortcut." />
+            </CV>
+            <CV Number="93" Type="Byte" Min="0" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Booster HW-Fehler Ignorierzeit [ms], sofortiges Wiedereinschalten bei Überstrommeldung der Hardware. Achtung: Vergrößern kann zu Schäden an der Anlage führen"/>
+                <Description Lang="en-EN" Text="Ignore Overcurrent from Hardware [ms], instant reenable after over current message from output stage. Attention: setting larger value could result in damages"/>
+            </CV>
+                <CV Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt"/>
+                <Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
             </CV>
         </Node>
         <Node Offset="0" Template="ServiceMode">

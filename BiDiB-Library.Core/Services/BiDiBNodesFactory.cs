@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using org.bidib.netbidibc.core.Message;
@@ -11,6 +12,8 @@ using org.bidib.netbidibc.core.Utils;
 
 namespace org.bidib.netbidibc.core.Services;
 
+[Export(typeof(IBiDiBNodesFactory))]
+[PartCreationPolicy(CreationPolicy.Shared)]
 public class BiDiBNodesFactory : IBiDiBNodesFactory
 {
     private readonly ConcurrentDictionary<int, BiDiBNode> nodes;
@@ -18,6 +21,7 @@ public class BiDiBNodesFactory : IBiDiBNodesFactory
     private readonly ILogger<BiDiBNodesFactory> logger;
     private readonly ILoggerFactory loggerFactory;
 
+    [ImportingConstructor]
     public BiDiBNodesFactory(ILoggerFactory loggerFactory)
     {
         logger = loggerFactory.CreateLogger<BiDiBNodesFactory>();

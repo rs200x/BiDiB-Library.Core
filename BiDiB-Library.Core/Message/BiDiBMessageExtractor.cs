@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using org.bidib.netbidibc.core.Models.Messages;
 using org.bidib.netbidibc.core.Models.Messages.Input;
 
 namespace org.bidib.netbidibc.core.Message
 {
+    [Export(typeof(IBiDiBMessageExtractor))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class BiDiBMessageExtractor : IBiDiBMessageExtractor
     {
         private byte[] lastOutput;

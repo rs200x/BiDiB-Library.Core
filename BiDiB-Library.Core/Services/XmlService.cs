@@ -12,31 +12,38 @@ using org.bidib.netbidibc.core.Properties;
 using org.bidib.netbidibc.core.Services.Interfaces;
 using System.Xml.Xsl;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.Composition;
 
 namespace org.bidib.netbidibc.core.Services
 {
+    [Export(typeof(IXmlService))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class XmlService : IXmlService
     {
+        private readonly IIoService ioService;
         private readonly ILogger<XmlService> logger;
         private readonly ILogger exceptionLogger;
 
-        public XmlService(ILoggerFactory loggerFactory)
+        [ImportingConstructor]
+        public XmlService(IIoService ioService, ILoggerFactory loggerFactory)
         {
+            this.ioService = ioService;
             logger = loggerFactory.CreateLogger<XmlService>();
             exceptionLogger = loggerFactory.CreateLogger("EXCEPTION");
         }
 
         public IXmlValidationInfo ValidateFile(string filePath, string schema, string xsdFilePath)
         {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath)) { return GetInvalidFileInfo(filePath); }
+            if (string.IsNullOrEmpty(filePath) || !ioService.FileExists(filePath)) { return GetInvalidFileInfo(filePath); }
             if (string.IsNullOrEmpty(schema)) { return new XmlValidationInfo(XmlValidationResult.NoSchema, Resources.SchemaMustNotBeNull); }
-            if (string.IsNullOrEmpty(xsdFilePath) || !File.Exists(xsdFilePath)) { return GetInvalidFileInfo(xsdFilePath); }
+            if (string.IsNullOrEmpty(xsdFilePath) || !ioService.FileExists(xsdFilePath)) { return GetInvalidFileInfo(xsdFilePath); }
 
             StringBuilder errorString = new();
             try
             {
-                XmlDocument xmlDocument = new XmlDocument { XmlResolver = null };
+                var xmlDocument = new XmlDocument { XmlResolver = null };
                 xmlDocument.Schemas.Add(schema, xsdFilePath);
+                LoadIncludedSchemas(xsdFilePath, xmlDocument.Schemas);
                 xmlDocument.Load(filePath);
 
                 if (xmlDocument.DocumentElement != null && xmlDocument.DocumentElement.NamespaceURI == schema)
@@ -68,7 +75,7 @@ namespace org.bidib.netbidibc.core.Services
                 return new XmlValidationInfo(XmlValidationResult.ValidationError, errorString.ToString());
             }
 
-            string errorMessage = errorString.ToString();
+            var errorMessage = errorString.ToString();
 
             if (string.IsNullOrEmpty(errorMessage)) { return new XmlValidationInfo(XmlValidationResult.Valid, null); }
 
@@ -77,19 +84,14 @@ namespace org.bidib.netbidibc.core.Services
             return new XmlValidationInfo(XmlValidationResult.ValidationError, errorMessage);
         }
 
-        private static IXmlValidationInfo GetInvalidFileInfo(string fileName)
-        {
-            return new XmlValidationInfo(XmlValidationResult.FileError, string.Format(CultureInfo.CurrentUICulture, Resources.XmlValidationFileError, fileName));
-        }
-
         public T LoadFromFile<T>(string filePath) where T : class
         {
             T data = null;
 
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                using XmlReader reader = XmlReader.Create(filePath);
+                var xmlSerializer = new XmlSerializer(typeof(T));
+                using var reader = XmlReader.Create(filePath);
                 data = xmlSerializer.Deserialize(reader) as T;
             }
             catch (Exception ex) when (ex is FileNotFoundException or UriFormatException)
@@ -114,8 +116,8 @@ namespace org.bidib.netbidibc.core.Services
 
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                using XmlReader reader = XmlReader.Create(dataStream);
+                var xmlSerializer = new XmlSerializer(typeof(T));
+                using var reader = XmlReader.Create(dataStream);
                 data = xmlSerializer.Deserialize(reader) as T;
             }
             catch (Exception ex) when (ex is ArgumentNullException or SecurityException or InvalidOperationException)
@@ -130,18 +132,18 @@ namespace org.bidib.netbidibc.core.Services
         {
             try
             {
-                XmlWriterSettings settings = new() { Indent = true, NewLineOnAttributes = prettyPrintAttributes };
-                XmlSerializerNamespaces namespaces = new();
+                var settings = new XmlWriterSettings { Indent = true, NewLineOnAttributes = prettyPrintAttributes };
+                var namespaces = new XmlSerializerNamespaces();
                 if (requiredNamespaces != null)
                 {
-                    foreach (XmlNamespace requiredNamespace in requiredNamespaces)
+                    foreach (var requiredNamespace in requiredNamespaces)
                     {
                         namespaces.Add(requiredNamespace.Prefix, requiredNamespace.Url);
                     }
                 }
 
-                XmlSerializer xmlSerializer = new (instance.GetType());
-                using XmlWriter writer = XmlWriter.Create(filePath, settings);
+                var xmlSerializer = new XmlSerializer(instance.GetType());
+                using var writer = XmlWriter.Create(filePath, settings);
                 xmlSerializer.Serialize(writer, instance, namespaces);
             }
             catch (Exception ex)
@@ -156,9 +158,9 @@ namespace org.bidib.netbidibc.core.Services
 
         public bool FileHasNamespace(string filePath, string namespaceUri)
         {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath)) { return false; }
+            if (string.IsNullOrEmpty(filePath) || !ioService.FileExists(filePath)) { return false; }
 
-            XmlDocument xmlDocument = new XmlDocument { XmlResolver = null };
+            var xmlDocument = new XmlDocument { XmlResolver = null };
             xmlDocument.Load(filePath);
 
             return xmlDocument.DocumentElement == null && string.IsNullOrEmpty(namespaceUri)
@@ -167,19 +169,19 @@ namespace org.bidib.netbidibc.core.Services
 
         public bool TransformFile(string filePath, string transformationFilePath, string destinationFilePath = null)
         {
-            if (!File.Exists(filePath)) { return false; }
-            if (!File.Exists(transformationFilePath)) { return false; }
+            if (!ioService.FileExists(filePath)) { return false; }
+            if (!ioService.FileExists(transformationFilePath)) { return false; }
             try
             {
                 // Load the style sheet.
-                XslCompiledTransform xslt = new XslCompiledTransform();
+                var xslt = new XslCompiledTransform();
 
                 xslt.Load(transformationFilePath);
 
-                XsltArgumentList argumentList = new XsltArgumentList();
+                var argumentList = new XsltArgumentList();
                 argumentList.AddExtensionObject("urn:MoExt", new XslTransformationExtensions());
 
-                bool useTempFile = false;
+                var useTempFile = false;
                 if (string.IsNullOrEmpty(destinationFilePath) || filePath == destinationFilePath)
                 {
                     destinationFilePath = Path.GetRandomFileName();
@@ -187,7 +189,7 @@ namespace org.bidib.netbidibc.core.Services
                 }
 
                 // Execute the transform and output the results to a file.
-                using (XmlWriter writer = XmlWriter.Create(destinationFilePath))
+                using (var writer = XmlWriter.Create(destinationFilePath))
                 {
                     xslt.Transform(filePath, argumentList, writer);
                 }
@@ -204,6 +206,32 @@ namespace org.bidib.netbidibc.core.Services
                 logger.LogError(ex, $"Migration of '{filePath}' failed!");
                 return false;
             }
+        }
+
+        private void LoadIncludedSchemas(string xsdFilePath, XmlSchemaSet xmlDocumentSchemas)
+        {
+            using var fs = new FileStream(xsdFilePath, FileMode.Open);
+
+            var currentSchema = XmlSchema.Read(XmlReader.Create(fs), null);
+
+            if (currentSchema == null) { return; }
+
+            var schemaDirectory = ioService.GetDirectory(xsdFilePath);
+            foreach (var include in currentSchema.Includes)
+            {
+                if (include is not XmlSchemaImport schemaImport)
+                {
+                    continue;
+                }
+
+                var importPath = ioService.GetPath(schemaDirectory, schemaImport.SchemaLocation);
+                xmlDocumentSchemas.Add(schemaImport.Namespace, importPath);
+            }
+        }
+
+        private static IXmlValidationInfo GetInvalidFileInfo(string fileName)
+        {
+            return new XmlValidationInfo(XmlValidationResult.FileError, string.Format(CultureInfo.CurrentUICulture, Resources.XmlValidationFileError, fileName));
         }
     }
 }

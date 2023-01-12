@@ -1,13 +1,17 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using org.bidib.netbidibc.core.Models.Messages.Input;
 using org.bidib.netbidibc.core.Services.Interfaces;
 
 namespace org.bidib.netbidibc.core.Message
 {
+    [Export(typeof(IMessageReceiver))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class AccessoryMessageReceiver : IMessageReceiver
     {
         private readonly IBiDiBNodesFactory nodesFactory;
 
+        [ImportingConstructor]
         public AccessoryMessageReceiver(IBiDiBNodesFactory nodesFactory)
         {
             this.nodesFactory = nodesFactory;

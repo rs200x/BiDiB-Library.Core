@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -20,6 +21,8 @@ namespace org.bidib.netbidibc.core.Message
     /// Incoming messages get transformed into <see cref="BiDiBInputMessage"/> and provided to all <see cref="IMessageReceiver"/>
     /// Outgoing messages get queued and send to the interface
     /// </summary>
+    [Export(typeof(IBiDiBMessageService))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public sealed class BiDiBMessageService : IBiDiBMessageService
     {
         private readonly IConnectionService connectionService;
@@ -36,6 +39,7 @@ namespace org.bidib.netbidibc.core.Message
         private Task outputQueueTask;
         private readonly Stopwatch inputProcessWatch;
 
+        [ImportingConstructor]
         public BiDiBMessageService(IConnectionService connectionService, IBiDiBMessageExtractor messageExtractor, ILoggerFactory loggerFactory)
         {
             this.logger = loggerFactory.CreateLogger<BiDiBMessageService>();

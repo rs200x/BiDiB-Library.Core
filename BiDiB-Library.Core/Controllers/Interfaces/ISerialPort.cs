@@ -22,7 +22,6 @@ namespace org.bidib.netbidibc.core.Controllers.Interfaces
         bool RtsEnable { get; set; }
         void Open();
         void Close();
-        void Dispose();
 
         event SerialDataReceivedEventHandler DataReceived;
         event SerialPinChangedEventHandler PinChanged;

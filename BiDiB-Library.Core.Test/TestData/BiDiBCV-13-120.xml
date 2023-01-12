@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/schema/vendorcv" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:labels="http://www.bidib.org/schema/nodeLabels/1.0" 
+    xsi:schemaLocation="http://www.bidib.org/schema/vendorcv /xsd/vendor_cv.xsd">
+    
+    <Version Version="0.30" Lastupdate="20200322" Author="Wolfgang Kufer" Pid="120" Vendor="013" Description="BiDiB-StepControl 1"/>
+    <Templates>
+        <Template Name="About">
+            <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="EEPROM Version"/>
+                <Description Lang="en-EN" Text="EEPROM Version"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Herstellerkennung"/>
+                <Description Lang="en-EN" Text="Vendor ID"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produktkennung (low)"/>
+                <Description Lang="en-EN" Text="ProductID (low)"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produktkennung (high)"/>
+                <Description Lang="en-EN" Text="ProductID (high)"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Version"/>
+                <Description Lang="en-EN" Text="Firmware main version"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Sub-Version"/>
+                <Description Lang="en-EN" Text="Firmware sub version"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Sub-Index"/>
+                <Description Lang="en-EN" Text="Firmware compile run"/>
+            </CV>
+            <CV Number="32" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Basis" Help="Diese Adresse wird bei Notfallbetrieb als Beginn des DCC-Adressbereiches genommen."/>
+                <Description Lang="en-EN" Text="DCC accessory address base" Help="This address is used for emergency operation mode, first used address"/>
+            </CV>
+            <CV Number="33" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
+                <Description Lang="en-EN" Text="DCC accessory address base"/>
+            </CV>
+            <CV Number="34" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Bereich" Help="4 bedeutet 4 DCC Weichen = 8 Begriffe = 8 Macros"/>
+                <Description Lang="en-EN" Text="DCC accessory address range" Help="4 means 4 DCC turnouts = 8 coil commands = 8 macros"/>
+            </CV>
+        </Template>
+        <Template Name="Abgang">
+            <CV Number="0" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw" Keyword="target_polarity_%%d">
+                <Description Lang="de-DE" Text="Polarität 0 = normal / 1 = invertiert"/>
+                <Description Lang="en-EN" Text="Polarity: 0 = normal / 1 = inverted"/>
+            </CV>
+            <CV Number="1" Type="Long" Min="0" Max="4294967295" Low="-" High="-" Values="-" Mode="rw" Keyword="target_position_%%d">
+                <Description Lang="de-DE" Text="Position" Help="Exakte Schrittposition des Gleisabgangs"/>
+                <Description Lang="en-EN" Text="position" Help="Exact position of connected track"/>
+             </CV>
+        </Template>
+        <Template Name="Drehscheibe">
+            <CV Number="0" Type="Byte" Min="0" Max="47" Low="-" High="-" Values="-" Mode="ro" Keyword="actual_aspect">
+                <Description Lang="de-DE" Text="aktuelle Stellung" Help="Auf diesem 'Begriff' steht die Steuerung"/>
+                <Description Lang="en-EN" Text="actual aspect"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw" Keyword="tabletype">
+                <Description Lang="de-DE" Text="Drehscheiben-Typ: 0 = Linear / 1 = Rund" Help="Segmentscheiben und Schiebebuehne sind linear, rundum drehbare Scheiben sind rund"/>
+                <Description Lang="en-EN" Text="Turntable type: 0 = linear / 1 = round"/>
+            </CV>
+            <CV Number="2" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro" Keyword="unit">
+                <Description Lang="de-DE" Text="Einheitensystem" Help="Die verwendete Grundeinheit bei Geschwindigkeit und Beschleunigung"/>
+                <Description Lang="en-EN" Text="unit system"/>
+                <Bitdescription Bitnum="1" Lang="de-DE" Text="Einheit für Geschwindigkeit" Help="0=deg/s, 1=0,1*deg/s" />
+                <Bitdescription Bitnum="1" Lang="en-EN" Text="Unit for speed" Help="0=deg/s, 1=0,1*deg/s" />
+                <Bitdescription Bitnum="2" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="2" Lang="en-EN"	Text="reserved" />
+                <Bitdescription Bitnum="3" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="3" Lang="en-EN"	Text="reserved" />
+                <Bitdescription Bitnum="4" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="4" Lang="en-EN"	Text="reserved" />
+            	<Bitdescription Bitnum="5" Lang="de-DE" Text="Einheit für Beschleunigung/Bremsen" Help="0=deg/s^2, 1=0,1*deg/s^2" />
+            	<Bitdescription Bitnum="5" Lang="en-EN" Text="Unit for accelerate/decelerate" Help="0=deg/s^2, 1=0,1*deg/s^2" />
+                <Bitdescription Bitnum="6" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="6" Lang="en-EN"	Text="reserved" />
+                <Bitdescription Bitnum="7" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="7" Lang="en-EN"	Text="reserved" />
+                <Bitdescription Bitnum="8" Lang="de-DE"	Text="reserviert" />
+                <Bitdescription Bitnum="8" Lang="en-EN"	Text="reserved" />
+            </CV>
+            <CV Number="48" Type="Int" Min="4" Max="16384" Low="48" High="49" Values="-" Mode="rw" Keyword="stepcount">
+                <Description Lang="de-DE" Text="Anzahl Schritte des Motor (low)"/>
+                <Description Lang="en-EN" Text="Step count of motor (low)"/>
+            </CV>
+            <CV Number="49" Type="Int" Min="4" Max="16384" Low="48" High="49" Values="-" Mode="rw" Keyword="stepcount_hi">
+                <Description Lang="de-DE" Text="Anzahl Schritte des Motor (high)"/>
+                <Description Lang="en-EN" Text="Step count of motor (high)"/>
+            </CV>
+            <CV Number="50" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw" Keyword="microstepping">
+                <Description Lang="de-DE" Text="Microschritte"/>
+                <Description Lang="en-EN" Text="Micro stepping"/>
+            </CV>
+	    <CV Number="3" Type="Long" Min="0" Max="4294967295" Low="-" High="-" Values="-" Mode="rw" Keyword="totalsteps">
+                <Description Lang="de-DE" Text="Schrittbereich: max. Anzahl Schritte (low)" Help="Schrittzahl fuer den gesamten Weg bzw. kompletten Umlauf"/>
+                <Description Lang="en-EN" Text="Step range: max. number of steps"/>
+             </CV>
+            <CV Number="7" Type="Long" Min="0" Max="4294967295" Low="-" High="-" Values="-" Mode="ro" Keyword="step_position">
+                <Description Lang="de-DE" Text="aktuelle Position" Help="interne Position des Schrittmotors"/>
+                <Description Lang="en-EN" Text="current position"/>
+             </CV>
+            <CV Number="11" Type="Int" Min="0" Max="10000" Low="11" High="12" Values="-" Mode="rw" Keyword="backlash">
+                <Description Lang="de-DE" Text="Getriebespiel: Anzahl Schritte (low)" Help="Bei direkt angetriebenen Scheiben ist das Getriebespiel 0"/>
+                <Description Lang="en-EN" Text="Backlash: number of steps"/>
+            </CV>
+            <CV Number="12" Type="Int" Min="0" Max="10000" Low="11" High="12" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Getriebespiel: Anzahl Schritte (high)"/>
+                <Description Lang="en-EN" Text="Backlash: number of steps"/>
+            </CV>
+            <CV Number="13" Type="Int" Min="1" Max="3500" Low="13" High="14" Values="-" Mode="rw" Keyword="speed">
+                <Description Lang="de-DE" Text="Geschwindigkeit (low)" Help="Einheit: 1/100 rad/s. 628 = Scheibe dreht mit 1U/s. Größere Werte bewegen die Brücke schneller"/>
+                <Description Lang="en-EN" Text="Speed (low)"/>
+            </CV>
+            <CV Number="14" Type="Int" Min="1" Max="3500" Low="13" High="14" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Geschwindigkeit (high)" Help="Einheit: 1/100 rad/s. 628 = Scheibe dreht mit 1U/s. Größere Werte bewegen die Brücke schneller"/>
+                <Description Lang="en-EN" Text="Speed (high)"/>
+            </CV>
+            <CV Number="15" Type="Byte" Min="1" Max="100" Low="-" High="-" Values="-" Mode="rw" Keyword="homing_ratio">
+                <Description Lang="de-DE" Text="Geschwindigkeit, Referenzfahrt" Help="Bei der Referenzfahrt um diesen Faktor langsamer gefahren"/>
+                <Description Lang="en-EN" Text="Speed, Homing"/>
+            </CV>
+            <CV Number="16" Type="Int" Min="-" Max="-" Low="16" High="17" Values="-" Mode="rw" Keyword="accel">
+                <Description Lang="de-DE" Text="Beschleunigung" Help="Rampe beim Starten der Bewegung"/>
+                <Description Lang="en-EN" Text="Accelerate"/>
+            </CV>
+            <CV Number="17" Type="Int" Min="-" Max="-" Low="16" High="17" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Beschleunigung" Help="Rampe beim Starten der Bewegung"/>
+                <Description Lang="en-EN" Text="Accelerate"/>
+            </CV>
+            <CV Number="18" Type="Int" Min="-" Max="-" Low="18" High="19" Values="-" Mode="rw" Keyword="decel">
+                <Description Lang="de-DE" Text="Bremsen" Help="Rampe beim normalen Abbremsen Bewegung"/>
+                <Description Lang="en-EN" Text="Deccelerate"/>
+            </CV>
+            <CV Number="19" Type="Int" Min="-" Max="-" Low="18" High="19" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Bremsen"/>
+                <Description Lang="en-EN" Text="Deccelerate"/>
+            </CV>
+            <CV Number="20" Type="Int" Min="-" Max="-" Low="20" High="21" Values="-" Mode="rw" Keyword="fast_decel">
+                <Description Lang="de-DE" Text="Stoppen (low)" Help="Rampe beim Stoppen der Bewegung"/>
+                <Description Lang="en-EN" Text="Deccelerate (low)"/>
+            </CV>
+            <CV Number="21" Type="Int" Min="-" Max="-" Low="20" High="21" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Stoppen (high)"/>
+                <Description Lang="en-EN" Text="Deccelerate (high)"/>
+            </CV>
+            <CV Number="22" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw" Keyword="top_frac">
+                <Description Lang="de-DE" Text="Fraktionalteil Top" Help="nur für Getriebemotoren mit schiefen Übersetzungsverhältnissen" />
+                <Description Lang="en-EN" Text="fractional part, top. (only for gear set with odd ratio)"/>
+            </CV>
+            <CV Number="23" Type="Byte" Min="0" Max="2" Low="-" High="-" Values="-" Mode="rw" Keyword="preferred_rot">
+                <Description Lang="de-DE" Text="Drehrichtung" Help="0: kürzester Weg, 1:nur vorwärts, 2:nur rückwärts" />
+                <Description Lang="en-EN" Text="rotate"  Help="0: shortest way, 1:forward only, 2:revers only" />
+            </CV>
+            <CV Number="24" Type="Byte" Min="0" Max="200" Low="-" High="-" Values="-" Mode="rw" Keyword="push_interval">
+                <Description Lang="de-DE" Text="Winkelanzeige" Help="0: standard, 20 ... 200 Testmode" />
+                <Description Lang="en-EN" Text="Angle display" Help="0: default, 20 .. 200 Testmode" />
+            </CV>
+            <CV Number="27" Type="Byte" Min="1" Max="250" Low="-" High="-" Values="-" Mode="rw" Keyword="current_accel">
+                <Description Lang="de-DE" Text="Strom bei Beschleunigung" Help="In Einheiten von 10mA"/>
+                <Description Lang="en-EN" Text="current, accelerating"/>
+            </CV>
+            <CV Number="28" Type="Byte" Min="1" Max="250" Low="-" High="-" Values="-" Mode="rw" Keyword="current_moving">
+                <Description Lang="de-DE" Text="Strom bei Bewegung" Help="In Einheiten von 10mA"/>
+                <Description Lang="en-EN" Text="current, moving"/>
+            </CV>
+            <CV Number="29" Type="Byte" Min="1" Max="250" Low="-" High="-" Values="-" Mode="rw" Keyword="current_stopped">
+                <Description Lang="de-DE" Text="Strom bei Stillstand" Help="Durch Stromabsenkung beim Stillstand kann die Erwärung des Schrittmotors reduziert werden."/>
+                <Description Lang="en-EN" Text="current, stopped"/>
+            </CV>
+            <CV Number="30" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw" Keyword="hold_after_move">
+                <Description Lang="de-DE" Text="Strom nach Bewegung halten [ms]" Help="Zeit bis zum Einschalten der Stromabsenkungen. Die Buehne sollte vollstaendig zum Stillstand gekommen sein."/>
+                <Description Lang="en-EN" Text="Keep power after movement [ms]"/>
+            </CV>
+            <!-- 
+            <CV Number="36" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw" Keyword="sound_volume">
+                <Description Lang="de-DE" Text="Sound: 0 = aus / 1...225 = Volume"/>
+                <Description Lang="en-EN" Text="Sound: 0 = aus / 1...225 = volume"/>
+            </CV>
+             -->
+            <CV Number="37" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw" Keyword="sound_start_delay">
+                <Description Lang="de-DE" Text="Startverzögerung Motor [100ms]" Help="Startverzögerung Sound."/>
+                <Description Lang="en-EN" Text="start delay sound [100ms]"/>
+            </CV>
+            <CV Number="40" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw" Keyword="auto_homing">
+                <Description Lang="de-DE" Text="Automatisch Nulllage suchen" Help="Automatische Suchfahrt zur Nulllage"/>
+                <Description Lang="en-EN" Text="auto homing"/>
+            </CV>
+            <CV Number="41" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw" Keyword="no_homing">
+                <Description Lang="de-DE" Text="Sonderfunktion: kein Homing" Help="Die Homeposition wird nicht gesucht"/>
+                <Description Lang="en-EN" Text="special: no homing"/>
+            </CV>
+            <CV Number="43" Type="Byte" Min="0" Max="100" Low="-" High="-" Values="-" Mode="rw" Keyword="iteration">
+                <Description Lang="de-DE" Text="Iterationen am Bewegungsende" Help="Mit Iterationen kann das Ziel genauer erreicht werden"/>
+                <Description Lang="en-EN" Text="iterations at end of movement"/>
+            </CV>
+            <CV Number="44" Type="Long" Min="0" Max="4294967295" Low="-" High="-" Values="-" Mode="ro" Keyword="parking_position">
+                <Description Lang="de-DE" Text="Parkposition" Help="interne Position des Schrittmotors"/>
+                <Description Lang="en-EN" Text="parking position"/>
+             </CV>
+        </Template>
+        <Template Name="Feedback">
+            <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw" Keyword="move_bit_location">
+                <Description Lang="de-DE" Text="Bitposition 'moving'" Help="Für alte Rückmeldesysteme kann 'moving' auf ein Rückmeldebit abgebildet werden (8=off)"/>
+                <Description Lang="en-EN" Text="Bitposition 'moving' (8=off)"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw" Keyword="home0_location">
+                <Description Lang="de-DE" Text="Bitposition 'HOME0'" Help="Für alte Rückmeldesysteme kann 'HOME0' auf ein Rückmeldebit abgebildet werden (8=off)"/>
+                <Description Lang="en-EN" Text="Bitposition 'HOME0' (8=off)"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw" Keyword="home0_location">
+                <Description Lang="de-DE" Text="Bitposition 'HOME1'" Help="Für alte Rückmeldesysteme kann 'HOME1' auf ein Rückmeldebit abgebildet werden (8=off)"/>
+                <Description Lang="en-EN" Text="Bitposition 'HOME1' (8=off)"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw" Keyword="aux_location">
+                <Description Lang="de-DE" Text="Bitposition 'AUX'" Help="Für alte Rückmeldesysteme kann 'AUX' auf ein Rückmeldebit abgebildet werden (8=off)"/>
+                <Description Lang="en-EN" Text="Bitposition 'AUX' (8=off)"/>
+            </CV>
+        </Template>
+        <Template Name="LED">
+            <CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Einstellung der Stromquelle"/>
+                <Description Lang="en-EN" Text="LED: current source setup"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Helligkeit fuer Zustand 'aus'"/>
+                <Description Lang="en-EN" Text="LED: light intensity at status 'off'"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Helligkeit fuer Zustand 'an'"/>
+                <Description Lang="en-EN" Text="LED: light intensity at status 'on'"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'aus', 0 = schnell / 255 = langsam"/>
+                <Description Lang="en-EN" Text="LED: time to dim, direction 'off', 0 = fast / 255 = slow"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'an', 0 = schnell / 255 = langsam"/>
+                <Description Lang="en-EN" Text="LED: time to dim, direction 'on', 0 = fast / 255 = slow"/>
+            </CV>
+        </Template>
+        <Template Name="Servo">
+            <CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min Low"/>
+                <Description Lang="en-EN" Text="Min Low"/>
+            </CV>
+            <CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min High"/>
+                <Description Lang="en-EN" Text="Min High"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max Low"/>
+                <Description Lang="en-EN" Text="Max Low"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max High"/>
+                <Description Lang="en-EN" Text="Max High"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Modus"/>
+                <Description Lang="en-EN" Text="Mode"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
+                <Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
+                <Description Lang="en-EN" Text="Location: 0 before move A, 1 before move B"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
+                <Description Lang="en-EN" Text="curve settings for A"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung A"/>
+                <Description Lang="en-EN" Text="curve delay for A"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
+                <Description Lang="en-EN" Text="curve settings for B"/>
+            </CV>
+            <CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung B"/>
+                <Description Lang="en-EN" Text="curve delay for B"/>
+            </CV>
+            <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
+                <Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
+            </CV>
+            <CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
+                <Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
+            </CV>
+        </Template>
+        <Template Name="NMRA">
+            <Node>
+                <Nodetext Lang="de-DE" Text="DCC"/>
+                <Nodetext Lang="en-EN" Text="DCC"/>
+                <CV Number="1" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+                    <Description Lang="de-DE" Text="Decoder Adresse LOW"/>
+                    <Description Lang="en-EN" Text="Decoder Address LOW"/>
+                </CV>
+                <CV Number="9" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+                    <Description Lang="de-DE" Text="Decoder Adresse HIGH"/>
+                    <Description Lang="en-EN" Text="Decoder Address HIGH"/>
+                </CV>
+            </Node>
+            <CV Number="2" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="0;1" Mode="rw">
+                <Description Lang="de-DE" Text="1 = Eingaenge aktiv, 0 = Eingaenge nicht aktiv"/>
+                <Description Lang="en-EN" Text="1 = Input activ, 0 = Input not activ"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 1"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 1"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 2"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 2"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 3"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 3"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 4"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 4"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Softwareversion"/>
+                <Description Lang="en-EN" Text="Software version"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Herstellerkennung"/>
+                <Description Lang="en-EN" Text="Software version"/>
+            </CV>
+            <CV Number="28" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Bi-Direktionale Kommunikation"/>
+                <Description Lang="en-EN" Text="Bidirectional communication"/>
+            </CV>
+            <CV Number="29" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Allgemeine Decoderkonfiguration"/>
+                <Description Lang="en-EN" Text="Common decoder configuration"/>
+            </CV>
+        </Template>
+        <Template Name="tool_storage">
+            <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw" Keyword="nematype">
+                <Description Lang="de-DE" Text="NEMA-Typ des Motor"/>
+                <Description Lang="en-EN" Text="NEMA type of motor"/>
+            </CV>
+            <CV Number="1" Type="Int" Min="1" Max="20000" Low="1" High="2" Values="-" Mode="rw" Keyword="gear_primary">
+                <Description Lang="de-DE" Text="Übersetzung, Primärzahnrad (low)"/>
+                <Description Lang="en-EN" Text="Gear drive, primary (low)"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="1" Max="20000" Low="1" High="2" Values="-" Mode="rw" Keyword="gear_primary_hi">
+                <Description Lang="de-DE" Text="Übersetzung, Primärzahnrad (high)"/>
+                <Description Lang="en-EN" Text="Gear drive, primary (high)"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="1" Max="20000" Low="3" High="4" Values="-" Mode="rw" Keyword="gear_secondary">
+                <Description Lang="de-DE" Text="Übersetzung, Sekundärzahnrad (low)"/>
+                <Description Lang="en-EN" Text="Gear drive, secondary (low)"/>
+            </CV>
+            <CV Number="4" Type="Int" Min="1" Max="20000" Low="3" High="4" Values="-" Mode="rw" Keyword="gear_secondary_hi">
+                <Description Lang="de-DE" Text="Übersetzung, Sekundärzahnrad (high)"/>
+                <Description Lang="en-EN" Text="Gear drive, secondary (high)"/>
+            </CV>
+        </Template>
+        <Template Name="DC_motor">
+            <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="run level"/>
+                <Description Lang="en-EN" Text="run level"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="kick level"/>
+                <Description Lang="en-EN" Text="kick level"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="kick duration [10ms]"/>
+                <Description Lang="en-EN" Text="kick duration"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="start level"/>
+                <Description Lang="en-EN" Text="start level"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="start time"/>
+                <Description Lang="en-EN" Text="start time"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow1 level"/>
+                <Description Lang="en-EN" Text="slow1 level"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow1 time"/>
+                <Description Lang="en-EN" Text="slow1 time"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow1 target distance"/>
+                <Description Lang="en-EN" Text="slow1 target distance"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow2 level"/>
+                <Description Lang="en-EN" Text="slow2 level"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow2 time"/>
+                <Description Lang="en-EN" Text="slow2 time"/>
+            </CV>
+            <CV Number="10" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="slow2 target distance"/>
+                <Description Lang="en-EN" Text="slow2 target distance"/>
+            </CV>
+            <CV Number="11" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="post runtime up"/>
+                <Description Lang="en-EN" Text="post runtime up"/>
+            </CV>
+            <CV Number="12" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="post runtime down"/>
+                <Description Lang="en-EN" Text="post runtime down"/>
+            </CV>
+        </Template>
+        <Template Name="SUSI">
+            <CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Herstellerkennung"/>
+                <Description Lang="en-EN" Text="Manufacturer"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Decoderkennzeichen, SH10A=100"/>
+                <Description Lang="en-EN" Text="Decoder identifier, SH10A=100"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Versionsnummer"/>
+                <Description Lang="en-EN" Text="Version number"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Datum"/>
+                <Description Lang="en-EN" Text="Date"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Revisionsnummer"/>
+                <Description Lang="en-EN" Text="Revision number"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung AUX1"/>
+                <Description Lang="en-EN" Text="Function mapping AUX1"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung AUX2"/>
+                <Description Lang="en-EN" Text="Function mapping AUX2"/>
+            </CV>
+            <CV Number="11" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Fahrgeräusch" Help="0 = deaktiviert, 1 … 28 = F1 … F28, 29 = F0 (Licht)" />
+                <Description Lang="en-EN" Text="Function mapping driving sound" Help="0 = deactivated, 1 … 28 = F1 … F28, 29 = F0 (Licht)" />
+            </CV>
+            <CV Number="12" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Nebengeräusch"/>
+                <Description Lang="en-EN" Text="Function mapping secondary driving sound"/>
+            </CV>
+            <CV Number="13" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Schaltgeräusch"/>
+                <Description Lang="en-EN" Text="Function mapping gear sound"/>
+            </CV>
+            <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Bremsgeräusch"/>
+                <Description Lang="en-EN" Text="Function mapping brake sound"/>
+            </CV>
+            <CV Number="15" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 3"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 3"/>
+            </CV>
+            <CV Number="16" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 4"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 4"/>
+            </CV>
+            <CV Number="17" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 5"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 5"/>
+            </CV>
+            <CV Number="18" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 6"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 6"/>
+            </CV>
+            <CV Number="19" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 7"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 7"/>
+            </CV>
+            <CV Number="20" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 8"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 8"/>
+            </CV>
+            <CV Number="21" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 9"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 9"/>
+            </CV>
+            <CV Number="22" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 10"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 10"/>
+            </CV>
+            <CV Number="23" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 11"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 11"/>
+            </CV>
+            <CV Number="24" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 12"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 12"/>
+            </CV>
+            <CV Number="25" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 13"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 13"/>
+            </CV>
+            <CV Number="26" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 14"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 14"/>
+            </CV>
+            <CV Number="27" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 15"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 15"/>
+            </CV>
+            <CV Number="28" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Soundablauf 16"/>
+                <Description Lang="en-EN" Text="Function mapping sound flow 16"/>
+            </CV>
+            <CV Number="29" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Ausblendeffekt"/>
+                <Description Lang="en-EN" Text="Function mapping fade-out effect"/>
+            </CV>
+            <CV Number="30" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Gesamtlautstärke, 0 … 255 = 0% … 100%"/>
+                <Description Lang="en-EN" Text="Total volume, 0 … 255 = 0% … 100%"/>
+            </CV>
+            <CV Number="31" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Fahrgeräusch, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume driving sound, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="32" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Nebengeräusch, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume secondary driving sound, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="33" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Schaltgeräusch, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume gear sound, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="34" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Bremsgeräusch, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume brake sound, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="35" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 3, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 3, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="36" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 4, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 4, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="37" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 5, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 5, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="38" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 6, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 6, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="39" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 7, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 7, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="40" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 8, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 8, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="41" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 9, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 9, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="42" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 10, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 10, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="43" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 11, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 11, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="44" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 12, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 12, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="45" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 13, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 13, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="46" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 14, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 14, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="47" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 15, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 15, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="48" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Soundablauf 16, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume sound flow 16, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="49" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Lautstärke Ausblendeffekt, 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume fade-out effect, 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="50" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Leerlauf Verzögerungszeit" Help="Der Wert entspricht der Zeit in 100 ms-Schritten bis zwangsweise aus dem Fahrgeräusch in den Leerlauf gewechselt wird, 0 = ausgeschaltet"/>
+                <Description Lang="en-EN" Text="Coasting delay time" Help="The value corresponds to the time in 100 ms-steps until the compulsory change from driving sound to coasting, 0 = switched off"/>
+            </CV>
+            <CV Number="51" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Beschleunigungszeit" Help="Der Wert entspricht der Zeit in Sekunden vom Stillstand bis zur Höchstgeschwindigkeit"/>
+                <Description Lang="en-EN" Text="Acceleration time" Help="The value corresponds to the time in seconds from start to maximum speed"/>
+            </CV>
+            <CV Number="52" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremszeit" Help="Der Wert entspricht der Zeit in Sekunden von der Höchstgeschwindigkeit bis zum Stillstand"/>
+                <Description Lang="en-EN" Text="Deceleration time" Help="The value corresponds to the time in seconds from maximum speed to stop"/>
+            </CV>
+            <CV Number="53" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Dampfstöße bei Fahrstufe 1" Help="Der Wert entspricht der Zeit in 64 ms-Schritten zwischen den Dampfstößen bei Fahrstufe 1"/>
+                <Description Lang="en-EN" Text="Chuffs at speed step 1" Help="The value corresponds to the time in 64 ms-steps between the chuffs at speed step 1"/>
+            </CV>
+            <CV Number="54" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Dampfstöße bei höherer Fahrstufe" Help="Der Wert bestimmt wie stark sich die Zeit zwischen den Dampfstößen bei höheren Fahrstufen vermindert"/>
+                <Description Lang="en-EN" Text="Chuffs at higher speed step" Help="The value determines the time of reduction between the chuffs at higher speed steps"/>
+            </CV>
+            <CV Number="55" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremsenquietschen minimale Fahrstufe" Help="Die Fahrstufe, welche mindestens erreicht worden sein muss, damit das Bremsenquietschen möglich ist"/>
+                <Description Lang="en-EN" Text="Brake squeal minimale speed step" Help="The minimum speed step before starting brake squeal"/>
+            </CV>
+            <CV Number="56" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremsenquietschen Anfangsfahrstufe" Help="Die Fahrstufe, bei welcher beim Anhalten das Bremsenquietschen beginnt"/>
+                <Description Lang="en-EN" Text="Brake squeal initial speed step" Help="The speed step, at which brake squeal starts, after the minimal speed step was reached or exceeded before"/>
+            </CV>
+            <CV Number="57" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation Nebengeräusch" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet"/>
+                <Description Lang="en-EN" Text="Secondary driving sound modulation" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off"/>
+            </CV>
+            <CV Number="58" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation Fahrgeräusch" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet"/>
+                <Description Lang="en-EN" Text="Driving sound modulation" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off"/>
+            </CV>
+            <CV Number="59" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Timer für Ausblendeffekt" Help="Der Wert entspricht der Zeit in Sekunden von der eingestellten Gesamtlautstärke bis zur Stille"/>
+                <Description Lang="en-EN" Text="Timer for fade-out effect" Help="The value corresponds to the time in seconds from the adjusted total volume to silence"/>
+            </CV>
+            <CV Number="60" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Schreibschutz Flash-ROM" Help="Muss '0' sein für Soundbetrieb (wird während des Ladevorganges bedient)"/>
+                <Description Lang="en-EN" Text="Write protection Flash-ROM" Help="Must be „0“ for sound operation (it will be operated during the loading process)"/>
+            </CV>
+            <CV Number="61" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Schwellenwert ZVS" />
+                <Description Lang="en-EN" Text="Threshold value ZVS" />
+            </CV>
+            <CV Number="62" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Dampfstöße bei Fahrstufe 127" Help="Der Wert entspricht der Mindestzeit in 1 ms-Schritten zwischen den Dampfstößen bei Fahrstufe 127, welche nicht unterschritten werden darf"/>
+                <Description Lang="en-EN" Text="Chuffs at speed step 127" Help="The value corresponds the minimum time in 1 ms-steps between the chuffs at the speed step 127, which must not be undercut."/>
+            </CV>
+            <CV Number="64" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremsenquietschen Endfahrstufe" Help="Die Fahrstufe, bei welcher das Bremsenquietschen in den Endteil des Soundablaufs wechselt (tatsächliches Ende spätestens bei Fahrstufe 0)"/>
+                <Description Lang="en-EN" Text="Brake squeal final speed step" Help="The speed step, at which the brake squeal changes into the final part of the sound sequence (actual end at the latest at speed step 0))"/>
+            </CV>
+            <CV Number="65" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremsenquietschen Verzögerungszeit" />
+                <Description Lang="en-EN" Text="Brake squeal delay time" />
+            </CV>
+            <CV Number="66" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Bremsenquietschen Mindestverzögerung" />
+                <Description Lang="en-EN" Text="Brake squeal minimum deceleration" />
+            </CV>
+            <CV Number="67" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Zufallsgeräusche" />
+                <Description Lang="en-EN" Text="Random sounds" />
+            </CV>
+            <CV Number="68" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Lautstärke Dynamikgeräusch 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume dynamic sound flow 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="69" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Lautstärke Turbogeräusch 0 … 128 … 255 = 0% … 100% …200%" Help="Werte größer 100% können zur Übersteuerung führen!"/>
+                <Description Lang="en-EN" Text="Volume turbo charger 0 … 128 … 255 = 0% … 100% …200%" Help="Values higher 100% can lead to overload!"/>
+            </CV>
+            <CV Number="70" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation dynamische Bremse" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet" />
+                <Description Lang="en-EN" Text="Modulation dynamic brake" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off" />
+            </CV>
+            <CV Number="71" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation dynamische Fahrt" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet" />
+                <Description Lang="en-EN" Text="Modulation dynamic drive" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off" />
+            </CV>
+            <CV Number="72" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation Turbogeräusch Proportionalteil" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet" />
+                <Description Lang="en-EN" Text="Modulation turbo charger proportional part" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off" />
+            </CV>
+            <CV Number="73" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Modulation Turbogeräusch Integralteil" Help="Der Wert bestimmt wie stark die Fahrstufe Einfluss auf die Tonhöhe nimmt, 0 = ausgeschaltet" />
+                <Description Lang="en-EN" Text="Modulation turbo charger integral part" Help="The value determines to which extent the speed step influences the pitch, 0 = switched off" />
+            </CV>
+            <CV Number="74" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Lautstärke verkleinern" Help="Mit jedem Tastendruck (ein/aus) wird die Gesamtlautstärke dauerhaft verringert." />
+                <Description Lang="en-EN" Text="Function mapping volume reducing" Help="With every keystroke (on/off) the total volume will be permantely reduced." />
+            </CV>
+            <CV Number="75" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Lautstärke vergrößern" Help="Mit jedem Tastendruck (ein/aus) wird die Gesamtlautstärke dauerhaft erhöht." />
+                <Description Lang="en-EN" Text="Function mapping volume enhancing" Help="With every keystroke (on/off) the total volume will be permantely enhanced." />
+            </CV>
+            <CV Number="76" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Bremsenquietschen deaktivieren" Help="Wenn die entsprechende Funktionstaste gedrückt ist, wird kein Bremsenquietschen wiedergegeben auch falls die Bedingungen dafür eigentlich erfüllt sein sollten." />
+                <Description Lang="en-EN" Text="Function mapping brake squeal deactivating" Help="If the corresponding function key is pushed, no brake squeal will be represented, even if the conditions are fulfilled" />
+            </CV>
+            <CV Number="77" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Funktionszuordnung Zwangsleerlauf" Help="Wenn die entsprechende Funktionstaste gedrückt ist, verbleibt das Fahrgeräusch auch während einer Beschleunigung im Leerlauf." />
+                <Description Lang="en-EN" Text="Function mapping forced coasting" Help="If the corresponding function key is pushed, the driving sound remains coasting also during an acceleration" />
+            </CV>
+        </Template>
+        
+    </Templates>
+    <CVDefinition>
+        <Node Offset="1" Template="About">
+            <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+            <Nodetext Lang="en-EN" Text="Common data"/>
+        </Node>
+        <Node Offset="80" Template="NMRA">
+            <Nodetext Lang="de-DE" Text="DCC NMRA"/>
+            <Nodetext Lang="en-EN" Text="DCC NMRA"/>
+        </Node>
+        <Node >
+            <Nodetext Lang="de-DE" Text="Drehscheibe"/>
+            <Nodetext Lang="en-EN" Text="Turntable"/>
+            <CV Number="80" Type="Byte" Min="0" Max="2" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Brücke erkennen 0:an, 1:aus, 2:immer an"/>
+                <Description Lang="en-EN" Text="detect bridge 0:on, 1:off, 2:force on"/>
+            </CV>		
+            <Node Offset="113" Template="Drehscheibe">
+                <Nodetext Lang="de-DE" Text="Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Settings"/>
+            </Node>
+            <Node Offset="164" Template="tool_storage">
+                <Nodetext Lang="de-DE" Text="Tools"/>
+                <Nodetext Lang="en-EN" Text="Tools"/>
+            </Node>
+            <Node>
+                <Nodetext Lang="de-DE" Text="Abgänge Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Stub settings"/>
+                <Node Offset="169" Template="Abgang" Count="48" Next="5">
+                    <Nodetext Lang="de-DE" Text="Abgang %%d"/>
+                    <Nodetext Lang="en-EN" Text="Stub %%d"/>
+                </Node>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="DC Motor Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="DC motor settings"/>
+            <Node Offset="411" Template="DC_motor">
+                <Nodetext Lang="de-DE" Text="Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Settings"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Zusatzmelder"/>
+            <Nodetext Lang="en-EN" Text="Additional Feedback"/>
+            <Node Offset="431" Template="Feedback">
+                <Nodetext Lang="de-DE" Text="Einstellungen"/>
+                <Nodetext Lang="en-EN" Text="Settings"/>
+            </Node>
+        </Node>
+         <Node>
+            <Nodetext Lang="de-DE" Text="LED Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="LED settings"/>
+            <Node Offset="441" Template="LED" Count="8" Next="5">
+                <Nodetext Lang="de-DE" Text="LED %%d"/>
+                <Nodetext Lang="en-EN" Text="LED %%d"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Servo Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="Servo settings"/>
+            <Node Offset="521" Template="Servo" Count="4" Next="16">
+                <Nodetext Lang="de-DE" Text="Servo %%d"/>
+                <Nodetext Lang="en-EN" Text="Servo %%d"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Bühne - Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="bridge settings"/>
+            <CV Number="80" Type="Byte" Min="0" Max="2" Low="-" High="-" Values="0;1;2" Mode="rw" Keyword="bridge">
+                <Description Lang="de-DE" Text="Bühne, 0 = mit (Standard), 1 = ohne, 2 = immer"/>
+                <Description Lang="en-EN" Text="Bridge, 0 = on (default), 1 = none, 2 = always"/>
+            </CV>
+        </Node>
+        <Node Offset="900" Template="SUSI" >
+            <Nodetext Lang="de-DE" Text="SUSI Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="SUSI settings"/>
+        </Node>
+    </CVDefinition>
+    <Extension>
+        <NodeLabels lang="de-DE">
+            <labels:accessoryLabels>
+                <labels:accessoryLabel index="0" label="Bühne drehen">
+                </labels:accessoryLabel>
+                <labels:accessoryLabel index="1" label="Homing">
+                    <labels:aspectLabel index="0" label="NOTHALT"/>
+                    <labels:aspectLabel index="1" label="OPERATING"/>
+                    <labels:aspectLabel index="2" label="HOMING"/>
+                    <labels:aspectLabel index="3" label="JUSTAGE"/>
+                </labels:accessoryLabel>
+                <labels:accessoryLabel index="2" label="Sound">
+                    <labels:aspectLabel index="0" label="Sound aus"/>
+                    <labels:aspectLabel index="1" label="Sound bei Events"/>
+                    <labels:aspectLabel index="2" label="Sound an"/>
+                </labels:accessoryLabel>
+            </labels:accessoryLabels>
+        </NodeLabels>
+    </Extension>
+</VendorCV>
