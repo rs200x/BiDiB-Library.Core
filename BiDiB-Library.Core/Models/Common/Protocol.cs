@@ -2,14 +2,13 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ProtocolType")]
+public class Protocol
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ProtocolType")]
-    public class Protocol
-    {
-        [XmlAttribute("type")]
-        public ProtocolType Type { get; set; }
-    }
+    [XmlAttribute("type")]
+    public ProtocolType Type { get; set; }
 }

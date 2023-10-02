@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
+using org.bidib.Net.Core.Models;
 
-namespace org.bidib.netbidibc.core.Services.Interfaces
+namespace org.bidib.Net.Core.Services.Interfaces;
+
+public interface IBiDiBBoosterNodesManager
 {
-    internal interface IBiDiBBoosterNodesManager : IMessageReceiver
-    {
 
-        IEnumerable<BiDiBBoosterNode> Boosters { get; }
-        Action<BiDiBBoosterNode> BoosterAdded { get; set; }
-        Action<BiDiBBoosterNode> BoosterRemoved { get; set; }
+    IEnumerable<BiDiBBoosterNode> Boosters { get; }
+    Action<BiDiBBoosterNode> BoosterAdded { get; set; }
+    Action<BiDiBBoosterNode> BoosterRemoved { get; set; }
 
-        void NodeAdded(BiDiBNode newNode);
+    void NodeAdded(BiDiBNode newNode);
 
-        void NodeRemoved(BiDiBNode removedNode);
+    void NodeRemoved(BiDiBNode removedNode);
        
-    }
 }

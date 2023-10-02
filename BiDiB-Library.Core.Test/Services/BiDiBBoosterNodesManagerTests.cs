@@ -1,20 +1,18 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.BiDiB;
-using org.bidib.netbidibc.core.Models.BiDiB.Extensions;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Models.Messages.Output;
-using org.bidib.netbidibc.core.Services;
-using org.bidib.netbidibc.core.Utils;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.BiDiB;
+using org.bidib.Net.Core.Models.BiDiB.Extensions;
+using org.bidib.Net.Core.Models.Messages.Output;
+using org.bidib.Net.Core.Services;
+using org.bidib.Net.Core.Utils;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Services
+namespace org.bidib.Net.Core.Test.Services
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -29,7 +27,7 @@ namespace org.bidib.netbidibc.core.Test.Services
             messageProcessor = new Mock<IBiDiBMessageProcessor>();
 
 
-            Target = new BiDiBBoosterNodesManager(new Mock<IBiDiBMessageService>().Object, NullLoggerFactory.Instance);
+            Target = new BiDiBBoosterNodesManager(NullLoggerFactory.Instance);
         }
 
         [TestMethod]
@@ -82,25 +80,6 @@ namespace org.bidib.netbidibc.core.Test.Services
 
             // Assert
             addedNode.MaxCurrent.Should().Be(10);
-        }
-        
-        [TestMethod]
-        public void HandleBoostStat_ShouldApplyStates()
-        {
-            // Arrange
-            var node = new BiDiBNode(messageProcessor.Object, NullLogger<BiDiBNode>.Instance) { Address = new byte[] { 0x00 } };
-            node.SetUniqueId(new byte[] { 0xAF, 0x00, 0x0D, 0x84, 0x00, 0x80, 0x0D });
-            Target.NodeAdded(node);
-
-            byte[] bytes = GetBytes("04-00-67-B0-C0");
-
-            // Act
-            Target.ProcessMessage(new BoostStatMessage(bytes));
-
-            // Assert
-            var boosterNode = Target.Boosters.ElementAt(0);
-            boosterNode.BoosterControl.Should().Be(BoosterControl.Local);
-            boosterNode.BoosterState.Should().Be(BoosterState.BIDIB_BST_STATE_ON);
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿namespace org.bidib.netbidibc.core.Models.Xml
+﻿namespace org.bidib.Net.Core.Models.Xml;
+
+public static class XmlDataTypes
 {
-    public static class XmlDataTypes
-    {
-        public const string Token = "token";
+    public const string Token = "token";
 
-        public const string AnyUri = "anyURI";
+    public const string AnyUri = "anyURI";
 
-        public const string Date = "date";
+    public const string Date = "date";
 
-        public const string Year = "gYear";
+    public const string Year = "gYear";
 
-        public const string Language = "language";
+    public const string Language = "language";
 
-    }
 }

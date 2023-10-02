@@ -63,6 +63,7 @@ steps:
   - task: SonarCloudAnalyze@1
 
   - task: ResharperCli@2
+    enabled: false
     displayName: "Run R# Code Analysis"
     continueOnError: true
     inputs:
@@ -117,3 +118,7 @@ steps:
       nuGetFeedType: 'internal'
       publishVstsFeed: '318ba8a7-6ebb-41b0-994d-1baee3e08af0'
       allowPackageConflicts: true
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: "300"

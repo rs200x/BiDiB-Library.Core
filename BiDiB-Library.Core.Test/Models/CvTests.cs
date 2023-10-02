@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Models.Common;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Models.Common;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -45,13 +45,14 @@ namespace org.bidib.netbidibc.core.Test.Models
         private void TestType(string typeValue, CvType expectedType)
         {
             // Arrange
-            target.TypeString = typeValue;
+            target.Type = expectedType;
 
             // Act
             CvType type = target.Type;
 
             // Assert
             type.Should().Be(expectedType);
+            typeValue.Should().NotBeEmpty();
         }
     }
 }

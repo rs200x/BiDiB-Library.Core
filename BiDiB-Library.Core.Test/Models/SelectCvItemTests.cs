@@ -1,4 +1,4 @@
-﻿namespace org.bidib.netbidibc.core.Test.Models
+﻿namespace org.bidib.Net.Core.Test.Models
 {
     public class SelectCvItemTests
     {

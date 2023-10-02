@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input
+namespace org.bidib.Net.Core.Models.Messages.Input;
+
+[InputMessage(BiDiBMessage.MSG_BM_OCC)]
+public class FeedbackOccupiedMessage : FeedbackMessage
 {
-    public class FeedbackOccupiedMessage : FeedbackMessage
+    public FeedbackOccupiedMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_OCC, 1)
     {
-        public FeedbackOccupiedMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_OCC, 1)
+        if (MessageParameters.Length == 3)
         {
-            if (MessageParameters.Length == 3)
-            {
-                Timestamp = BitConverter.ToUInt16(MessageParameters, 1);
-            }
+            Timestamp = BitConverter.ToUInt16(MessageParameters, 1);
         }
     }
 }

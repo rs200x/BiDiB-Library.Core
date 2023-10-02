@@ -1,6 +1,6 @@
-﻿using org.bidib.netbidibc.core.Enumerations;
+﻿using org.bidib.Net.Core.Enumerations;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class CommandStationSetStateMessage : BiDiBOutputMessage
 {

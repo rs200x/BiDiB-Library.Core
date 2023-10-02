@@ -1,39 +1,39 @@
 ﻿using System;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input
+namespace org.bidib.Net.Core.Models.Messages.Input;
+
+[InputMessage(BiDiBMessage.MSG_BM_POSITION)]
+public class FeedbackPositionMessage : BiDiBInputMessage
 {
-    public class FeedbackPositionMessage : BiDiBInputMessage
+    public FeedbackPositionMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_POSITION, 5)
     {
-        public FeedbackPositionMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_POSITION, 5)
-        {
-            AddressLow = MessageParameters[0];
-            AddressHigh = MessageParameters[1];
-            FeedbackAddress = BitConverter.ToUInt16(new[] { AddressLow, AddressHigh }, 0);
 
-            FeedbackType = MessageParameters[2];
+        FeedbackAddress = ByteUtils.GetDecoderAddress(MessageParameters[0], MessageParameters[1]);
+        Direction = MessageParameters[1].GetDecoderDirection();
 
-            LocationLow = MessageParameters[3];
-            LocationHigh = MessageParameters[4];
-            Location = BitConverter.ToUInt16(new[] { LocationLow, LocationHigh }, 0);
-        }
+        FeedbackType = MessageParameters[2];
 
-        public ushort Location { get; set; }
+        LocationLow = MessageParameters[3];
+        LocationHigh = MessageParameters[4];
+        Location = BitConverter.ToUInt16(new[] { LocationLow, LocationHigh }, 0);
+    }
 
-        public byte LocationHigh { get; set; }
+    public ushort Location { get; set; }
 
-        public byte LocationLow { get; set; }
+    public byte LocationHigh { get; set; }
 
-        public byte FeedbackType { get; set; }
+    public byte LocationLow { get; set; }
 
-        public ushort FeedbackAddress { get; set; }
+    public byte FeedbackType { get; set; }
 
-        public byte AddressHigh { get; set; }
+    public ushort FeedbackAddress { get; set; }
 
-        public byte AddressLow { get; set; }
+    public DecoderDirection Direction { get; }
 
-        public override string ToString()
-        {
-            return $"{base.ToString()}, FAddr: {FeedbackAddress}, FLoc: {Location}, FType: {FeedbackType}";
-        }
+    public override string ToString()
+    {
+        return $"{base.ToString()}, FAddr: {FeedbackAddress}/{Direction}, FLoc: {Location}, FType: {FeedbackType}";
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations;
+﻿namespace org.bidib.Net.Core.Enumerations;
 
 public enum SubscriptionResult
 {
     SubscriptionEstablished = 0x00,
     SubscriptionEstablishedNodeNotAvailable = 0x01,
-    SubscriptionsNotSupported = 0x80,
-    SubscriptionNotEstablishedNoNode = 0x81,
-    SubscriptionNotEstablishedSubSelf = 0x82,
-    TargetModeNotSupported = 0xFF
+    SubscriptionsNotSupported = 0x7D,
+    SubscriptionNotEstablished = 0x7E,
+    TargetModeNotSupported = 0x7F
 }

@@ -1,41 +1,39 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.VendorCv
+namespace org.bidib.Net.Core.Models.VendorCv;
+
+[Serializable]
+[XmlType(Namespace = Namespaces.VendorCvNamespaceUrl)]
+public enum CvDataType
 {
-
-    [Serializable]
-    [XmlType(Namespace = Namespaces.VendorCvNamespaceUrl)]
-    public enum CvDataType
-    {
     
-        Byte,
+    Byte,
 
     
-        Int,
+    Int,
 
     
-        Bit,
+    Bit,
 
     
-        DCC_ADDR_RG,
+    DCC_ADDR_RG,
 
     
-        GBM16TReverser,
+    GBM16TReverser,
 
     
-        SignedChar,
+    SignedChar,
 
     
-        Radio,
+    Radio,
 
     
-        Long,
+    Long,
 
-        DccLongAddr,
+    DccLongAddr,
 
-        DccAccAddr,
+    DccAccAddr,
 
-        String
-    }
+    String
 }

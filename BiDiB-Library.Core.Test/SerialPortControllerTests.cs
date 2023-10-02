@@ -5,11 +5,11 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Controllers;
-using org.bidib.netbidibc.core.Controllers.Interfaces;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Controllers;
+using org.bidib.Net.Core.Controllers.Interfaces;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test
+namespace org.bidib.Net.Core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -27,6 +27,18 @@ namespace org.bidib.netbidibc.core.Test
 
             target.GetType().GetField("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, serialPortMock.Object);
         }
+        
+        [TestMethod]
+        public void Ctor_ShouldThrow_WhenLoggerFactoryNull()
+        {
+            // Arrange
+
+            // Act
+            var action = () => new SerialPortController(null);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter 'loggerFactory')");
+        }
 
         [TestMethod]
         public void Ctor_ShouldInitializeSerialPortWithDefaultConfig()
@@ -37,7 +49,7 @@ namespace org.bidib.netbidibc.core.Test
             target = new SerialPortController(NullLoggerFactory.Instance);
 
             // Assert
-            ISerialPort serialPort = target.GetType().GetField("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target) as ISerialPort;
+            var serialPort = target.GetType().GetField("serialPort", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target) as ISerialPort;
 
             serialPort.ReadBufferSize.Should().Be(8192);
             serialPort.WriteBufferSize.Should().Be(4096);
@@ -46,6 +58,18 @@ namespace org.bidib.netbidibc.core.Test
             serialPort.DataBits.Should().Be(8);
             serialPort.Handshake.Should().Be(Handshake.None);
             serialPort.WriteTimeout.Should().Be(200);
+        }
+        
+        [TestMethod]
+        public void Initialize_ShouldThrow_WhenConfigNull()
+        {
+            // Arrange
+
+            // Act
+            var action = () => target.Initialize(null);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter 'config')");
         }
 
         [TestMethod]
@@ -92,10 +116,10 @@ namespace org.bidib.netbidibc.core.Test
             portConfig.Setup(x => x.Comport).Returns("COM1");
 
             // Act
-            Action action = () => target.Initialize(portConfig.Object);
+            var action = () => target.Initialize(portConfig.Object);
 
             // Assert
-            action.Should().Throw<InvalidOperationException>().WithMessage("%%ERROR: Please define COM-Port and baud rate !!!!\n");
+            action.Should().Throw<InvalidOperationException>().WithMessage("Invalid baud rate configuration 11! Valid values are 19.200 or 115.200");
         }
     }
 }

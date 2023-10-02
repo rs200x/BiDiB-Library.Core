@@ -2,14 +2,15 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Controllers;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Controllers;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Controllers
+namespace org.bidib.Net.Core.Test.Controllers
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -23,6 +24,18 @@ namespace org.bidib.netbidibc.core.Test.Controllers
 
             var loggerFactory = new Mock<ILoggerFactory>();
             Target = new SocketController(loggerFactory.Object);
+        }
+        
+        [TestMethod]
+        public void Ctor_ShouldThrow_WhenLoggerFactoryNull()
+        {
+            // Arrange
+
+            // Act
+            var action = () => new SocketController(null);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter 'loggerFactory')");
         }
 
         //[TestMethod]

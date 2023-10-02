@@ -1,14 +1,13 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations
+﻿namespace org.bidib.Net.Core.Enumerations;
+
+/// <summary>
+/// Definition of state of a node
+/// </summary>
+public enum NodeState 
 {
-    /// <summary>
-    /// Definition of state of a node
-    /// </summary>
-    public enum NodeState 
-    {
-        Ok,
-        Identifying,
-        Error,
-        Available,
-        Unavailable
-    }
+    Ok,
+    Identifying,
+    Error,
+    Available,
+    Unavailable
 }

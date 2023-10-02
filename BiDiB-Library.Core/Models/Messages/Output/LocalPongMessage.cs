@@ -1,4 +1,4 @@
-﻿namespace org.bidib.netbidibc.core.Models.Messages.Output;
+﻿namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class LocalPongMessage : BiDiBOutputMessage
 {

@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.bidib.netbidibc.core.Properties {
-    using System;
-    
-    
+namespace org.bidib.Net.Core.Properties {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -39,7 +36,7 @@ namespace org.bidib.netbidibc.core.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("org.bidib.netbidibc.core.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("org.bidib.Net.Core.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -277,6 +274,15 @@ namespace org.bidib.netbidibc.core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Car w. Sound.
+        /// </summary>
+        public static string CarSound {
+            get {
+                return ResourceManager.GetString("CarSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cm.
         /// </summary>
         public static string Centimeter {
@@ -390,47 +396,11 @@ namespace org.bidib.netbidibc.core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data result is not a socket!.
-        /// </summary>
-        public static string Error_NoSocket {
-            get {
-                return ResourceManager.GetString("Error_NoSocket", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Connection service is not configured for any connection..
         /// </summary>
         public static string Error_NotConfiguredForConnection {
             get {
                 return ResourceManager.GetString("Error_NotConfiguredForConnection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot send message - Serial Port NOT connected or open.
-        /// </summary>
-        public static string Error_SerialPortNotConnected {
-            get {
-                return ResourceManager.GetString("Error_SerialPortNotConnected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error when handling received data.
-        /// </summary>
-        public static string Error_SocketData {
-            get {
-                return ResourceManager.GetString("Error_SocketData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Socket has been disposed!.
-        /// </summary>
-        public static string Error_SocketDisposed {
-            get {
-                return ResourceManager.GetString("Error_SocketDisposed", resourceCulture);
             }
         }
         
@@ -526,33 +496,6 @@ namespace org.bidib.netbidibc.core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input message queue processing canceled.
-        /// </summary>
-        public static string InputQueueProcessingCanceled {
-            get {
-                return ResourceManager.GetString("InputQueueProcessingCanceled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Input message queue processing finished.
-        /// </summary>
-        public static string InputQueueProcessingFinished {
-            get {
-                return ResourceManager.GetString("InputQueueProcessingFinished", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Interface is not connected! Message will not be transmitted!.
-        /// </summary>
-        public static string InterfaceNotConnectedNoTransmission {
-            get {
-                return ResourceManager.GetString("InterfaceNotConnectedNoTransmission", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to km/h.
         /// </summary>
         public static string KilometerPerHour {
@@ -598,6 +541,15 @@ namespace org.bidib.netbidibc.core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to μs.
+        /// </summary>
+        public static string Microsecond {
+            get {
+                return ResourceManager.GetString("Microsecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to mA.
         /// </summary>
         public static string MilliAmpere {
@@ -636,9 +588,9 @@ namespace org.bidib.netbidibc.core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ms.
         /// </summary>
-        public static string MilliSecond {
+        public static string Millisecond {
             get {
-                return ResourceManager.GetString("MilliSecond", resourceCulture);
+                return ResourceManager.GetString("Millisecond", resourceCulture);
             }
         }
         
@@ -720,24 +672,6 @@ namespace org.bidib.netbidibc.core.Properties {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output message queue processing canceled.
-        /// </summary>
-        public static string OutputQueueProcessingCanceled {
-            get {
-                return ResourceManager.GetString("OutputQueueProcessingCanceled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output message queue processing finished.
-        /// </summary>
-        public static string OutputQueueProcessingFinished {
-            get {
-                return ResourceManager.GetString("OutputQueueProcessingFinished", resourceCulture);
             }
         }
         
@@ -864,15 +798,6 @@ namespace org.bidib.netbidibc.core.Properties {
         public static string SerialPort {
             get {
                 return ResourceManager.GetString("SerialPort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not open serial port &apos;{0}&apos;! {1}.
-        /// </summary>
-        public static string SerialPortConnectionError {
-            get {
-                return ResourceManager.GetString("SerialPortConnectionError", resourceCulture);
             }
         }
         

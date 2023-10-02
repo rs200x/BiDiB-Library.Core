@@ -1,17 +1,17 @@
-﻿namespace org.bidib.netbidibc.core.Models.Messages.Input
+﻿namespace org.bidib.Net.Core.Models.Messages.Input;
+
+[InputMessage(BiDiBMessage.MSG_VENDOR_ACK)]
+public class VendorAckMessage : BiDiBInputMessage
 {
-    public class VendorAckMessage : BiDiBInputMessage
+    public VendorAckMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_VENDOR_ACK, 1)
     {
-        public VendorAckMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_VENDOR_ACK, 1)
-        {
-            ConfigModeEnabled = MessageParameters[0] == 1;
-        }
+        ConfigModeEnabled = MessageParameters[0] == 1;
+    }
 
-        public bool ConfigModeEnabled { get; }
+    public bool ConfigModeEnabled { get; }
 
-        public override string ToString()
-        {
-            return $"{base.ToString()}, ConfigMode: {ConfigModeEnabled}";
-        }
+    public override string ToString()
+    {
+        return $"{base.ToString()}, ConfigMode: {ConfigModeEnabled}";
     }
 }

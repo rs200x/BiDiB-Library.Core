@@ -1,17 +1,16 @@
 ﻿using System.Runtime.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.NodeFirmware
+namespace org.bidib.Net.Core.Models.NodeFirmware;
+
+[DataContract]
+public class ChangelogDescription
 {
-    [DataContract]
-    public class ChangelogDescription
-    {
-        [DataMember(Name = "lang")]
-        public string Lang { get; set; }
+    [DataMember(Name = "lang")]
+    public string Lang { get; set; }
 
-        [DataMember(Name = "content")]
-        public string Content { get; set; }
+    [DataMember(Name = "content")]
+    public string Content { get; set; }
 
-        [DataMember(Name = "description")]
-        public string Description { get; set; }
-    }
+    [DataMember(Name = "description")]
+    public string Description { get; set; }
 }

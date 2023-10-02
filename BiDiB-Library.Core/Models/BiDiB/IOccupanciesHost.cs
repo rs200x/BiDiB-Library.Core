@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace org.bidib.netbidibc.core.Models.BiDiB
+namespace org.bidib.Net.Core.Models.BiDiB;
+
+public interface IOccupanciesHost
 {
-    public interface IOccupanciesHost
-    {
-        OccupancyInfo GetOccupancy(ushort address);
+    OccupancyInfo GetOccupancy(ushort address);
 
-        ICollection<OccupancyInfo> GetOccupanciesByFilter(Func<OccupancyInfo, bool> filter);
+    ICollection<OccupancyInfo> GetOccupanciesByFilter(Func<OccupancyInfo, bool> filter);
 
-        void AddOccupancy(OccupancyInfo occupancy);
+    void AddOccupancy(OccupancyInfo occupancy);
 
-        void RemoveOccupancy(OccupancyInfo occupancy);
+    void RemoveOccupancy(OccupancyInfo occupancy);
 
-        void ClearOccupancies();
-    }
+    void ClearOccupancies();
 }

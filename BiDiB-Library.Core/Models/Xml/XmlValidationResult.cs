@@ -1,10 +1,9 @@
-﻿namespace org.bidib.netbidibc.core.Models.Xml
+﻿namespace org.bidib.Net.Core.Models.Xml;
+
+public enum XmlValidationResult
 {
-    public enum XmlValidationResult
-    {
-        Valid,
-        NoSchema,
-        ValidationError,
-        FileError
-    }
+    Valid,
+    NoSchema,
+    ValidationError,
+    FileError
 }

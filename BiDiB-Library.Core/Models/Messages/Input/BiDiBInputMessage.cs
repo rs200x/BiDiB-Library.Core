@@ -3,97 +3,96 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using org.bidib.netbidibc.core.Utils;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input
+namespace org.bidib.Net.Core.Models.Messages.Input;
+
+public class BiDiBInputMessage
 {
-    public class BiDiBInputMessage
+    internal BiDiBInputMessage(byte[] messageBytes, BiDiBMessage expectedMessageType, int expectedParameters) : this(messageBytes)
     {
-        internal BiDiBInputMessage(byte[] messageBytes, BiDiBMessage expectedMessageType, int expectedParameters) : this(messageBytes)
+        ValidateMessageType(expectedMessageType);
+        ValidateParameterCount(expectedParameters);
+    }
+
+    internal BiDiBInputMessage(byte[] messageBytes)
+    {
+        if (messageBytes == null || messageBytes.Length < 1) { throw new ArgumentNullException(nameof(messageBytes)); }
+
+        var index = 0;
+        Message = messageBytes;
+        if (messageBytes.Length > 0 && messageBytes[0] == 0xFE)
         {
-            ValidateMessageType(expectedMessageType);
-            ValidateParameterCount(expectedParameters);
+            index++; // skip first magic
+            Size = 1;
         }
+        Size += messageBytes[index++];
 
-        internal BiDiBInputMessage(byte[] messageBytes)
+        IList<byte> addrBytes = new List<byte>();
+
+        while (messageBytes[index] != 0)
         {
-            if (messageBytes == null || messageBytes.Length < 1) { throw new ArgumentNullException(nameof(messageBytes)); }
-
-            int index = 0;
-            Message = messageBytes;
-            if (messageBytes.Length > 0 && messageBytes[0] == 0xFE)
+            addrBytes.Add(messageBytes[index++]);
+            if (index >= messageBytes.Length)
             {
-                index++; // skip first magic
-                Size = 1;
-            }
-            Size += messageBytes[index++];
-
-            IList<byte> addrBytes = new List<byte>();
-
-            while (messageBytes[index] != 0)
-            {
-                addrBytes.Add(messageBytes[index++]);
-                if (index >= messageBytes.Length)
-                {
-                    //logger.LogWarning("Invalid message: {}", messageBytes);
-                    //throw new ProtocolException("address too long");
-                }
-            }
-            if (!addrBytes.Any())
-            {
-                addrBytes.Add(0);
-            }
-
-            Address = addrBytes.ToArray();
-            index++;
-
-            SequenceNumber = messageBytes[index++];
-            MessageType = (BiDiBMessage)messageBytes[index++];
-
-            // data
-            IList<byte> dataBytes = new List<byte>();
-
-            while (index <= Size)
-            {
-                dataBytes.Add(messageBytes[index++]);
-            }
-
-            MessageParameters = dataBytes.ToArray();
-        }
-
-        public byte[] Message { get; }
-
-
-        public byte[] Address { get; }
-
-        public BiDiBMessage MessageType { get; }
-
-        public byte Size { get; }
-
-        public byte[] MessageParameters { get; }
-
-        public byte SequenceNumber { get; }
-
-        private void ValidateParameterCount(int expectedParams)
-        {
-            if (expectedParams > 0 && MessageParameters == null || MessageParameters.Length < expectedParams)
-            {
-                throw new InvalidDataException($"{MessageType} contains wrong data {MessageParameters.GetDataString()}");
+                //logger.LogWarning("Invalid message: {}", messageBytes);
+                //throw new ProtocolException("address too long");
             }
         }
-
-        private void ValidateMessageType(BiDiBMessage expectedMessageType)
+        if (!addrBytes.Any())
         {
-            if (MessageType != expectedMessageType)
-            {
-                throw new InvalidDataException($"The message type {MessageType} does not match the expected {expectedMessageType} type");
-            }
+            addrBytes.Add(0);
         }
 
-        public override string ToString()
+        Address = addrBytes.ToArray();
+        index++;
+
+        SequenceNumber = messageBytes[index++];
+        MessageType = (BiDiBMessage)messageBytes[index++];
+
+        // data
+        IList<byte> dataBytes = new List<byte>();
+
+        while (index <= Size)
         {
-            string addressString = string.Join(".", Address.Select(x => x.ToString(CultureInfo.CurrentCulture)));
-            return $"{BiDiBConstants.InMessagePrefix} {MessageType,-25} addr:{addressString}, seq:{SequenceNumber}, size:{Size}";
+            dataBytes.Add(messageBytes[index++]);
         }
+
+        MessageParameters = dataBytes.ToArray();
+    }
+
+    public byte[] Message { get; }
+
+
+    public byte[] Address { get; }
+
+    public BiDiBMessage MessageType { get; }
+
+    public byte Size { get; }
+
+    public byte[] MessageParameters { get; }
+
+    public byte SequenceNumber { get; }
+
+    private void ValidateParameterCount(int expectedParams)
+    {
+        if (expectedParams > 0 && MessageParameters == null || MessageParameters.Length < expectedParams)
+        {
+            throw new InvalidDataException($"{MessageType} contains wrong data ({expectedParams}/{MessageParameters?.Length}) {MessageParameters.GetDataString()}");
+        }
+    }
+
+    private void ValidateMessageType(BiDiBMessage expectedMessageType)
+    {
+        if (MessageType != expectedMessageType)
+        {
+            throw new InvalidDataException($"The message type {MessageType} does not match the expected {expectedMessageType} type");
+        }
+    }
+
+    public override string ToString()
+    {
+        var addressString = string.Join(".", Address.Select(x => x.ToString(CultureInfo.CurrentCulture)));
+        return $"{BiDiBConstants.InMessagePrefix} {MessageType,-25} addr:{addressString}, seq:{SequenceNumber}, size:{Size}";
     }
 }

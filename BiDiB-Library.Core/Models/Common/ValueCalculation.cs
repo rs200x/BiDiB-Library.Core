@@ -2,27 +2,33 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+/// <summary>
+/// Class representing value calculation object
+/// </summary>
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ValueCalculationType")]
+[XmlRoot("valueCalculation", Namespace = Namespaces.CommonTypesNamespaceUrl, IsNullable = false)]
+public class ValueCalculation
 {
-    /// <summary>
-    /// Class representing value calculation object
-    /// </summary>
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ValueCalculationType")]
-    [XmlRoot("valueCalculation", Namespace = Namespaces.CommonTypesNamespaceUrl, IsNullable = false)]
-    public class ValueCalculation
+    [XmlAttribute("unit")]
+    public UnitType Unit { get; set; }
+
+    [XmlIgnore]
+    public int Digits { get; set; }
+
+    [XmlAttribute("digits")]
+    public string DigitsValue
     {
-        [XmlAttribute("unit")]
-        public UnitType Unit { get; set; }
-
-        [XmlAttribute("digits")]
-        public int Digits { get; set; }
-
-        [XmlElement("item")]
-        public ValueCalculationItem[] Items { get; set; }
-
-        [XmlElement("specialValue")]
-        public SpecialValue[] SpecialValues { get; set; }
+        get => Digits == 0 ? null : Digits.ToString();
+        set => Digits = int.Parse(value);
     }
+
+    [XmlElement("item")]
+    public ValueCalculationItem[] Items { get; set; }
+
+    [XmlElement("specialValue")]
+    public SpecialValue[] SpecialValues { get; set; }
 }

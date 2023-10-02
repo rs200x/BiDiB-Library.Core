@@ -1,9 +1,8 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace org.bidib.netbidibc.core.Enumerations
+namespace org.bidib.Net.Core.Enumerations;
+
+public enum WatchdogState : byte
 {
-    public enum WatchdogState : byte
-    {
-        OFF = 0x00,
-        ON = 0x01
-    }
+    OFF = 0x00,
+    ON = 0x01
 }

@@ -1,18 +1,21 @@
-﻿using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Utils;
+﻿using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input;
+namespace org.bidib.Net.Core.Models.Messages.Input;
 
 [InputMessage(BiDiBMessage.MSG_GUEST_RESP_SUBSCRIPTION)]
 public class GuestResponseSubscriptionMessage : GuestResponseInputMessage
 {
-    public GuestResponseSubscriptionMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_GUEST_RESP_SUBSCRIPTION, 4)
+    public GuestResponseSubscriptionMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_GUEST_RESP_SUBSCRIPTION, 6 + 3)
     {
-        var targetSize = 1 + TargetId.Length;
-        Result = (SubscriptionResult)MessageParameters[targetSize];
-        DownstreamSubscriptions = MessageParameters[targetSize+1];
-        UpstreamSubscriptions = MessageParameters[targetSize+2];
+        var result = MessageParameters[DataIndex];
+        MultiNodeResolution = (result & 1) == 1;
+        Result = (SubscriptionResult)(result >> 1);
+        DownstreamSubscriptions = MessageParameters[DataIndex + 1];
+        UpstreamSubscriptions = MessageParameters[DataIndex + 2];
     }
+
+    public bool MultiNodeResolution { get; }
 
     public SubscriptionResult Result { get; }
 
@@ -20,6 +23,6 @@ public class GuestResponseSubscriptionMessage : GuestResponseInputMessage
 
     public byte UpstreamSubscriptions { get; }
 
-    public override string ToString() => $"{base.ToString()}, R: {Result}, D: {DownstreamSubscriptions.GetBitString()}, U: {UpstreamSubscriptions.GetBitString()}";
+    public override string ToString() => $"{base.ToString()}, R: {Result}, M {MultiNodeResolution}, D: {DownstreamSubscriptions.GetBitString()}, U: {UpstreamSubscriptions.GetBitString()}";
 
 }

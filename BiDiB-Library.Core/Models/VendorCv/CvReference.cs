@@ -2,17 +2,16 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.VendorCv
+namespace org.bidib.Net.Core.Models.VendorCv;
+
+[Serializable]
+[DebuggerStepThrough]
+public class CvReference
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    public class CvReference
-    {
-        [XmlAttribute]
-        public string Number { get; set; }
+    [XmlAttribute]
+    public string Number { get; set; }
 
-        [XmlAttribute]
-        public string Values { get; set; }
+    [XmlAttribute]
+    public string Values { get; set; }
 
-    }
 }

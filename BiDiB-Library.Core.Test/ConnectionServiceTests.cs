@@ -4,14 +4,14 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Controllers.Interfaces;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Services;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Controllers.Interfaces;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Services;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test
+namespace org.bidib.Net.Core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

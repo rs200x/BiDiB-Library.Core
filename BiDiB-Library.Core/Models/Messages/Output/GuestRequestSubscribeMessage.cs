@@ -1,38 +1,26 @@
-﻿using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Utils;
-using System.Collections.Generic;
+﻿using System.Linq;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
-public class GuestRequestSubscribeMessage : BiDiBOutputMessage
+public class GuestRequestSubscribeMessage : GuestRequestOutputMessage
 {
     public GuestRequestSubscribeMessage(byte[] address, TargetMode targetMode, byte[] targetId, byte downstream, byte upstream)
-        : base(address, BiDiBMessage.MSG_GUEST_REQ_SUBSCRIBE)
+        : base(address, targetMode, targetId, BiDiBMessage.MSG_GUEST_REQ_SUBSCRIBE)
     {
-        TargetMode = targetMode;
         DownstreamSubscriptions = downstream;
         UpstreamSubscriptions = upstream;
 
-        var parameters = new List<byte>
-        {
-            (byte)targetMode
-        };
+        BaseParams.Add(DownstreamSubscriptions);
+        BaseParams.Add(UpstreamSubscriptions);
 
-        if (targetId != null)
-        {
-            parameters.AddRange(targetId);
-        }
-
-        parameters.Add(downstream);
-        parameters.Add(upstream);
-
-        Parameters = parameters.ToArray();
+        Parameters = BaseParams.ToArray();
     }
 
-    public TargetMode TargetMode { get; }
-
     public byte DownstreamSubscriptions { get; }
+
     public byte UpstreamSubscriptions { get; }
 
-    public override string ToString() => $"{base.ToString()}, M: {TargetMode}, D: {DownstreamSubscriptions.GetBitString()}, U: {UpstreamSubscriptions.GetBitString()}";
+    public override string ToString() => $"{base.ToString()}, D: {DownstreamSubscriptions.GetBitString()}, U: {UpstreamSubscriptions.GetBitString()}";
 }

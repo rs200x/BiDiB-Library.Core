@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class SysProtocolMessage : BiDiBOutputMessage
 {
-    public SysProtocolMessage(byte[] address) : base(address, BiDiBMessage.MSG_SYS_P_VERSION)
+    public SysProtocolMessage(byte[] address, byte major, byte minor) : base(address, BiDiBMessage.MSG_SYS_P_VERSION)
     {
-        Parameters = new byte[] { 0x08, 0x00 };
+        Parameters = new[] { minor, major };
         Protocol = Parameters.Reverse().ToArray();
     }
 

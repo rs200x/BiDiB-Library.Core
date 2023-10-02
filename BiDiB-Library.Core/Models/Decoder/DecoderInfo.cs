@@ -1,7 +1,7 @@
 ﻿using System;
-using org.bidib.netbidibc.core.Enumerations;
+using org.bidib.Net.Core.Enumerations;
 
-namespace org.bidib.netbidibc.core.Models.Decoder;
+namespace org.bidib.Net.Core.Models.Decoder;
 
 public readonly struct DecoderInfo : IEquatable<DecoderInfo>
 {

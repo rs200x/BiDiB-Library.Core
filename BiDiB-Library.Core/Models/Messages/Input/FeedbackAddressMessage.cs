@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
-using org.bidib.netbidibc.core.Models.Decoder;
-using org.bidib.netbidibc.core.Utils;
+using org.bidib.Net.Core.Models.Decoder;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input
+namespace org.bidib.Net.Core.Models.Messages.Input;
+
+[InputMessage(BiDiBMessage.MSG_BM_ADDRESS)]
+public class FeedbackAddressMessage : FeedbackMessage
 {
-    public class FeedbackAddressMessage : FeedbackMessage
+    public FeedbackAddressMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_ADDRESS, 1)
     {
-        public FeedbackAddressMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_ADDRESS, 1)
+        var addressCount = (MessageParameters.Length - 1) / 2;
+
+        var index = 1;
+        var addresses = new List<DecoderInfo>();
+        for (var i = 0; i < addressCount; i++)
         {
-            int addressCount = (MessageParameters.Length - 1) / 2;
-
-            int index = 1;
-            var addresses = new List<DecoderInfo>();
-            for (int i = 0; i < addressCount; i++)
-            {
-                var address = ByteUtils.GetDecoderAddress(MessageParameters[index], MessageParameters[index + 1]);
-                var direction = MessageParameters[index + 1].GetDecoderDirection();
-                addresses.Add(new DecoderInfo(address, direction));
-                index += 2;
-            }
-
-            Addresses = addresses;
+            var address = ByteUtils.GetDecoderAddress(MessageParameters[index], MessageParameters[index + 1]);
+            var direction = MessageParameters[index + 1].GetDecoderDirection();
+            addresses.Add(new DecoderInfo(address, direction));
+            index += 2;
         }
 
-        public IEnumerable<DecoderInfo> Addresses { get; }
-
-        public override string ToString() => $"{base.ToString()}, Addresses: {string.Join(";", Addresses)}";
+        Addresses = addresses;
     }
+
+    public IEnumerable<DecoderInfo> Addresses { get; }
+
+    public override string ToString() => $"{base.ToString()}, Addresses: {string.Join(";", Addresses)}";
 }

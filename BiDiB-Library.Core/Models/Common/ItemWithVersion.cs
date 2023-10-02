@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common;
+namespace org.bidib.Net.Core.Models.Common;
 
 public class ItemWithVersion
 {

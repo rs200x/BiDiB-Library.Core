@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.NodeFirmware
-{ 
-    [Serializable]
-    [XmlType("NodeTextType",Namespace = Namespaces.FirmwareNamespaceUrl)]
-    public class NodeText
-    {
-        [XmlAttribute]
-        public string Lang { get; set; }
+namespace org.bidib.Net.Core.Models.NodeFirmware;
 
-        [XmlAttribute]
-        public string Text { get; set; }
-    }
+[Serializable]
+[XmlType("NodeTextType",Namespace = Namespaces.FirmwareNamespaceUrl)]
+public class NodeText
+{
+    [XmlAttribute]
+    public string Lang { get; set; }
+
+    [XmlAttribute]
+    public string Text { get; set; }
 }

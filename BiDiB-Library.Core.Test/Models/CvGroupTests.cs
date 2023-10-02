@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FluentAssertions;
-using org.bidib.netbidibc.core.Models.Common;
-using org.bidib.netbidibc.Testing;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using org.bidib.Net.Core.Models.Common;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -21,85 +21,84 @@ namespace org.bidib.netbidibc.core.Test.Models
         [TestMethod]
         public void TypeShouldReturnListWhenTypeStringSetToUnknownType()
         {
-            TestType("Test", CvGroupType.List);
+            TestType("CVG", CvGroupType.List);
         }
 
         [TestMethod]
         public void TypeShouldReturnCentesimalIntWhenTypeStringSetToCentesimalInt()
         {
-            TestType("centesimalInt", CvGroupType.CentesimalInt);
+            TestType("CET", CvGroupType.CentesimalInt);
         }
 
         [TestMethod]
         public void TypeShouldReturnDccAccAddrWhenTypeStringSetToDccAccAddr()
         {
-            TestType("dccAccAddr", CvGroupType.DccAccAddr);
+            TestType("DAA", CvGroupType.DccAccAddr);
         }
 
         [TestMethod]
         public void TypeShouldReturndccAddrRgWhenTypeStringSetToDccAddrRg()
         {
-            TestType("dccAddrRg", CvGroupType.DccAddrRg);
+            TestType("DAR", CvGroupType.DccAddrRg);
         }
 
         [TestMethod]
         public void TypeShouldReturnDccLongAddrWhenTypeStringSetToDccLongAddr()
         {
-            TestType("dccLongAddr", CvGroupType.DccLongAddr);
+            TestType("DLA", CvGroupType.DccLongAddr);
         }
 
         [TestMethod]
         public void TypeShouldReturnDccLongConsistWhenTypeStringSetToDccLongConsist()
         {
-            TestType("dccLongConsist", CvGroupType.DccLongConsist);
+            TestType("DLC", CvGroupType.DccLongConsist);
         }
 
         [TestMethod]
         public void TypeShouldReturnDccSpeedCurveWhenTypeStringSetToDccSpeedCurve()
         {
-            TestType("dccSpeedCurve", CvGroupType.DccSpeedCurve);
+            TestType("DSC", CvGroupType.DccSpeedCurve);
         }
 
         [TestMethod]
         public void TypeShouldReturnIntWhenTypeStringSetToInt()
         {
-            TestType("int", CvGroupType.Int);
+            TestType("INT", CvGroupType.Int);
         }
 
         [TestMethod]
         public void TypeShouldReturnLongWhenTypeStringSetToLong()
         {
-            TestType("long", CvGroupType.Long);
+            TestType("LNG", CvGroupType.Long);
         }
 
         [TestMethod]
         public void TypeShouldReturnMatrixWhenTypeStringSetToMatrix()
         {
-            TestType("matrix", CvGroupType.Matrix);
+            TestType("MTX", CvGroupType.Matrix);
         }
 
         [TestMethod]
         public void TypeShouldReturnRgbColorWhenTypeStringSetToRgbColor()
         {
-            TestType("rgbColor", CvGroupType.RgbColor);
+            TestType("RGB", CvGroupType.RgbColor);
         }
 
         [TestMethod]
         public void TypeShouldReturnStringColorWhenTypeStringSetToString()
         {
-            TestType("string", CvGroupType.String);
+            TestType("STR", CvGroupType.String);
         }
 
         private void TestType(string typeValue, CvGroupType expectedType)
         {
             // Arrange
-            target.TypeString = typeValue;
-
+           
             // Act
-            CvGroupType type = target.Type;
+            target.Type = expectedType;
 
             // Assert
-            type.Should().Be(expectedType);
+            target.TypeShortName.Should().Be(typeValue);
         }
     }
 }

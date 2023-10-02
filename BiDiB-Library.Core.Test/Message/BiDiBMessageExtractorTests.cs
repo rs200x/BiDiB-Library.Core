@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Message
+namespace org.bidib.Net.Core.Test.Message
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -17,7 +18,8 @@ namespace org.bidib.netbidibc.core.Test.Message
         {
             base.OnTestInitialize();
 
-            Target = new BiDiBMessageExtractor();
+            
+            Target = new BiDiBMessageExtractor(new MessageFactory(NullLogger<MessageFactory>.Instance));
         }
 
         [TestMethod]
@@ -104,7 +106,7 @@ namespace org.bidib.netbidibc.core.Test.Message
             */
 
             byte[] messageBytes1 = GetBytes("06-01-00-01-83-06-00-1A");
-            byte[] messageBytes2 = new byte[0];
+            byte[] messageBytes2 = Array.Empty<byte>();
             byte[] messageBytes3 = GetBytes("FE-07-01-00-02-85-02-01-02-01-FE");
             byte[] messageBytes4 = GetBytes("05-01-00-03-92-12-B1-FE");
             byte[] messageBytes5 = GetBytes("0C-00-14-89-05-02-05-00-0D-7A-00-77-ED-11-FE");

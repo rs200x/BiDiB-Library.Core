@@ -1,9 +1,8 @@
-﻿using org.bidib.netbidibc.core.Models.Messages.Input;
+﻿using org.bidib.Net.Core.Models.Messages.Input;
 
-namespace org.bidib.netbidibc.core.Message
+namespace org.bidib.Net.Core.Message;
+
+public interface IMessageReceiver
 {
-    public interface IMessageReceiver
-    {
-        void ProcessMessage(BiDiBInputMessage message);
-    }
+    void ProcessMessage(BiDiBInputMessage message);
 }

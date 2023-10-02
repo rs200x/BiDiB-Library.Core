@@ -1,14 +1,13 @@
-﻿using org.bidib.netbidibc.core.Models;
+﻿using org.bidib.Net.Core.Models;
 
-namespace org.bidib.netbidibc.core.Services.EventArgs
+namespace org.bidib.Net.Core.Services.EventArgs;
+
+public class ConnectionStateChangedEventArgs : System.EventArgs
 {
-    public class ConnectionStateChangedEventArgs : System.EventArgs
+    public ConnectionStateChangedEventArgs(ConnectionStateInfo stateInfo)
     {
-        public ConnectionStateChangedEventArgs(ConnectionStateInfo stateInfo)
-        {
-            StateInfo = stateInfo;
-        }
-
-        public ConnectionStateInfo StateInfo { get; }
+        StateInfo = stateInfo;
     }
+
+    public ConnectionStateInfo StateInfo { get; }
 }

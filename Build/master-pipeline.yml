@@ -111,3 +111,7 @@ steps:
       nuGetFeedType: 'internal'
       publishVstsFeed: '318ba8a7-6ebb-41b0-994d-1baee3e08af0'
       allowPackageConflicts: true
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: "300"

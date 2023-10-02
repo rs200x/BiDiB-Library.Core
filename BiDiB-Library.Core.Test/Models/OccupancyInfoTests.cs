@@ -3,12 +3,12 @@ using System.Reflection;
 using System.Threading;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Models.BiDiB;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Models.BiDiB;
+using org.bidib.Net.Testing;
 using Timer = System.Timers.Timer;
-using org.bidib.netbidibc.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

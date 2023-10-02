@@ -1,14 +1,13 @@
-﻿using org.bidib.netbidibc.core.Models;
+﻿using org.bidib.Net.Core.Models;
 
-namespace org.bidib.netbidibc.core.Services.EventArgs
+namespace org.bidib.Net.Core.Services.EventArgs;
+
+public class BiDiBNodeRemovedEventArgs : System.EventArgs
 {
-    public class BiDiBNodeRemovedEventArgs : System.EventArgs
+    public BiDiBNodeRemovedEventArgs(BiDiBNode node)
     {
-        public BiDiBNodeRemovedEventArgs(BiDiBNode node)
-        {
-            Node = node;
-        }
-
-        public BiDiBNode Node { get; private set; }
+        Node = node;
     }
+
+    public BiDiBNode Node { get; private set; }
 }

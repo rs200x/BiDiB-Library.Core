@@ -1,15 +1,14 @@
 ﻿using System;
-using org.bidib.netbidibc.core.Models.BiDiB;
+using org.bidib.Net.Core.Models.BiDiB;
 
-namespace org.bidib.netbidibc.core.Models
+namespace org.bidib.Net.Core.Models;
+
+public class PositionPortUpdatedEventArgs : EventArgs
 {
-    public class PositionPortUpdatedEventArgs : EventArgs
+    public PositionPortUpdatedEventArgs(PositionPort port)
     {
-        public PositionPortUpdatedEventArgs(PositionPort port)
-        {
-            Port = port;
-        }
-
-        public PositionPort Port { get; }
+        Port = port;
     }
+
+    public PositionPort Port { get; }
 }

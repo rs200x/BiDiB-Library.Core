@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.Product;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.Product;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test
+namespace org.bidib.Net.Core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

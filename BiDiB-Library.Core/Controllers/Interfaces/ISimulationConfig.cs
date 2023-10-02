@@ -1,4 +1,4 @@
-﻿namespace org.bidib.netbidibc.core.Controllers.Interfaces;
+﻿namespace org.bidib.Net.Core.Controllers.Interfaces;
 
 public interface ISimulationConfig : IConnectionConfig
 {

@@ -1,15 +1,10 @@
-﻿namespace org.bidib.netbidibc.core.Controllers.Interfaces
+﻿namespace org.bidib.Net.Core.Controllers.Interfaces;
+
+public interface INetConfig : IConnectionConfig
 {
-    public interface INetConfig : IConnectionConfig
-    {
-        string NetworkHostAddress { get; set; }
+    string NetworkHostAddress { get; set; }
 
-        int NetworkPortNumber { get; set; }
+    int NetworkPortNumber { get; set; }
 
-        string ApplicationName { get; set; }
-
-        string NetBiDiBClientId { get; set; }
-
-        byte NetBiDiBPairingTimeout { get; set; }
-    }
+    string ApplicationName { get; set; }
 }

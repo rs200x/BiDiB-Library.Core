@@ -3,12 +3,12 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Services.Interfaces;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Services.Interfaces;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test
+namespace org.bidib.Net.Core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -33,7 +33,7 @@ namespace org.bidib.netbidibc.core.Test
             boosterNodesManager = new Mock<IBiDiBBoosterNodesManager>();
 
             Target = new BiDiBInterface(connectionService.Object, messageService.Object, messageProcessor.Object, nodesFactory.Object, 
-                boosterNodesManager.Object, Array.Empty<IMessageReceiver>(), NullLoggerFactory.Instance);
+                boosterNodesManager.Object, Array.Empty<IMessageReceiver>(), Array.Empty<IConnectionStrategy>(), NullLogger<BiDiBInterface>.Instance);
         }
 
         [TestMethod]

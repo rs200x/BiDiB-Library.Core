@@ -1,7 +1,7 @@
-﻿using org.bidib.netbidibc.core.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class StringMessage : BiDiBOutputMessage
 {

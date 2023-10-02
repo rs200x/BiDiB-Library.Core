@@ -1,40 +1,38 @@
-﻿using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Utils;
-using System.Collections.Generic;
+﻿using System.Linq;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
-public class GuestRequestSendMessage : BiDiBOutputMessage
+public class GuestRequestSendMessage : GuestRequestOutputMessage
 {
-    public GuestRequestSendMessage(byte[] address, TargetMode targetMode, byte[] nodeId, BiDiBMessage targetMessageType, byte[] messageParams = null) : base(address, BiDiBMessage.MSG_GUEST_REQ_SEND)
+    public GuestRequestSendMessage(byte[] address, TargetMode targetMode, byte[] targetId, BiDiBMessage targetMessageType) 
+        : this(address, targetMode, targetId, targetMessageType, null)
     {
-        TargetMode = targetMode;
+    }
+    
+    public GuestRequestSendMessage(byte[] address, TargetMode targetMode, byte[] targetId, BiDiBMessage targetMessageType, byte[] messageParams) 
+        : base(address, targetMode, targetId, BiDiBMessage.MSG_GUEST_REQ_SEND)
+    {
         TargetMessageType = targetMessageType;
-        NodeId = nodeId;
 
-        var parameters = new List<byte> { (byte)targetMode };
-
-        if(TargetMode == TargetMode.BIDIB_TARGET_MODE_UID)
-        {
-            parameters.AddRange(nodeId);
-        }
-
-        
-        parameters.Add((byte)targetMessageType);
+        BaseParams.Add((byte)targetMessageType);
 
         if (messageParams != null)
         {
-            parameters.AddRange(messageParams);
+            MessageParams = messageParams;
+            foreach (var messageParam in messageParams)
+            {
+                BaseParams.Add(messageParam);
+            }
         }
 
-        Parameters = parameters.ToArray();
+        Parameters = BaseParams.ToArray();
     }
-
-    public TargetMode TargetMode { get; }
 
     public BiDiBMessage TargetMessageType { get; }
 
-    public byte[] NodeId { get; }
+    public byte[] MessageParams { get; }
 
-    public override string ToString() => $"{base.ToString()}, M: {TargetMode}, T: {TargetMessageType} NID: {NodeId.GetDataString()}";
+    public override string ToString() => $"{base.ToString()}, T: {TargetMessageType} P: {MessageParams.GetDataString()}";
 }

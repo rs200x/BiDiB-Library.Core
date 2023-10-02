@@ -4,298 +4,303 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.BiDiB;
-using org.bidib.netbidibc.core.Models.BiDiB.Extensions;
-using org.bidib.netbidibc.core.Models.Decoder;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Services.Interfaces;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Models.BiDiB;
+using org.bidib.Net.Core.Models.BiDiB.Extensions;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Core.Services.Interfaces;
 
-namespace org.bidib.netbidibc.core.Message
+namespace org.bidib.Net.Core.Message;
+
+[Export(typeof(IMessageReceiver))]
+[PartCreationPolicy(CreationPolicy.Shared)]
+public class MainMessageReceiver : IMessageReceiver
 {
-    [Export(typeof(IMessageReceiver))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class MainMessageReceiver : IMessageReceiver
+    private readonly ILogger<MainMessageReceiver> logger;
+    private readonly IBiDiBMessageService messageService;
+    private readonly IBiDiBNodesFactory nodesFactory;
+    private readonly Dictionary<BiDiBMessage, Action<BiDiBInputMessage>> messageHandlers;
+
+    [ImportingConstructor]
+    public MainMessageReceiver(IBiDiBMessageService messageService, IBiDiBNodesFactory nodesFactory, ILoggerFactory loggerFactory)
     {
-        private readonly ILogger<MainMessageReceiver> logger;
-        private readonly IBiDiBMessageService messageService;
-        private readonly IBiDiBNodesFactory nodesFactory;
-        private readonly Dictionary<BiDiBMessage, Action<BiDiBInputMessage>> messageHandlers;
+        this.messageService = messageService;
+        this.nodesFactory = nodesFactory;
+        logger = loggerFactory.CreateLogger<MainMessageReceiver>();
+        messageHandlers = new Dictionary<BiDiBMessage, Action<BiDiBInputMessage>>();
+        RegisterMessageHandlers();
+    }
 
-        [ImportingConstructor]
-        public MainMessageReceiver(IBiDiBMessageService messageService, IBiDiBNodesFactory nodesFactory, ILoggerFactory loggerFactory)
+    private void RegisterMessageHandlers()
+    {
+        messageHandlers.Add(BiDiBMessage.MSG_NODE_NEW, message => HandleNodeNew(message as NodeNewMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_NODE_LOST, message => HandleNodeLost(message as NodeLostMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_MULTIPLE, message => HandleFeedbackMultiple(message as FeedbackMultipleMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_FREE, message => HandleFeedbackMessage(message as FeedbackMessage, true));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_OCC, message => HandleFeedbackMessage(message as FeedbackOccupiedMessage, false));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_ADDRESS, message => HandleFeedbackAddressMessage(message as FeedbackAddressMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_SPEED, message => HandleFeedbackSpeedMessage(message as FeedbackSpeedMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_DYN_STATE, message => HandleFeedbackDynStateMessage(message as FeedbackDynStateMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_BM_POSITION, message => HandleFeedbackPositionMessage(message as FeedbackPositionMessage));
+        messageHandlers.Add(BiDiBMessage.MSG_SYS_IDENTIFY_STATE, message => HandleIdentifyState(message as SysIdentifyStateMessage));
+    }
+
+    public void ProcessMessage(BiDiBInputMessage message)
+    {
+        if (message == null || !messageHandlers.ContainsKey(message.MessageType)) { return; }
+
+        var handler = messageHandlers[message.MessageType];
+        handler(message);
+    }
+
+    private void HandleNodeNew(NodeTabMessage message)
+    {
+        if (message == null) { return; }
+
+        messageService.SendMessage(BiDiBMessage.MSG_NODE_CHANGED_ACK, message.Address, message.TableVersion);
+        Task.Factory.StartNew(() => nodesFactory.CreateNode(message.NodeAddress, message.UniqueId));
+    }
+
+    private void HandleNodeLost(NodeTabMessage message)
+    {
+        if (message == null) { return; }
+
+        messageService.SendMessage(BiDiBMessage.MSG_NODE_CHANGED_ACK, message.Address, message.TableVersion);
+        nodesFactory.RemoveNode(message.NodeAddress);
+        messageService.ResetMessageSequenceNumber(message.NodeAddress);
+    }
+
+    private void HandleFeedbackMultiple(FeedbackMultipleMessage message)
+    {
+        if (message == null) { return; }
+        messageService.SendMessage(BiDiBMessage.MSG_BM_MIRROR_MULTIPLE, message.Address, message.MessageParameters);
+
+        Node node = nodesFactory.GetNode(message.Address);
+
+        if (node?.FeedbackPorts == null)
         {
-            this.messageService = messageService;
-            this.nodesFactory = nodesFactory;
-            logger = loggerFactory.CreateLogger<MainMessageReceiver>();
-            messageHandlers = new Dictionary<BiDiBMessage, Action<BiDiBInputMessage>>();
-            RegisterMessageHandlers();
+            return;
         }
 
-        private void RegisterMessageHandlers()
+        for (var i = 0; i < message.StateSize; i++)
         {
-            messageHandlers.Add(BiDiBMessage.MSG_NODE_NEW, message => HandleNodeNew(message as NodeNewMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_NODE_LOST, message => HandleNodeLost(message as NodeLostMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_MULTIPLE, message => HandleFeedbackMultiple(message as FeedbackMultipleMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_FREE, message => HandleFeedbackMessage(message as FeedbackMessage, true));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_OCC, message => HandleFeedbackMessage(message as FeedbackOccupiedMessage, false));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_ADDRESS, message => HandleFeedbackAddressMessage(message as FeedbackAddressMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_SPEED, message => HandleFeedbackSpeedMessage(message as FeedbackSpeedMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_DYN_STATE, message => HandleFeedbackDynStateMessage(message as FeedbackDynStateMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_BM_POSITION, message => HandleFeedbackPositionMessage(message as FeedbackPositionMessage));
-            messageHandlers.Add(BiDiBMessage.MSG_SYS_IDENTIFY_STATE, message => HandleIdentifyState(message as SysIdentifyStateMessage));
+            UpdateOccupancy(node, message.FeedbackNumber + i, !message.PortStates[i], message.Timestamp);
+        }
+    }
+
+    private void HandleFeedbackMessage(FeedbackMessage feedbackMessage, bool isFree)
+    {
+        messageService.SendMessage(isFree ? BiDiBMessage.MSG_BM_MIRROR_FREE : BiDiBMessage.MSG_BM_MIRROR_OCC, feedbackMessage.Address, feedbackMessage.FeedbackNumber);
+
+        Node node = nodesFactory.GetNode(feedbackMessage.Address);
+
+        if (node?.FeedbackPorts == null)
+        {
+            return;
         }
 
-        public void ProcessMessage(BiDiBInputMessage message)
-        {
-            if (message == null || !messageHandlers.ContainsKey(message.MessageType)) { return; }
+        UpdateOccupancy(node, feedbackMessage.FeedbackNumber, isFree, feedbackMessage.Timestamp);
+    }
 
-            var handler = messageHandlers[message.MessageType];
-            handler(message);
+    private void HandleFeedbackPositionMessage(FeedbackPositionMessage message)
+    {
+        if (message == null)
+        {
+            return;
+        }
+        
+        messageService.SendMessage(BiDiBMessage.MSG_BM_MIRROR_POSITION, message.Address, message.MessageParameters);
+
+        var node = nodesFactory.GetNode(message.Address);
+
+        if (node == null) { return; }
+
+        var occupiedPorts = node.PositionPorts.Values
+            .Where(x => x.Occupancies != null && Array.Exists(x.Occupancies, o => o.Address == message.FeedbackAddress))
+            .ToList();
+        
+        foreach (var occupiedPort in occupiedPorts)
+        {
+            occupiedPort.ClearOccupancies();
         }
 
-        private void HandleNodeNew(NodeTabMessage message)
-        {
-            if (message == null) { return; }
+        var port = node.PositionPorts.TryGetValue(message.Location, out var positionPort)
+            ? positionPort
+            : new PositionPort(message.Location);
 
-            messageService.SendMessage(BiDiBMessage.MSG_NODE_CHANGED_ACK, message.Address, message.TableVersion);
-            Task.Factory.StartNew(() => nodesFactory.CreateNode(message.NodeAddress, message.UniqueId));
+        port.AddOccupancy(new OccupancyInfo { Address = message.FeedbackAddress });
+
+        node.UpdatePosition(port);
+    }
+
+    private void HandleFeedbackAddressMessage(FeedbackAddressMessage message)
+    {
+        var node = nodesFactory.GetNode(message.Address);
+
+        if (node == null) { return; }
+
+        IOccupanciesHost occupancyProvider =
+            node.FeedbackPorts == null || node.FeedbackPorts.Length <= message.FeedbackNumber
+                ? node
+                : node.FeedbackPorts[message.FeedbackNumber];
+
+        if (message.Addresses.Count() == 1 && message.Addresses.ElementAt(0).Address == 0)
+        {
+            occupancyProvider.ClearOccupancies();
+            return;
         }
 
-        private void HandleNodeLost(NodeTabMessage message)
+        foreach (var decoderInfo in message.Addresses)
         {
-            if (message == null) { return; }
+            var info = occupancyProvider.GetOccupancy(decoderInfo.Address);
 
-            messageService.SendMessage(BiDiBMessage.MSG_NODE_CHANGED_ACK, message.Address, message.TableVersion);
-            nodesFactory.RemoveNode(message.NodeAddress);
-            messageService.ResetMessageSequenceNumber(message.NodeAddress);
-        }
-
-        private void HandleFeedbackMultiple(FeedbackMultipleMessage message)
-        {
-            if (message == null) { return; }
-            messageService.SendMessage(BiDiBMessage.MSG_BM_MIRROR_MULTIPLE, message.Address, message.MessageParameters);
-
-            Node node = nodesFactory.GetNode(message.Address);
-
-            if (node?.FeedbackPorts == null)
+            if (info == null)
             {
-                return;
+                info = new OccupancyInfo { Address = decoderInfo.Address };
+                occupancyProvider.AddOccupancy(info);
             }
 
-            for (int i = 0; i < message.StateSize; i++)
-            {
-                UpdateOccupancy(node, message.FeedbackNumber + i, !message.PortStates[i], message.Timestamp);
-            }
+            info.Direction = decoderInfo.Direction;
         }
 
-        private void HandleFeedbackMessage(FeedbackMessage feedbackMessage, bool isFree)
+        var oldInfos = occupancyProvider.GetOccupanciesByFilter(x => message.Addresses.All(a => a.Address != x.Address));
+        foreach (var occupancy in oldInfos)
         {
-            messageService.SendMessage(isFree ? BiDiBMessage.MSG_BM_MIRROR_FREE : BiDiBMessage.MSG_BM_MIRROR_OCC, feedbackMessage.Address, feedbackMessage.FeedbackNumber);
+            occupancyProvider.RemoveOccupancy(occupancy);
+        }
+    }
 
-            Node node = nodesFactory.GetNode(feedbackMessage.Address);
+    private void HandleFeedbackSpeedMessage(FeedbackSpeedMessage message)
+    {
+        var node = nodesFactory.GetNode(message.Address);
+        if (node == null) { return; }
 
-            if (node?.FeedbackPorts == null)
-            {
-                return;
-            }
-
-            UpdateOccupancy(node, feedbackMessage.FeedbackNumber, isFree, feedbackMessage.Timestamp);
+        if (node.FeedbackPorts == null)
+        {
+            var occupancy = node.GetOccupancy(message.DecoderAddress);
+            UpdateOccupancy(occupancy, message);
+            return;
         }
 
-        private void HandleFeedbackPositionMessage(FeedbackPositionMessage message)
+        UpdateAllPortOccupancies(node, message.DecoderAddress, oi => UpdateOccupancy(oi, message));
+    }
+
+    private void HandleFeedbackDynStateMessage(FeedbackDynStateMessage message)
+    {
+        var node = nodesFactory.GetNode(message.Address);
+        if (node == null) { return; }
+
+        if (node.FeedbackPorts == null)
         {
-            messageService.SendMessage(BiDiBMessage.MSG_BM_MIRROR_POSITION, message.Address, message.MessageParameters);
-
-            BiDiBNode node = nodesFactory.GetNode(message.Address);
-
-            if (node == null) { return; }
-
-            var occupiedPorts = node.PositionPorts.Values.Where(x => x.Occupancies != null && x.Occupancies.Any(o => o.Address == message.FeedbackAddress)).ToList();
-            foreach (var occupiedPort in occupiedPorts)
-            {
-                occupiedPort.ClearOccupancies();
-            }
-
-            var port = node.PositionPorts.ContainsKey(message.Location)
-                ? node.PositionPorts[message.Location]
-                : new PositionPort(message.Location);
-
-            port.AddOccupancy(new OccupancyInfo { Address = message.FeedbackAddress });
-
-            node.UpdatePosition(port);
+            var occupancy = node.GetOccupancy(message.DecoderAddress);
+            UpdateOccupancy(occupancy, message);
+            return;
         }
 
-        private void HandleFeedbackAddressMessage(FeedbackAddressMessage message)
+        UpdateAllPortOccupancies(node, message.DecoderAddress, oi => UpdateOccupancy(oi, message));
+    }
+
+    private static void UpdateAllPortOccupancies(Node node, ushort decoderAddress, Action<OccupancyInfo> updateAction)
+    {
+        foreach (var occupancies in node.FeedbackPorts.Select(x=>x.Occupancies))
         {
-            BiDiBNode node = nodesFactory.GetNode(message.Address);
+            if (occupancies == null) { return; }
 
-            if (node == null) { return; }
-
-            IOccupanciesHost occupancyProvider =
-                node.FeedbackPorts == null || node.FeedbackPorts.Length <= message.FeedbackNumber
-                    ? node
-                    : node.FeedbackPorts[message.FeedbackNumber];
-
-            if (message.Addresses.Count() == 1 && message.Addresses.ElementAt(0).Address == 0)
+            foreach (var occupancyInfo in occupancies)
             {
-                occupancyProvider.ClearOccupancies();
-                return;
-            }
-
-            foreach (DecoderInfo decoderInfo in message.Addresses)
-            {
-                OccupancyInfo info = occupancyProvider.GetOccupancy(decoderInfo.Address);
-
-                if (info == null)
+                if (occupancyInfo.Address != decoderAddress)
                 {
-                    info = new OccupancyInfo { Address = decoderInfo.Address };
-                    occupancyProvider.AddOccupancy(info);
+                    continue;
                 }
 
-                info.Direction = decoderInfo.Direction;
-            }
-
-            ICollection<OccupancyInfo> oldInfos = occupancyProvider.GetOccupanciesByFilter(x => message.Addresses.All(a => a.Address != x.Address));
-            foreach (OccupancyInfo occupancy in oldInfos)
-            {
-                occupancyProvider.RemoveOccupancy(occupancy);
+                updateAction(occupancyInfo);
             }
         }
+    }
 
-        private void HandleFeedbackSpeedMessage(FeedbackSpeedMessage message)
+    private void UpdateOccupancy(Node node, int feedbackNumber, bool isFree, ushort timestamp)
+    {
+        if (feedbackNumber >= node.FeedbackPorts.Length)
         {
-            BiDiBNode node = nodesFactory.GetNode(message.Address);
-            if (node == null) { return; }
-
-            if (node.FeedbackPorts == null)
-            {
-                var occupancy = node.GetOccupancy(message.DecoderAddress);
-                UpdateOccupancy(occupancy, message);
-                return;
-            }
-
-            UpdateAllPortOccupancies(node, message.DecoderAddress, oi => UpdateOccupancy(oi, message));
+            logger.LogWarning($"Feedback port '{feedbackNumber}' is out of range ({node.FeedbackPorts.Length}) of node {node.GetFullAddressString()}");
+            return;
         }
 
-        private void HandleFeedbackDynStateMessage(FeedbackDynStateMessage message)
+        var port = node.FeedbackPorts[feedbackNumber];
+
+        port.IsFree = isFree;
+
+        if (isFree)
         {
-            BiDiBNode node = nodesFactory.GetNode(message.Address);
-            if (node == null) { return; }
-
-            if (node.FeedbackPorts == null)
-            {
-                var occupancy = node.GetOccupancy(message.DecoderAddress);
-                UpdateOccupancy(occupancy, message);
-                return;
-            }
-
-            UpdateAllPortOccupancies(node, message.DecoderAddress, oi => UpdateOccupancy(oi, message));
+            port.ClearOccupancies();
         }
-
-        private static void UpdateAllPortOccupancies(Node node, ushort decoderAddress, Action<OccupancyInfo> updateAction)
+        else
         {
-            foreach (FeedbackPort feedbackPort in node.FeedbackPorts)
-            {
-                if (feedbackPort.Occupancies == null) { return; }
-
-                foreach (OccupancyInfo occupancyInfo in feedbackPort.Occupancies)
-                {
-                    if (occupancyInfo.Address != decoderAddress)
-                    {
-                        continue;
-                    }
-
-                    updateAction(occupancyInfo);
-                }
-            }
+            port.TimeOccupied = timestamp;
         }
+    }
 
-        private void UpdateOccupancy(Node node, int feedbackNumber, bool isFree, ushort timestamp)
+    private static void UpdateOccupancy(OccupancyInfo occupancy, FeedbackSpeedMessage message)
+    {
+        if (occupancy == null || message == null) { return; }
+        occupancy.Speed = message.Speed;
+        occupancy.Direction = message.Direction;
+    }
+
+    private void UpdateOccupancy(OccupancyInfo occupancy, FeedbackDynStateMessage message)
+    {
+        if (occupancy == null || message == null) { return; }
+        ApplyStateValue(message.DynState, occupancy, message.StateValue);
+        occupancy.Direction = message.Direction;
+    }
+
+    private void ApplyStateValue(DynState dynState, OccupancyInfo occupancyInfo, int value)
+    {
+        switch (dynState)
         {
-            if (feedbackNumber >= node.FeedbackPorts.Length)
+            case DynState.SignalQuality:
+                occupancyInfo.Quality = value;
+                break;
+            case DynState.Temperature:
             {
-                logger.LogWarning($"Feedback port '{feedbackNumber}' is out of range ({node.FeedbackPorts.Length}) of node {node.GetFullAddressString()}");
-                return;
+                if (value <= 127) { occupancyInfo.Temperature = value; }
+                if (value is >= 226 and <= 255) { occupancyInfo.Temperature = (sbyte)value; }
+                break;
             }
-
-            FeedbackPort port = node.FeedbackPorts[feedbackNumber];
-
-            port.IsFree = isFree;
-
-            if (isFree)
+            case DynState.Container1:
+                occupancyInfo.Container1 = value;
+                break;
+            case DynState.Container2:
+                occupancyInfo.Container2 = value;
+                break;
+            case DynState.Container3:
+                occupancyInfo.Container3 = value;
+                break;
+            case DynState.TrackVoltage:
+                occupancyInfo.TrackVoltage = value * 0.1;
+                break;
+            case DynState.Reserved:
+            case DynState.Distance:
             {
-                port.ClearOccupancies();
+                // Not handled at the moment
+                break;
             }
-            else
+            default:
             {
-                port.TimeOccupied = timestamp;
-            }
-        }
-
-        private static void UpdateOccupancy(OccupancyInfo occupancy, FeedbackSpeedMessage message)
-        {
-            if (occupancy == null || message == null) { return; }
-            occupancy.Speed = message.Speed;
-            occupancy.Direction = message.Direction;
-        }
-
-        private void UpdateOccupancy(OccupancyInfo occupancy, FeedbackDynStateMessage message)
-        {
-            if (occupancy == null || message == null) { return; }
-            ApplyStateValue(message.DynState, occupancy, message.StateValue);
-            occupancy.Direction = message.Direction;
-        }
-
-        private void ApplyStateValue(DynState dynState, OccupancyInfo occupancyInfo, int value)
-        {
-            switch (dynState)
-            {
-                case DynState.SignalQuality:
-                    occupancyInfo.Quality = value;
-                    break;
-                case DynState.Temperature:
-                    {
-                        if (value <= 127) { occupancyInfo.Temperature = value; }
-                        if (value is >= 226 and <= 255) { occupancyInfo.Temperature = (sbyte)value; }
-                        break;
-                    }
-                case DynState.Container1:
-                    occupancyInfo.Container1 = value;
-                    break;
-                case DynState.Container2:
-                    occupancyInfo.Container2 = value;
-                    break;
-                case DynState.Container3:
-                    occupancyInfo.Container3 = value;
-                    break;
-                case DynState.TrackVoltage:
-                    occupancyInfo.TrackVoltage = value * 0.1;
-                    break;
-                case DynState.Reserved:
-                case DynState.Distance:
-                    {
-                        // Not handled at the moment
-                        break;
-                    }
-                default:
-                    {
-                        logger.LogDebug($"Dyn state {dynState} is not handled to occupancy!");
-                        break;
-                    }
+                logger.LogDebug("Dyn state {DynState} is not handled to occupancy!", dynState);
+                break;
             }
         }
+    }
 
-        private void HandleIdentifyState(SysIdentifyStateMessage message)
-        {
-            if (message == null) { return; }
+    private void HandleIdentifyState(SysIdentifyStateMessage message)
+    {
+        if (message == null) { return; }
 
-            var node = nodesFactory.GetNode(message.Address);
+        var node = nodesFactory.GetNode(message.Address);
 
-            if (node == null) { return; }
+        if (node == null) { return; }
 
-            node.State = message.Enabled ? NodeState.Identifying : NodeState.Ok;
-        }
+        node.State = message.Enabled ? NodeState.Identifying : NodeState.Ok;
     }
 }

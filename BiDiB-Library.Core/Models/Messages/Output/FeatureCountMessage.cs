@@ -1,4 +1,4 @@
-﻿namespace org.bidib.netbidibc.core.Models.Messages.Output;
+﻿namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class FeatureCountMessage : BiDiBOutputMessage
 {
@@ -6,7 +6,7 @@ public class FeatureCountMessage : BiDiBOutputMessage
     {
         Count = count;
         StreamingSupported = streamingSupported;
-        Parameters = new byte[] { Count, (byte) (StreamingSupported ? 0x01 : 0x00) };
+        Parameters = new[] { Count, (byte) (StreamingSupported ? 0x01 : 0x00) };
     }
 
     public byte Count { get; }

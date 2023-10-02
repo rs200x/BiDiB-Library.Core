@@ -3,12 +3,12 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Models.Common;
-using org.bidib.netbidibc.core.Models.Firmware;
-using org.bidib.netbidibc.core.Models.Helpers;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Models.Common;
+using org.bidib.Net.Core.Models.Firmware;
+using org.bidib.Net.Core.Models.Helpers;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -255,7 +255,7 @@ namespace org.bidib.netbidibc.core.Test.Models
             FirmwareProtocol protocol = new FirmwareProtocol
             {
                 Type = ProtocolType.DCC,
-                CVs = new CvBase[0],
+                CVs = Array.Empty<CvBase>(),
                 CvStructure = new[] { category }
             };
 

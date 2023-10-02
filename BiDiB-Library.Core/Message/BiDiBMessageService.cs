@@ -1,330 +1,347 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Models.Messages.Output;
-using org.bidib.netbidibc.core.Properties;
-using org.bidib.netbidibc.core.Services.Interfaces;
-using org.bidib.netbidibc.core.Utils;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Core.Models.Messages.Output;
+using org.bidib.Net.Core.Services.Interfaces;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Message
+namespace org.bidib.Net.Core.Message;
+
+/// <summary>
+/// The message service is the main instance processing incoming and outgoing bidib messages
+/// Incoming messages get transformed into <see cref="BiDiBInputMessage"/> and provided to all <see cref="IMessageReceiver"/>
+/// Outgoing messages get queued and send to the interface
+/// </summary>
+[Localizable(false)]
+[Export(typeof(IBiDiBMessageService))]
+[PartCreationPolicy(CreationPolicy.Shared)]
+public sealed class BiDiBMessageService : IBiDiBMessageService
 {
-    /// <summary>
-    /// The message service is the main instance processing incoming and outgoing bidib messages
-    /// Incoming messages get transformed into <see cref="BiDiBInputMessage"/> and provided to all <see cref="IMessageReceiver"/>
-    /// Outgoing messages get queued and send to the interface
-    /// </summary>
-    [Export(typeof(IBiDiBMessageService))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public sealed class BiDiBMessageService : IBiDiBMessageService
+    private readonly IConnectionService connectionService;
+    private readonly IBiDiBMessageExtractor messageExtractor;
+    private readonly ILogger<BiDiBMessageService> logger;
+    private readonly ILogger serviceLogger;
+    private readonly BlockingCollection<BiDiBInputMessage> messageQueue;
+    private readonly BlockingCollection<BiDiBOutputMessage> outputMessageQueue;
+    private readonly ConcurrentDictionary<int, byte> addressSequenceNumbers;
+    private readonly ConcurrentDictionary<int, IMessageReceiver> messageReceivers;
+    private static readonly byte[] DefaultInterfaceAddress = { 0 };
+    private CancellationTokenSource cancellationTokenSource;
+    private Task inputQueueTask;
+    private Task outputQueueTask;
+    private readonly Stopwatch inputProcessWatch;
+
+    [ImportingConstructor]
+    public BiDiBMessageService(IConnectionService connectionService, IBiDiBMessageExtractor messageExtractor, ILoggerFactory loggerFactory)
     {
-        private readonly IConnectionService connectionService;
-        private readonly IBiDiBMessageExtractor messageExtractor;
-        private readonly ILogger<BiDiBMessageService> logger;
-        private readonly ILogger serviceLogger;
-        private readonly BlockingCollection<BiDiBInputMessage> messageQueue;
-        private readonly BlockingCollection<BiDiBOutputMessage> outputMessageQueue;
-        private readonly ConcurrentDictionary<int, byte> addressSequenceNumbers;
-        private readonly ConcurrentDictionary<int, IMessageReceiver> messageReceivers;
-        private static readonly byte[] DefaultInterfaceAddress = { 0 };
-        private CancellationTokenSource cancellationTokenSource;
-        private Task inputQueueTask;
-        private Task outputQueueTask;
-        private readonly Stopwatch inputProcessWatch;
+        logger = loggerFactory.CreateLogger<BiDiBMessageService>();
+        serviceLogger = loggerFactory.CreateLogger(BiDiBConstants.LoggerContextMessage);
 
-        [ImportingConstructor]
-        public BiDiBMessageService(IConnectionService connectionService, IBiDiBMessageExtractor messageExtractor, ILoggerFactory loggerFactory)
+        this.connectionService = connectionService;
+        this.connectionService.DataReceived += ProcessMessage;
+        this.messageExtractor = messageExtractor;
+
+        messageQueue = new BlockingCollection<BiDiBInputMessage>(new ConcurrentQueue<BiDiBInputMessage>());
+        outputMessageQueue = new BlockingCollection<BiDiBOutputMessage>(new ConcurrentQueue<BiDiBOutputMessage>());
+
+        addressSequenceNumbers = new ConcurrentDictionary<int, byte>();
+        messageReceivers = new ConcurrentDictionary<int, IMessageReceiver>();
+
+        inputProcessWatch = new Stopwatch();
+    }
+
+    public bool IsActive { get; internal set; }
+
+    public void Activate()
+    {
+        IsActive = true;
+        cancellationTokenSource = new CancellationTokenSource();
+
+        // init processing
+        inputQueueTask = Task.Factory.StartNew(ProcessQueue, TaskCreationOptions.LongRunning);
+        outputQueueTask = Task.Factory.StartNew(ProcessOutputQueue, TaskCreationOptions.LongRunning);
+    }
+
+    public void Deactivate()
+    {
+        if (!IsActive) { return; }
+
+        IsActive = false;
+        cancellationTokenSource.Cancel();
+        Task.WaitAll(inputQueueTask, outputQueueTask);
+        ClearQueue();
+    }
+
+    public void Cleanup()
+    {
+        ClearQueue();
+        addressSequenceNumbers.Clear();
+    }
+
+    #region handle incoming messages
+
+    public void ProcessMessage(byte[] messageBytes)
+    {
+        try
         {
-            this.logger = loggerFactory.CreateLogger<BiDiBMessageService>();
-            this.serviceLogger = loggerFactory.CreateLogger("MS");
+            var inputMessages = messageExtractor.ExtractMessage(messageBytes, connectionService.MessageSecurity);
 
-            this.connectionService = connectionService;
-            this.connectionService.DataReceived += ProcessMessage;
-            this.messageExtractor = messageExtractor;
+            foreach (var inputMessage in inputMessages)
+            {
+                LogMessageInput(inputMessage);
+                messageQueue.Add(inputMessage);
+            }
+        }
+        catch (Exception e) when (e is ArgumentOutOfRangeException or IndexOutOfRangeException)
+        {
+            logger.LogError(e, "Message bytes could not be processed {DataString}", messageBytes.GetDataString());
+        }
+    }
 
-            messageQueue = new BlockingCollection<BiDiBInputMessage>();
-            outputMessageQueue = new BlockingCollection<BiDiBOutputMessage>();
+    private void ProcessQueue()
+    {
+        while (IsActive)
+        {
+            if (cancellationTokenSource.IsCancellationRequested) { continue; }
 
-            addressSequenceNumbers = new ConcurrentDictionary<int, byte>();
-            messageReceivers = new ConcurrentDictionary<int, IMessageReceiver>();
+            BiDiBInputMessage messageItem;
 
-            inputProcessWatch = new Stopwatch();
+            try
+            {
+                if (!messageQueue.TryTake(out messageItem, 20, cancellationTokenSource.Token))
+                {
+                    continue;
+                }
+            }
+            catch (OperationCanceledException operationCanceled)
+            {
+                logger.LogDebug("Input message queue processing: {Message}", operationCanceled.Message);
+                continue;
+            }
+
+            ProcessInputMessage(messageItem);
         }
 
-        public bool IsActive { get; internal set; }
+        logger.LogDebug("Input message queue processing finished");
+    }
 
-        public void Activate()
-        {
-            IsActive = true;
-            cancellationTokenSource = new CancellationTokenSource();
+    private void ProcessInputMessage(BiDiBInputMessage messageItem)
+    {
+        var currentReceivers = messageReceivers.Values.ToList(); // take a copy to avoid modification
 
-            // init processing
-            inputQueueTask = Task.Factory.StartNew(ProcessQueue, TaskCreationOptions.LongRunning);
-            outputQueueTask = Task.Factory.StartNew(ProcessOutputQueue, TaskCreationOptions.LongRunning);
-        }
-
-        public void Deactivate()
-        {
-            if (!IsActive) { return; }
-
-            IsActive = false;
-            cancellationTokenSource.Cancel();
-            Task.WaitAll(inputQueueTask, outputQueueTask);
-            ClearQueue();
-        }
-
-        public void Cleanup()
-        {
-            ClearQueue();
-            addressSequenceNumbers.Clear();
-        }
-
-        #region handle incoming messages
-
-        public void ProcessMessage(byte[] messageBytes)
+        inputProcessWatch.Restart();
+        foreach (var receiver in currentReceivers)
         {
             try
             {
-                var inputMessages = messageExtractor.ExtractMessage(messageBytes, connectionService.MessageSecurity);
-
-                foreach (var inputMessage in inputMessages)
-                {
-                    LogMessageInput(inputMessage);
-                    messageQueue.Add(inputMessage);
-                }
+                receiver.ProcessMessage(messageItem);
             }
-            catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
+            catch (Exception e)
             {
-                logger.LogError(e, $"Message bytes could not be processed {messageBytes.GetDataString()}");
+                logger.LogError(e, "Message could not be processed by {ReceiverName}. {MessageItem}", receiver.GetType().Name, messageItem);
             }
         }
 
-        private void ProcessQueue()
+        inputProcessWatch.Stop();
+
+        if (inputProcessWatch.ElapsedMilliseconds > 100)
         {
-            while (IsActive)
+            logger.LogWarning("Message {MessageType} processed ({ElapsedMilliseconds}ms)", messageItem.MessageType, inputProcessWatch.ElapsedMilliseconds);
+        }
+    }
+
+    private void ProcessOutputQueue()
+    {
+        while (IsActive)
+        {
+
+            if (cancellationTokenSource.IsCancellationRequested) { continue; }
+
+            BiDiBOutputMessage outputMessageItem;
+
+            try
             {
-                if (cancellationTokenSource.IsCancellationRequested) { continue; }
-
-                BiDiBInputMessage messageItem;
-
-                try
-                {
-                    if (!messageQueue.TryTake(out messageItem, 20, cancellationTokenSource.Token))
-                    {
-                        continue;
-                    }
-                }
-                catch (OperationCanceledException operationCanceled)
-                {
-                    logger.LogDebug(Resources.InputQueueProcessingCanceled, operationCanceled);
-                    continue;
-                }
-
-                ProcessInputMessage(messageItem);
+                outputMessageItem = outputMessageQueue.Take(cancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException operationCanceled)
+            {
+                logger.LogDebug("Output message queue processing: {Message}", operationCanceled.Message);
+                continue;
             }
 
-            logger.LogDebug(Resources.InputQueueProcessingFinished);
+            if (outputMessageItem == null || cancellationTokenSource.IsCancellationRequested)
+            {
+                continue;
+            }
+
+            var messageBytes = outputMessageItem is MultiOutputMessage multiMessage
+                ? BiDiBMessageGenerator.GenerateMessage(multiMessage.Messages)
+                : BiDiBMessageGenerator.GenerateMessage(outputMessageItem);
+
+            var size = GetMessageSize(messageBytes);
+
+            LogMessageOutput(outputMessageItem, messageBytes);
+            connectionService.SendData(messageBytes, size);
         }
 
-        private void ProcessInputMessage(BiDiBInputMessage messageItem)
+        logger.LogDebug("Output message queue processing finished");
+    }
+
+    private void ClearQueue()
+    {
+        while (messageQueue.Count > 0)
         {
-            List<IMessageReceiver> currentReceivers = messageReceivers.Values.ToList(); // take a copy to avoid modification
-
-            inputProcessWatch.Restart();
-            foreach (IMessageReceiver receiver in currentReceivers)
-            {
-                try
-                {
-                    receiver.ProcessMessage(messageItem);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError(e, $"Message could not be processed by {receiver.GetType().Name}. {messageItem}");
-                }
-            }
-
-            inputProcessWatch.Stop();
-
-            if (inputProcessWatch.ElapsedMilliseconds > 100)
-            {
-                logger.LogWarning($"Message {messageItem.MessageType} processed ({inputProcessWatch.ElapsedMilliseconds}ms)");
-            }
+            messageQueue.TryTake(out _, 10);
         }
 
-        private void ProcessOutputQueue()
+        while (outputMessageQueue.Count > 0)
         {
-            while (IsActive)
-            {
-                BiDiBOutputMessage outputMessageItem;
+            outputMessageQueue.TryTake(out _, 10);
+        }
+    }
 
-                try
-                {
-                    outputMessageItem = outputMessageQueue.Take(cancellationTokenSource.Token);
-                }
-                catch (OperationCanceledException operationCanceled)
-                {
-                    logger.LogDebug(Resources.OutputQueueProcessingCanceled, operationCanceled);
-                    continue;
-                }
+    #endregion
 
-                if (outputMessageItem == null || cancellationTokenSource.IsCancellationRequested)
-                {
-                    continue;
-                }
+    #region handle outgoing messages
 
-                var messageBytes = outputMessageItem is MultiOutputMessage multiMessage
-                    ? BiDiBMessageGenerator.GenerateMessage(multiMessage.Messages)
-                    : BiDiBMessageGenerator.GenerateMessage(outputMessageItem);
+    public void SendMessage(BiDiBMessage messageType, byte[] address, params byte[] parameters)
+    {
+        SendMessage(new BiDiBOutputMessage(address ?? DefaultInterfaceAddress, messageType, parameters));
+    }
 
-                int size = GetMessageSize(messageBytes);
+    public void SendMessage(BiDiBOutputMessage outputMessage)
+    {
+        if (outputMessage == null)
+        {
+            throw new ArgumentNullException(nameof(outputMessage));
+        }
+        
+        outputMessage.SequenceNumber = GetNextSequenceNumber(outputMessage);
+        AddToOutputQueue(outputMessage);
+    }
 
-                LogMessageOutput(outputMessageItem, messageBytes);
-                connectionService.SendData(messageBytes, size);
-            }
-
-            logger.LogDebug(Resources.OutputQueueProcessingFinished);
+    public void SendMessages(ICollection<BiDiBOutputMessage> outputMessages)
+    {
+        foreach (var outputMessage in outputMessages)
+        {
+            outputMessage.SequenceNumber = GetNextSequenceNumber(outputMessage);
         }
 
-        private void ClearQueue()
-        {
-            while (messageQueue.Count > 0)
-            {
-                messageQueue.TryTake(out _, 10);
-            }
+        AddToOutputQueue(outputMessages.Count == 1 ? outputMessages.First() : new MultiOutputMessage(outputMessages));
+    }
 
-            while (outputMessageQueue.Count > 0)
-            {
-                outputMessageQueue.TryTake(out _, 10);
-            }
+    private void AddToOutputQueue(BiDiBOutputMessage outputMessage)
+    {
+        if (connectionService.ConnectionState.InterfaceState == InterfaceConnectionState.Disconnected)
+        {
+            logger.LogError("Interface is not connected! Message will not be transmitted!");
+            return;
         }
 
-        #endregion
-
-        #region handle outgoing messages
-
-        public void SendMessage(BiDiBMessage messageType, byte[] address, params byte[] parameters)
+        if (!outputMessageQueue.TryAdd(outputMessage))
         {
-            SendMessage(new BiDiBOutputMessage(address ?? DefaultInterfaceAddress, messageType, parameters));
-        }
-
-        public void SendMessage(BiDiBOutputMessage outputMessage)
-        {
-            outputMessage.SequenceNumber = GetNextSequenceNumber(outputMessage.Address);
-            AddToOutputQueue(outputMessage);
-        }
-
-        public void SendMessages(ICollection<BiDiBOutputMessage> outputMessages)
-        {
-            foreach (var outputMessage in outputMessages)
-            {
-                outputMessage.SequenceNumber = GetNextSequenceNumber(outputMessage.Address);
-            }
-
-            AddToOutputQueue(outputMessages.Count == 1 ? outputMessages.First() : new MultiOutputMessage(outputMessages));
-        }
-
-        private void AddToOutputQueue(BiDiBOutputMessage outputMessage)
-        {
-            if (connectionService.ConnectionState.InterfaceState == InterfaceConnectionState.Disconnected)
-            {
-                logger.LogError(Resources.InterfaceNotConnectedNoTransmission);
-                return;
-            }
-
+            logger.LogError("Adding message to output queue failed {Message}", outputMessage);
             outputMessageQueue.Add(outputMessage);
         }
+    }
 
-        private static int GetMessageSize(IList<byte> messageBytes)
+    private static int GetMessageSize(IList<byte> messageBytes)
+    {
+        var lastDataIndex = 0;
+        for (var i = 0; i < messageBytes.Count; i++)
         {
-            int lastDataIndex = 0;
-            for (int i = 0; i < messageBytes.Count; i++)
+            var data = messageBytes[i];
+            if (data != 0)
             {
-                byte data = messageBytes[i];
-                if (data != 0)
-                {
-                    lastDataIndex = i;
-                }
-            }
-
-            return lastDataIndex + 1;
-        }
-
-        public void ResetMessageSequenceNumber(byte[] address)
-        {
-            if (addressSequenceNumbers.ContainsKey(address.GetArrayValue()))
-            {
-                addressSequenceNumbers[address.GetArrayValue()] = 0;
+                lastDataIndex = i;
             }
         }
 
-        private byte GetNextSequenceNumber(byte[] address)
-        {
-            int addressNumber = address.GetArrayValue();
-            byte newSequenceNumber = addressSequenceNumbers.AddOrUpdate(addressNumber, 0, (_, oldValue) => (byte)(oldValue == 0xff ? 1 : oldValue + 1));
+        return lastDataIndex + 1;
+    }
 
-            return newSequenceNumber;
+    public void ResetMessageSequenceNumber(byte[] address)
+    {
+        if (addressSequenceNumbers.ContainsKey(address.GetArrayValue()))
+        {
+            addressSequenceNumbers[address.GetArrayValue()] = 0;
         }
+    }
 
-        #endregion
-
-        #region logging
-
-        private void LogMessageInput(BiDiBInputMessage inputMessage)
+    private byte GetNextSequenceNumber(BiDiBOutputMessage outputMessage)
+    {
+        if (outputMessage.MessageType >= BiDiBMessage.MSG_LOCAL_LOGON)
         {
-            logger.LogDebug(inputMessage.ToString());
-            serviceLogger.LogDebug($"{inputMessage}  {inputMessage.Message.GetDataString()}");
+            return 0;
         }
+            
+        var addressNumber = outputMessage.Address.GetArrayValue();
+        var newSequenceNumber = addressSequenceNumbers.AddOrUpdate(addressNumber, 0, (_, oldValue) => (byte)(oldValue == 0xff ? 1 : oldValue + 1));
 
-        private void LogMessageOutput(BiDiBOutputMessage outputMessage, byte[] messageBytes)
+        return newSequenceNumber;
+    }
+
+    #endregion
+
+    #region logging
+
+    private void LogMessageInput(BiDiBInputMessage inputMessage)
+    {
+        logger.LogDebug("{Message}", inputMessage);
+        serviceLogger.LogDebug("{Message} {DataString}", inputMessage, inputMessage.Message.GetDataString());
+    }
+
+    private void LogMessageOutput(BiDiBOutputMessage outputMessage, byte[] messageBytes)
+    {
+        logger.LogDebug("{Message}", outputMessage);
+
+        if (outputMessage is MultiOutputMessage multiMessage)
         {
-            logger.LogDebug(outputMessage.ToString());
-
-            if (outputMessage is MultiOutputMessage multiMessage)
+            serviceLogger.LogDebug("{MessagePrefix} {Type,-25} {DataString}", BiDiBConstants.OutMessagePrefix, "\"MULTI_MESSAGE\"", messageBytes.GetDataString());
+            foreach (var message in multiMessage.Messages)
             {
-                serviceLogger.LogDebug($"{BiDiBConstants.OutMessagePrefix} {"MULTI_MESSAGE",-25} {messageBytes.GetDataString()}");
-                foreach (var message in multiMessage.Messages)
-                {
-                    serviceLogger.LogDebug($"{message}  {message.GetMessageBytes().GetDataString()}");
-                }
-            }
-            else
-            {
-                serviceLogger.LogDebug($"{outputMessage}  {outputMessage.GetMessageBytes().GetDataString()}");
+                serviceLogger.LogDebug("{Message} {DataString}", message, message.GetMessageBytes().GetDataString());
             }
         }
-
-        public void Register(IMessageReceiver messageReceiver)
+        else
         {
-            if (!messageReceivers.ContainsKey(messageReceiver.GetHashCode()))
-            {
-                messageReceivers.AddOrUpdate(messageReceiver.GetHashCode(), messageReceiver, (_, receiver) => receiver);
-            }
+            serviceLogger.LogDebug("{Message} {DataString}", outputMessage, outputMessage.GetMessageBytes().GetDataString());
         }
+    }
 
-        public void Unregister(IMessageReceiver messageReceiver)
+    public void Register(IMessageReceiver messageReceiver)
+    {
+        if (!messageReceivers.ContainsKey(messageReceiver.GetHashCode()))
         {
-            messageReceivers.TryRemove(messageReceiver.GetHashCode(), out _);
+            messageReceivers.AddOrUpdate(messageReceiver.GetHashCode(), messageReceiver, (_, receiver) => receiver);
         }
+    }
 
-        #endregion
+    public void Unregister(IMessageReceiver messageReceiver)
+    {
+        messageReceivers.TryRemove(messageReceiver.GetHashCode(), out _);
+    }
 
-        public void Dispose()
-        {
-            Cleanup();
-            connectionService.DataReceived -= ProcessMessage;
-            messageReceivers?.Clear();
-            messageQueue?.Dispose();
-            outputMessageQueue?.Dispose();
-            cancellationTokenSource?.Dispose();
-            inputQueueTask?.Dispose();
-            outputQueueTask?.Dispose();
-        }
+    #endregion
+
+    public void Dispose()
+    {
+        Cleanup();
+        connectionService.DataReceived -= ProcessMessage;
+        messageReceivers?.Clear();
+        messageQueue?.Dispose();
+        outputMessageQueue?.Dispose();
+        cancellationTokenSource?.Dispose();
+        inputQueueTask?.Dispose();
+        outputQueueTask?.Dispose();
     }
 }

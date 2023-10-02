@@ -1,12 +1,11 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations
+﻿namespace org.bidib.Net.Core.Enumerations;
+
+public enum AccessoryExecutionState
 {
-    public enum AccessoryExecutionState
-    {
-        Idle,
-        Running,
-        //Successful,
-        Error,
-        Unknown,
-        EmergencyStop
-    }
+    Idle,
+    Running,
+    //Successful,
+    Error,
+    Unknown,
+    EmergencyStop
 }

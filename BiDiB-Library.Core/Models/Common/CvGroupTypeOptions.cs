@@ -1,40 +1,39 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+/// <summary>
+/// Enum for option values of CvGroup
+/// </summary>
+[Serializable]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "CVGroupTypeOptions")]
+public enum CvGroupTypeOptions
 {
-    /// <summary>
-    /// Enum for option values of CvGroup
-    /// </summary>
-    [Serializable]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "CVGroupTypeOptions")]
-    public enum CvGroupTypeOptions
-    {
-        [XmlEnum("bitList")]
-        BitList,
+    [XmlEnum("bitList")]
+    BitList,
 
-        [XmlEnum("bitListSort")]
-        BitListSort,
+    [XmlEnum("bitListSort")]
+    BitListSort,
 
-        [XmlEnum("greater")]
-        Greater,
+    [XmlEnum("greater")]
+    Greater,
 
-        [XmlEnum("greaterEqual")]
-        GreaterEqual,
+    [XmlEnum("greaterEqual")]
+    GreaterEqual,
 
-        [XmlEnum("less")]
-        Less,
+    [XmlEnum("less")]
+    Less,
 
-        [XmlEnum("lessEqual")]
-        LessEqual,
+    [XmlEnum("lessEqual")]
+    LessEqual,
 
-        [XmlEnum("switchRowCol")]
-        SwitchRowCol,
+    [XmlEnum("switchRowCol")]
+    SwitchRowCol,
 
-        [XmlEnum("reverseRow")]
-        ReverseRow,
+    [XmlEnum("reverseRow")]
+    ReverseRow,
 
-        [XmlEnum("reverseCol")]
-        ReverseCol,
-    }
+    [XmlEnum("reverseCol")]
+    ReverseCol,
 }

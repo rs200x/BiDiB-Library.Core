@@ -2,22 +2,21 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.BiDiB.Base
+namespace org.bidib.Net.Core.Models.BiDiB.Base;
+
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.BiDiBBase10NamespaceUrl)]
+public class BaseNode
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.BiDiBBase10NamespaceUrl)]
-    public class BaseNode
-    {
-        [XmlAttribute("userName")]
-        public string UserName { get; set; }
+    [XmlAttribute("userName")]
+    public string UserName { get; set; }
 
-        [XmlAttribute("productName")]
-        public string ProductName { get; set; }
+    [XmlAttribute("productName")]
+    public string ProductName { get; set; }
 
-        [XmlAttribute("uniqueId")]
-        public long UniqueId { get; set; }
+    [XmlAttribute("uniqueId")]
+    public long UniqueId { get; set; }
 
-        public string UniqueIdString => $"{UniqueId:X14}";
-    }
+    public string UniqueIdString => $"{UniqueId:X14}";
 }

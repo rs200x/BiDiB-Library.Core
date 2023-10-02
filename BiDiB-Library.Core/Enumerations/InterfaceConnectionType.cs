@@ -1,13 +1,13 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations
+﻿namespace org.bidib.Net.Core.Enumerations;
+
+public enum InterfaceConnectionType
 {
-    public enum InterfaceConnectionType
-    {
-        SerialPort,
-        NetworkTcp,
-        SerialSimulation,
-        NetworkSimulation,
-        SerialOverTcp,
-        NetBiDiB,
-        NetBiDiBServer
-    }
+    SerialPort,
+    NetworkTcp,
+    SerialSimulation,
+    NetworkSimulation,
+    SerialOverTcp,
+    NetBiDiB,
+    NetBiDiBServer,
+    Unknown
 }

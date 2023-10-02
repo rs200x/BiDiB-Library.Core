@@ -1,43 +1,43 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Services.Interfaces;
+﻿using System;
+using System.ComponentModel.Composition;
+using org.bidib.Net.Core.Models.BiDiB;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Core.Services.Interfaces;
 
-namespace org.bidib.netbidibc.core.Message
+namespace org.bidib.Net.Core.Message;
+
+[Export(typeof(IMessageReceiver))]
+[PartCreationPolicy(CreationPolicy.Shared)]
+public class AccessoryMessageReceiver : IMessageReceiver
 {
-    [Export(typeof(IMessageReceiver))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class AccessoryMessageReceiver : IMessageReceiver
+    private readonly IBiDiBNodesFactory nodesFactory;
+
+    [ImportingConstructor]
+    public AccessoryMessageReceiver(IBiDiBNodesFactory nodesFactory)
     {
-        private readonly IBiDiBNodesFactory nodesFactory;
+        this.nodesFactory = nodesFactory;
+    }
 
-        [ImportingConstructor]
-        public AccessoryMessageReceiver(IBiDiBNodesFactory nodesFactory)
+    public void ProcessMessage(BiDiBInputMessage message)
+    {
+        if (message == null) { return; }
+
+        if (message.MessageType == BiDiBMessage.MSG_ACCESSORY_STATE)
         {
-            this.nodesFactory = nodesFactory;
+            HandleAccessoryState(message as AccessoryStateMessage);
         }
+    }
 
-        public void ProcessMessage(BiDiBInputMessage message)
-        {
-            if (message == null) { return; }
+    private void HandleAccessoryState(AccessoryStateMessage message)
+    {
+        if (message == null) { return; }
 
-            if (message.MessageType == BiDiBMessage.MSG_ACCESSORY_STATE)
-            {
-                HandleAccessoryState(message as AccessoryStateMessage);
-            }
-        }
+        var node = nodesFactory.GetNode(message.Address);
 
-        private void HandleAccessoryState(AccessoryStateMessage message)
-        {
-            if (message == null) { return; }
+        var accessory = Array.Find( node?.Accessories ?? Array.Empty<Accessory>(), x => x.Number == message.Number);
+        if (accessory == null) { return; }
 
-            var node = nodesFactory.GetNode(message.Address);
-
-            var accessory = node?.Accessories?.FirstOrDefault(x => x.Number == message.Number);
-            if (accessory == null) { return; }
-
-            accessory.ExecutionState = message.ExecutionState;
-            accessory.ActiveAspect = message.Aspect;
-        }
+        accessory.ExecutionState = message.ExecutionState;
+        accessory.ActiveAspect = message.Aspect;
     }
 }

@@ -2,17 +2,16 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
-{
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "BitType")]
-    public class Bit
-    {
-        [XmlElement("description")]
-        public Description[] Description { get; set; }
+namespace org.bidib.Net.Core.Models.Common;
 
-        [XmlAttribute("number")]
-        public byte Number { get; set; }
-    }
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "BitType")]
+public class Bit
+{
+    [XmlElement("description")]
+    public Description[] Description { get; set; }
+
+    [XmlAttribute("number")]
+    public byte Number { get; set; }
 }

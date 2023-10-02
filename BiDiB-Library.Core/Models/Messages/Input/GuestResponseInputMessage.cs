@@ -1,9 +1,8 @@
-﻿using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.core.Utils;
-using System;
-using System.Linq;
+﻿using System;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input;
+namespace org.bidib.Net.Core.Models.Messages.Input;
 
 public abstract class GuestResponseInputMessage : BiDiBInputMessage
 {
@@ -11,21 +10,16 @@ public abstract class GuestResponseInputMessage : BiDiBInputMessage
         : base(messageBytes, messageType, expectedParameters)
     {
         TargetMode = (TargetMode)MessageParameters[0];
-        TargetId = GetTargetId();
+        var uidExpected = TargetMode == TargetMode.BIDIB_TARGET_MODE_UID ||
+                          MessageType != BiDiBMessage.MSG_GUEST_RESP_SUBSCRIPTION_COUNT;
+        TargetId = uidExpected ? MessageParameters[1..6] : Array.Empty<byte>();
     }
+
+    protected int DataIndex => 1 + TargetId.Length;
 
     public TargetMode TargetMode { get; }
 
     public byte[] TargetId { get; }
 
     public override string ToString() => $"{base.ToString()}, M: {TargetMode}, Id: {TargetId.GetDataString()}";
-
-    private byte[] GetTargetId()
-    {
-        switch (TargetMode)
-        {
-            case TargetMode.BIDIB_TARGET_MODE_UID: return MessageParameters[1..6];
-            default: return Array.Empty<byte>();
-        }
-    }
 }

@@ -1,9 +1,8 @@
-﻿namespace org.bidib.netbidibc.core.Models.Xml
-{
-    public interface IXmlValidationInfo
-    {
-         XmlValidationResult Result { get; }
+﻿namespace org.bidib.Net.Core.Models.Xml;
 
-        string Message { get; }
-    }
+public interface IXmlValidationInfo
+{
+    XmlValidationResult Result { get; }
+
+    string Message { get; }
 }

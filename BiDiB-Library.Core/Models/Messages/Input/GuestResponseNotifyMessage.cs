@@ -1,18 +1,16 @@
-﻿using org.bidib.netbidibc.core.Utils;
-using System.Linq;
+﻿using System.Linq;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Input;
+namespace org.bidib.Net.Core.Models.Messages.Input;
 
 [InputMessage(BiDiBMessage.MSG_GUEST_RESP_NOTIFY)]
 public class GuestResponseNotifyMessage : GuestResponseInputMessage
 {
-    public GuestResponseNotifyMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_GUEST_RESP_NOTIFY, 3)
+    public GuestResponseNotifyMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_GUEST_RESP_NOTIFY, 6 + 2)
     {
-        var targetSize = 1 + TargetId.Length;
-
-        SubSequenceNumber = MessageParameters[targetSize];
-        SubMessageType = (BiDiBMessage)MessageParameters[targetSize + 1];
-        SubData = MessageParameters.Skip(targetSize + 2).ToArray();
+        SubSequenceNumber = MessageParameters[DataIndex];
+        SubMessageType = (BiDiBMessage)MessageParameters[DataIndex + 1];
+        SubData = MessageParameters.Skip(DataIndex + 2).ToArray();
     }
 
     public byte SubSequenceNumber { get; }

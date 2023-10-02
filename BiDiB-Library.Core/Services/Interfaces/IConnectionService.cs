@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
-using org.bidib.netbidibc.core.Controllers.Interfaces;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Services.EventArgs;
+using org.bidib.Net.Core.Controllers.Interfaces;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Services.EventArgs;
 
-namespace org.bidib.netbidibc.core.Services.Interfaces
+namespace org.bidib.Net.Core.Services.Interfaces;
+
+public interface IConnectionService : IDisposable
 {
-    public interface IConnectionService : IDisposable
-    {
-        void ConfigureConnection(IConnectionConfig connectionConfig);
+    void ConfigureConnection(IConnectionConfig connectionConfig);
 
-        Task<ConnectionStateInfo> OpenConnectionAsync();
+    Task<ConnectionStateInfo> OpenConnectionAsync();
 
-        void CloseConnection();
+    void CloseConnection();
 
-        void RejectConnection();
+    void RejectConnection();
 
-        void LinkConnection();
+    void LinkConnection();
 
-        void SendData(byte[] messageBytes, int messageSize);
+    void SendData(byte[] messageBytes, int messageSize);
         
-        ConnectionStateInfo ConnectionState { get; }
+    ConnectionStateInfo ConnectionState { get; }
 
-        bool MessageSecurity { get; }
+    bool MessageSecurity { get; }
 
-        event Action<byte[]> DataReceived;
+    event Action<byte[]> DataReceived;
 
-        event EventHandler<System.EventArgs> ConnectionClosed;
+    event EventHandler<System.EventArgs> ConnectionClosed;
 
-        event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+    event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
 
-        string GetConnectionName();
-    }
+    string GetConnectionName();
 }

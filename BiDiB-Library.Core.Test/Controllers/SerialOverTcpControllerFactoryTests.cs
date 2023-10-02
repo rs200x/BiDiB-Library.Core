@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Controllers;
-using org.bidib.netbidibc.core.Controllers.Interfaces;
-using org.bidib.netbidibc.core.Enumerations;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Controllers;
+using org.bidib.Net.Core.Controllers.Interfaces;
+using org.bidib.Net.Core.Enumerations;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Controllers
+namespace org.bidib.Net.Core.Test.Controllers
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

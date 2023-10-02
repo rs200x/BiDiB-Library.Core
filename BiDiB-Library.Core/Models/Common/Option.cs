@@ -2,23 +2,22 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "OptionType")]
+public class Option
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "OptionType")]
-    public class Option
-    {
-        [XmlElement("description")]
-        public Description[] Description { get; set; }
+    [XmlElement("description")]
+    public Description[] Description { get; set; }
 
-        [XmlAttribute("value")]
-        public byte Value { get; set; }
+    [XmlAttribute("value")]
+    public byte Value { get; set; }
 
-        [XmlAttribute("reset")]
-        public bool Reset { get; set; }
+    [XmlAttribute("reset")]
+    public bool Reset { get; set; }
 
-        [XmlAttribute("disableOther")]
-        public bool DisableOther { get; set; }
-    }
+    [XmlAttribute("disableOther")]
+    public bool DisableOther { get; set; }
 }

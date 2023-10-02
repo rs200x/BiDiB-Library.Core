@@ -1,16 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>org.bidib.netbidibc.core</AssemblyName>
-    <RootNamespace>org.bidib.netbidibc.core</RootNamespace>
+    <AssemblyName>org.bidib.Net.Core</AssemblyName>
+    <RootNamespace>org.bidib.Net.Core</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <BclBuildImported>Ignore</BclBuildImported>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Description>BiDiB Infrastructure Library for connecting tools to BiDiB Bus</Description>
-    <PackageId>org.bidib.netbidibc.core</PackageId>
-    <PackageIcon>bidib_logo.png</PackageIcon>    
+    <PackageId>org.bidib.net.core</PackageId>
+    <PackageIcon>bidib_logo.png</PackageIcon>
+    <Title>BiDiB-Library.Core</Title>
+    <Authors>Robert Kölz</Authors>
+    <Copyright>bidib.org</Copyright>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,51 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using org.bidib.netbidibc.core.Controllers.Interfaces;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Models.Messages.Output;
-using org.bidib.netbidibc.core.Services.EventArgs;
+using org.bidib.Net.Core.Controllers.Interfaces;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Core.Models.Messages.Output;
+using org.bidib.Net.Core.Services.EventArgs;
 
-namespace org.bidib.netbidibc.core
+namespace org.bidib.Net.Core;
+
+public interface IBiDiBInterface : IDisposable
 {
-    public interface IBiDiBInterface : IDisposable
-    {
-        void Initialize();
+    void Initialize();
 
-        Task ConnectAsync(IConnectionConfig connectionConfig);
+    Task ConnectAsync(IConnectionConfig connectionConfig);
 
-        Task DisconnectAsync();
+    Task DisconnectAsync();
 
-        void RejectConnection();
+    void RejectConnection();
 
-        void LinkConnection();
+    void LinkConnection();
 
-        void Cleanup();
+    void Cleanup();
 
-        void SendMessage(BiDiBMessage messageType, byte[] address, params byte[] parameters);
+    void SendMessage(BiDiBMessage messageType, byte[] address, params byte[] parameters);
 
-        void SendMessage(BiDiBOutputMessage message);
+    void SendMessage(BiDiBOutputMessage message);
 
-        TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage) where TResponseMessage : BiDiBInputMessage;
 
-        void Register(IMessageReceiver messageReceiver);
+    void Register(IMessageReceiver messageReceiver);
 
-        void Unregister(IMessageReceiver messageReceiver);
+    void Unregister(IMessageReceiver messageReceiver);
 
-        IEnumerable<BiDiBNode> Nodes { get; }
+    IEnumerable<BiDiBNode> Nodes { get; }
 
-        IEnumerable<BiDiBBoosterNode> Boosters { get; }
+    IEnumerable<BiDiBBoosterNode> Boosters { get; }
 
-        ConnectionStateInfo ConnectionState { get; }
+    ConnectionStateInfo ConnectionState { get; }
 
-        event EventHandler<BiDiBNodeAddedEventArgs> NodeAdded;
-        event EventHandler<BiDiBBoosterNodeAddedEventArgs> BoosterAdded;
-        event EventHandler<BiDiBNodeRemovedEventArgs> NodeRemoved;
-        event EventHandler<BiDiBBoosterNodeRemovedEventArgs> BoosterRemoved;
-        event EventHandler<ConnectionStateChangedEventArgs> ConnectionStatusChanged;
+    event EventHandler<BiDiBNodeAddedEventArgs> NodeAdded;
+    event EventHandler<BiDiBBoosterNodeAddedEventArgs> BoosterAdded;
+    event EventHandler<BiDiBNodeRemovedEventArgs> NodeRemoved;
+    event EventHandler<BiDiBBoosterNodeRemovedEventArgs> BoosterRemoved;
+    event EventHandler<ConnectionStateChangedEventArgs> ConnectionStatusChanged;
 
-        void RefreshNodes();
-    }
+    void RefreshNodes();
 }

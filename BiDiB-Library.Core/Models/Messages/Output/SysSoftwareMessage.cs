@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace org.bidib.netbidibc.core.Models.Messages.Output;
+namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class SysSoftwareMessage : BiDiBOutputMessage
 {

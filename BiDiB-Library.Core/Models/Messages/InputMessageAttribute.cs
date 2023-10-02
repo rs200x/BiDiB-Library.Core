@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace org.bidib.netbidibc.core.Models.Messages;
+namespace org.bidib.Net.Core.Models.Messages;
 
 [AttributeUsage(AttributeTargets.Class)]
 internal class InputMessageAttribute : Attribute

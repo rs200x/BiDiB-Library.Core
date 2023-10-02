@@ -144,7 +144,7 @@
   <data name="MilliOhm" xml:space="preserve">
     <value>mΩ</value>
   </data>
-  <data name="MilliSecond" xml:space="preserve">
+  <data name="Millisecond" xml:space="preserve">
     <value>ms</value>
   </data>
   <data name="Minute" xml:space="preserve">
@@ -200,9 +200,6 @@
   </data>
   <data name="Simulation" xml:space="preserve">
     <value>Simulation</value>
-  </data>
-  <data name="SerialPortConnectionError" xml:space="preserve">
-    <value>Could not open serial port '{0}'! {1}</value>
   </data>
   <data name="Car" xml:space="preserve">
     <value>Car</value>
@@ -347,21 +344,6 @@ Please check the interface settings and the connection.
   <data name="NetBiDiB" xml:space="preserve">
     <value>netBiDiB</value>
   </data>
-  <data name="InputQueueProcessingCanceled" xml:space="preserve">
-    <value>Input message queue processing canceled</value>
-  </data>
-  <data name="InputQueueProcessingFinished" xml:space="preserve">
-    <value>Input message queue processing finished</value>
-  </data>
-  <data name="InterfaceNotConnectedNoTransmission" xml:space="preserve">
-    <value>Interface is not connected! Message will not be transmitted!</value>
-  </data>
-  <data name="OutputQueueProcessingCanceled" xml:space="preserve">
-    <value>Output message queue processing canceled</value>
-  </data>
-  <data name="OutputQueueProcessingFinished" xml:space="preserve">
-    <value>Output message queue processing finished</value>
-  </data>
   <data name="Error_CouldNotConnectToSocket" xml:space="preserve">
     <value>Could not establish interface connection on IP '{0}'</value>
   </data>
@@ -404,20 +386,8 @@ Please check the interface settings and the connection.
   <data name="PairingRejectedByRemote" xml:space="preserve">
     <value>Remote client rejected the pairing request</value>
   </data>
-  <data name="Error_SerialPortNotConnected" xml:space="preserve">
-    <value>Cannot send message - Serial Port NOT connected or open</value>
-  </data>
-  <data name="Error_NoSocket" xml:space="preserve">
-    <value>Data result is not a socket!</value>
-  </data>
   <data name="Error_NotConfiguredForConnection" xml:space="preserve">
     <value>Connection service is not configured for any connection.</value>
-  </data>
-  <data name="Error_SocketData" xml:space="preserve">
-    <value>Error when handling received data</value>
-  </data>
-  <data name="Error_SocketDisposed" xml:space="preserve">
-    <value>Socket has been disposed!</value>
   </data>
   <data name="Identifying" xml:space="preserve">
     <value>Identifying ...</value>
@@ -434,5 +404,11 @@ Please check the writing rights for '{0}'.</value>
   </data>
   <data name="Please check the writing rights for '{0}'." xml:space="preserve">
     <value />
+  </data>
+  <data name="Microsecond" xml:space="preserve">
+    <value>μs</value>
+  </data>
+  <data name="CarSound" xml:space="preserve">
+    <value>Car w. Sound</value>
   </data>
 </root>

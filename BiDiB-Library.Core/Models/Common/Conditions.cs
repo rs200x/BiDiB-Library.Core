@@ -2,14 +2,13 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ConditionsType")]
+public class Conditions
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "ConditionsType")]
-    public class Conditions
-    {
-        [XmlElement("trigger")]
-        public Trigger[] Triggers { get; set; }
-    }
+    [XmlElement("trigger")]
+    public Trigger[] Triggers { get; set; }
 }

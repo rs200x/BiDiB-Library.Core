@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
-using org.bidib.netbidibc.core.Models.Xml;
-using Version = org.bidib.netbidibc.core.Models.Common.Version;
+using org.bidib.Net.Core.Models.Xml;
 
-namespace org.bidib.netbidibc.core.Models.Manufacturers
+namespace org.bidib.Net.Core.Models.Manufacturers;
+
+[Serializable]
+[DebuggerStepThrough]
+[XmlType(AnonymousType = true, Namespace = Namespaces.ManufacturersNamespaceUrl, TypeName = "ManufacturersListVersionType")]
+[XmlRoot(Namespace = Namespaces.ManufacturersNamespaceUrl, IsNullable = false, ElementName = "Version")]
+public class ManufacturersListVersion : Common.Version
 {
-    [Serializable]
-    [DebuggerStepThrough]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.ManufacturersNamespaceUrl, TypeName = "ManufacturersListVersionType")]
-    [XmlRoot(Namespace = Namespaces.ManufacturersNamespaceUrl, IsNullable = false, ElementName = "Version")]
-    public class ManufacturersListVersion : Version
-    {
-        [XmlAttribute("nmraListDate", DataType = XmlDataTypes.Date)]
-        public DateTime ListDate { get; set; }
-    }
+    [XmlAttribute("nmraListDate", DataType = XmlDataTypes.Date)]
+    public DateTime ListDate { get; set; }
 }

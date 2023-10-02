@@ -2,13 +2,13 @@
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.Common;
-using org.bidib.netbidibc.core.Models.Firmware;
-using org.bidib.netbidibc.Testing;
-using Version = org.bidib.netbidibc.core.Models.Common.Version;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.Common;
+using org.bidib.Net.Core.Models.Firmware;
+using org.bidib.Net.Testing;
+using Version = org.bidib.Net.Core.Models.Common.Version;
 
-namespace org.bidib.netbidibc.core.Test
+namespace org.bidib.Net.Core.Test
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

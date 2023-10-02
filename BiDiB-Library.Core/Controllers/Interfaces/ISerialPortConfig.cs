@@ -1,10 +1,9 @@
-﻿namespace org.bidib.netbidibc.core.Controllers.Interfaces
+﻿namespace org.bidib.Net.Core.Controllers.Interfaces;
+
+public interface ISerialPortConfig : IConnectionConfig
 {
-    public interface ISerialPortConfig : IConnectionConfig
-    {
-        string Comport { get; set; }
+    string Comport { get; set; }
 
-        int Baudrate { get; set; }
+    int Baudrate { get; set; }
 
-    }
 }

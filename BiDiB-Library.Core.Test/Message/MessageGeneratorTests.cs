@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models.Messages.Output;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models.Messages.Output;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Message
+namespace org.bidib.Net.Core.Test.Message
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

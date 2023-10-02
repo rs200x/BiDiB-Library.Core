@@ -322,4 +322,10 @@ Bitte prüfen Sie die Einstellungen der Schnittstelle bzw. die Verbindung.
   <data name="Identifying" xml:space="preserve">
 	  <value>Identifiziere ...</value>
   </data>
+  <data name="Microsecond" xml:space="preserve">
+    <value>μs</value>
+  </data>
+  <data name="CarSound" xml:space="preserve">
+	  <value>Fahrzeug m. Sound</value>
+  </data>
 </root>

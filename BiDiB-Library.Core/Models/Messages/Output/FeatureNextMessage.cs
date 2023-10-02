@@ -1,9 +1,8 @@
-﻿namespace org.bidib.netbidibc.core.Models.Messages.Output
+﻿namespace org.bidib.Net.Core.Models.Messages.Output;
+
+public class FeatureNextMessage : BiDiBOutputMessage
 {
-    public class FeatureNextMessage : BiDiBOutputMessage
+    public FeatureNextMessage(byte[] address) : base(address, BiDiBMessage.MSG_FEATURE_GETNEXT)
     {
-        public FeatureNextMessage(byte[] address) : base(address, BiDiBMessage.MSG_FEATURE_GETNEXT)
-        {
-        }
     }
 }

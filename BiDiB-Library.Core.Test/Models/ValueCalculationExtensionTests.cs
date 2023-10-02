@@ -1,10 +1,11 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using org.bidib.netbidibc.core.Models.Common;
-using org.bidib.netbidibc.core.Models.Helpers;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Models.Common;
+using org.bidib.Net.Core.Models.Helpers;
+using org.bidib.Net.Testing;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]
@@ -33,7 +34,7 @@ namespace org.bidib.netbidibc.core.Test.Models
         public void GetCalculatedValue_ShouldReturnValue_WhenEmptyItems()
         {
             // Arrange
-            target.Items = new ValueCalculationItem[0];
+            target.Items = Array.Empty<ValueCalculationItem>();
 
             // Act
             double value = target.GetCalculatedValue(10);

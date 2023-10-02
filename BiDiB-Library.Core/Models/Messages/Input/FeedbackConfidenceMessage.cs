@@ -1,21 +1,21 @@
-﻿namespace org.bidib.netbidibc.core.Models.Messages.Input
+﻿namespace org.bidib.Net.Core.Models.Messages.Input;
+
+[InputMessage(BiDiBMessage.MSG_BM_CONFIDENCE)]
+public class FeedbackConfidenceMessage : BiDiBInputMessage
 {
-    public class FeedbackConfidenceMessage : BiDiBInputMessage
+    public FeedbackConfidenceMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_CONFIDENCE, 3)
     {
-        public FeedbackConfidenceMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BM_CONFIDENCE, 3)
-        {
-            Void = MessageParameters[0];
-            Freeze = MessageParameters[1];
-            NoSignal = MessageParameters[2];
-        }
+        Void = MessageParameters[0];
+        Freeze = MessageParameters[1];
+        NoSignal = MessageParameters[2];
+    }
 
-        public byte Void { get; }
-        public byte Freeze { get; }
-        public byte NoSignal { get; }
+    public byte Void { get; }
+    public byte Freeze { get; }
+    public byte NoSignal { get; }
 
-        public override string ToString()
-        {
-            return $"{base.ToString()}, Void: {Void}, Freeze: {Freeze}, NoSignal {NoSignal}";
-        }
+    public override string ToString()
+    {
+        return $"{base.ToString()}, Void: {Void}, Freeze: {Freeze}, NoSignal {NoSignal}";
     }
 }

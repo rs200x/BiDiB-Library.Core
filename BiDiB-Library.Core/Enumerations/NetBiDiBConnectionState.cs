@@ -1,16 +1,15 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations
+﻿namespace org.bidib.Net.Core.Enumerations;
+
+public enum NetBiDiBConnectionState
 {
-    public enum NetBiDiBConnectionState
-    {
-        Disconnected,
-        SendSignature,
-        WaitForId,
-        RequestPairing,
-        WaitForStatus,
-        Paired,
-        Unpaired,
-        PairingRejected,
-        ConnectedControlling,
-        ConnectedUncontrolled
-    }
+    Disconnected,
+    SendSignature,
+    WaitForId,
+    RequestPairing,
+    WaitForStatus,
+    Paired,
+    Unpaired,
+    PairingRejected,
+    ConnectedControlling,
+    ConnectedUncontrolled
 }

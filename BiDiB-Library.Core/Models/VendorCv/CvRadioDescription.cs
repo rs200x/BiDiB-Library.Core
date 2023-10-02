@@ -2,23 +2,20 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.VendorCv
+namespace org.bidib.Net.Core.Models.VendorCv;
+
+[Serializable]
+[DebuggerStepThrough]
+public class CvRadioDescription
 {
+    public static readonly string DefaultGroupName = "G1";
 
-    [Serializable]
-    [DebuggerStepThrough]
-    public class CvRadioDescription
-    {
-        public static string DefaultGroupName = "G1";
+    [XmlAttribute]
+    public byte Value { get; set; }
 
-    
-        [XmlAttribute]
-        public byte Value { get; set; }
+    [XmlAttribute]
+    public string Group { get; set; }
 
-        [XmlAttribute]
-        public string Group { get; set; }
-
-        [XmlElement("Description")]
-        public CvDescription[] Description { get; set; }
-    }
+    [XmlElement("Description")]
+    public CvDescription[] Description { get; set; }
 }

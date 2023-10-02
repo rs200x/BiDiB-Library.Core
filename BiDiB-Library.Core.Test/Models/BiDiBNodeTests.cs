@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.BiDiB;
-using org.bidib.netbidibc.core.Models.Messages.Input;
-using org.bidib.netbidibc.core.Models.Messages.Output;
-using FeatureCountInputMessage = org.bidib.netbidibc.core.Models.Messages.Input.FeatureCountMessage;
-using FeatureInputMessage = org.bidib.netbidibc.core.Models.Messages.Input.FeatureMessage;
-using FeatureGetAllOutputMessage = org.bidib.netbidibc.core.Models.Messages.Output.FeatureGetAllMessage;
-using System.Reflection;
-using Microsoft.Extensions.Logging.Abstractions;
-using org.bidib.netbidibc.Testing;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.BiDiB;
+using org.bidib.Net.Core.Models.Messages.Input;
+using org.bidib.Net.Core.Models.Messages.Output;
+using org.bidib.Net.Testing;
+using FeatureCountInputMessage = org.bidib.Net.Core.Models.Messages.Input.FeatureCountMessage;
+using FeatureInputMessage = org.bidib.Net.Core.Models.Messages.Input.FeatureMessage;
+using FeatureGetAllOutputMessage = org.bidib.Net.Core.Models.Messages.Output.FeatureGetAllMessage;
 
-namespace org.bidib.netbidibc.core.Test.Models
+namespace org.bidib.Net.Core.Test.Models
 {
     [TestClass]
     [TestCategory(TestCategory.UnitTest)]

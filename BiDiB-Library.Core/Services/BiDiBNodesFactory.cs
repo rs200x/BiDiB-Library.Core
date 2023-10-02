@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using org.bidib.netbidibc.core.Message;
-using org.bidib.netbidibc.core.Models;
-using org.bidib.netbidibc.core.Models.BiDiB.Extensions;
-using org.bidib.netbidibc.core.Services.Interfaces;
-using org.bidib.netbidibc.core.Utils;
+using org.bidib.Net.Core.Message;
+using org.bidib.Net.Core.Models;
+using org.bidib.Net.Core.Models.BiDiB.Extensions;
+using org.bidib.Net.Core.Services.Interfaces;
+using org.bidib.Net.Core.Utils;
 
-namespace org.bidib.netbidibc.core.Services;
+namespace org.bidib.Net.Core.Services;
 
 [Export(typeof(IBiDiBNodesFactory))]
 [PartCreationPolicy(CreationPolicy.Shared)]
@@ -43,7 +43,7 @@ public class BiDiBNodesFactory : IBiDiBNodesFactory
 
     public BiDiBNode CreateNode(byte[] address, byte[] uniqueId)
     {
-        BiDiBNode node = new BiDiBNode(MessageProcessor, loggerFactory.CreateLogger<BiDiBNode>()) { Address = address };
+        var node = new BiDiBNode(MessageProcessor, loggerFactory.CreateLogger<BiDiBNode>()) { Address = address };
         if (uniqueId != null) { node.SetUniqueId(uniqueId); }
 
         if (nodes.TryAdd(node.GetAddress(), node))
@@ -96,10 +96,23 @@ public class BiDiBNodesFactory : IBiDiBNodesFactory
 
     public void Reset()
     {
-        foreach (int nodeAddress in nodes.Keys)
+        foreach (var nodeAddress in nodes.Keys)
         {
             RemoveNode(nodeAddress);
         }
+    }
+
+    public BiDiBNode GetNodeByShortId(byte[] uniqueId)
+    {
+        return nodes.Values.FirstOrDefault(x =>
+            x.UniqueIdBytes.Skip(2).ToArray().GetArrayValue() == uniqueId.GetArrayValue());
+    }
+
+    public byte[] GetNodeAddressByShortId(byte[] uniqueId)
+    {
+        var node = GetNodeByShortId(uniqueId);
+
+        return node != null ? node.Address : new byte[] { 0 };
     }
 
     private void RemoveNode(int nodeAddressValue)

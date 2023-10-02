@@ -1,6 +1,5 @@
-﻿namespace org.bidib.netbidibc.core.Controllers.Interfaces
+﻿namespace org.bidib.Net.Core.Controllers.Interfaces;
+
+public interface ISerialPortController : IConnectionController<ISerialPortConfig>
 {
-    public interface ISerialPortController : IConnectionController<ISerialPortConfig>
-    {
-    }
 }

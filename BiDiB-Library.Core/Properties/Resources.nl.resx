@@ -150,7 +150,7 @@ Controleer alstublieft de interface instellingen en de verbinding.
   <data name="MilliOhm" xml:space="preserve">
     <value>mΩ</value>
   </data>
-  <data name="MilliSecond" xml:space="preserve">
+  <data name="Millisecond" xml:space="preserve">
     <value>ms</value>
   </data>
   <data name="Minute" xml:space="preserve">
@@ -230,5 +230,8 @@ Controleer alstublieft de interface instellingen en de verbinding.
   </data>
   <data name="XmlValidationProcessError" xml:space="preserve">
     <value>Bestand {0} kon niet met schema {1} {2} worden gevalideerd.</value>
+  </data>
+  <data name="Microsecond" xml:space="preserve">
+    <value>μs</value>
   </data>
 </root>

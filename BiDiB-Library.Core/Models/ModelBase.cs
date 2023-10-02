@@ -4,61 +4,56 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace org.bidib.netbidibc.core.Models
+namespace org.bidib.Net.Core.Models;
+
+public class ModelBase : INotifyPropertyChanged
 {
-    public class ModelBase : INotifyPropertyChanged
+    protected bool Set<T>(Expression<Func<T>> propertyExpression, ref T field, T newValue)
     {
-        protected bool Set<T>(Expression<Func<T>> propertyExpression, ref T field, T newValue)
+        if (EqualityComparer<T>.Default.Equals(field, newValue))
         {
-            if (EqualityComparer<T>.Default.Equals(field, newValue))
-            {
-                return false;
-            }
-
-            field = newValue;
-            OnPropertyChanged(GetPropertyName(propertyExpression));
-            return true;
+            return false;
         }
+
+        field = newValue;
+        OnPropertyChanged(GetPropertyName(propertyExpression));
+        return true;
+    }
         
-        public virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
-        {
-            string propertyName = GetPropertyName(propertyExpression);
+    public virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
+    {
+        var propertyName = GetPropertyName(propertyExpression);
 
-            if (!string.IsNullOrEmpty(propertyName))
-            {
-                OnPropertyChanged(propertyName);
-            }
+        if (!string.IsNullOrEmpty(propertyName))
+        {
+            OnPropertyChanged(propertyName);
+        }
+    }
+
+    protected static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
+    {
+        if (propertyExpression == null)
+        {
+            throw new ArgumentNullException(nameof(propertyExpression));
         }
 
-        protected static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
+        if (propertyExpression.Body is not MemberExpression body)
         {
-            if (propertyExpression == null)
-            {
-                throw new ArgumentNullException(nameof(propertyExpression));
-            }
-
-            MemberExpression body = propertyExpression.Body as MemberExpression;
-
-            if (body == null)
-            {
-                throw new InvalidCastException("Expression body must be of type " + typeof(MemberExpression));
-            }
-
-            PropertyInfo property = body.Member as PropertyInfo;
-
-            if (property == null)
-            {
-                throw new ArgumentException("Body member must be a property");
-            }
-
-            return property.Name;
+            throw new InvalidCastException("Expression body must be of type " + typeof(MemberExpression));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        if (body.Member is not PropertyInfo property)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            throw new ArgumentException("Body member must be a property");
         }
+
+        return property.Name;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

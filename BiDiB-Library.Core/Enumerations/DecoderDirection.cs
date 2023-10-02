@@ -1,10 +1,9 @@
-﻿namespace org.bidib.netbidibc.core.Enumerations
+﻿namespace org.bidib.Net.Core.Enumerations;
+
+public enum DecoderDirection : byte
 {
-    public enum DecoderDirection : byte
-    {
-        ForwardDirection = 0x00,
-        AccessoryDirection = 0x01,
-        BackwardDirection = 0x02,
-        ExtendedAccessoryDirection = 0x03
-    }
+    ForwardDirection = 0x00,
+    AccessoryDirection = 0x01,
+    BackwardDirection = 0x02,
+    ExtendedAccessoryDirection = 0x03
 }

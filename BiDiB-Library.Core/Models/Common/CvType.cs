@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace org.bidib.netbidibc.core.Models.Common
+namespace org.bidib.Net.Core.Models.Common;
+
+[Serializable]
+[XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "CVTypeType")]
+public enum CvType
 {
-    [Serializable]
-    [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "CVTypeType")]
-    public enum CvType
-    {
-        [XmlEnum("byte")]
-        Byte,
+    [XmlEnum("byte")]
+    Byte,
 
-        [XmlEnum("select")]
-        Select,
+    [XmlEnum("select")]
+    Select,
 
-        [XmlEnum("signedByte")]
-        SignedByte
-    }
+    [XmlEnum("signedByte")]
+    SignedByte
 }
