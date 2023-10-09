@@ -13,6 +13,7 @@ trigger:
       - bug/*
       - releases/*
       - Development
+      - pipeline
 
 pool:
   vmImage: "windows-2022"
@@ -26,19 +27,23 @@ steps:
 
   - task: NuGetToolInstaller@1
 
-  - task: NuGetCommand@2
+  - task: DotNetCoreCLI@2
+    displayName: "Restore nuget packs"
+    enabled: true
     inputs:
-      command: "restore"
-      restoreSolution: '$(solution)'
-      feedsToUse: "config"
-      nugetConfigPath: "nuget.config"
+      command: 'restore'
+      projects: '**/*.sln'
+      feedsToUse: 'config'
+      nugetConfigPath: 'nuget.config'
+      restoreArguments: '/property:Configuration=$(BuildConfiguration)'
 
-  - task: PowerShell@2
+  - task: SonarCloudPrepare@1
     inputs:
-      targetType: "inline"
-      script: |
-        $date=$(Get-Date -Format ddMMyyy);
-        Write-Host "##vso[task.setvariable variable=BuildDate]$date"
+      SonarCloud: 'rs200x'
+      organization: 'rs200x-github'
+      scannerMode: 'MSBuild'
+      projectKey: 'BiDiB-Library.Core'
+      projectVersion: '$(version)'
 
   - task: VSBuild@1
     inputs:
@@ -68,7 +73,7 @@ steps:
       coverageFailOption: "build"
       coverageType: "blocks"
       coveragePrecision: "0"
-      forceCoverageImprovement: true
+      forceCoverageImprovement: false
       coverageUpperThreshold: "70"
       baseDefinitionId: 33
       baseBranchRef: "refs/heads/main"

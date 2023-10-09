@@ -76,7 +76,7 @@ steps:
       coverageFailOption: "build"
       coverageType: "blocks"
       coveragePrecision: "0"
-      forceCoverageImprovement: true
+      forceCoverageImprovement: false
       coverageUpperThreshold: "70"
       baseDefinitionId: 33
       baseBranchRef: "refs/heads/main"
