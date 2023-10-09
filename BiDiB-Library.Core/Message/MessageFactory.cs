@@ -61,7 +61,7 @@ public class MessageFactory : IMessageFactory
         var classType = GetInputMessageType(inputMessage.MessageType);
         if (classType == null)
         {
-            logger.LogWarning("There is no specific message type object for '{MessageType}'!", inputMessage.MessageType);
+            logger.LogDebug("There is no specific message type object for '{MessageType}'!", inputMessage.MessageType.ToString());
             return inputMessage;
         }
         
@@ -71,7 +71,7 @@ public class MessageFactory : IMessageFactory
         }
         catch (Exception e) when(e is MissingMethodException or TargetInvocationException)
         {
-            logger.LogError(e, "Specific message type object for '{MessageType}' could not be created!", inputMessage.MessageType);
+            logger.LogError(e, "Specific message type object for '{MessageType}' could not be created!", inputMessage.MessageType.ToString());
             return inputMessage;
         }
     }
