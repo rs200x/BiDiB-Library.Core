@@ -40,13 +40,13 @@ public class StringMessageReceiver : IMessageReceiver
         if (message.StringId == 0)
         {
             logger.LogDebug("Set product name '{StringValue}' to {FullAddress}/{HexUniqueId}", message.StringValue, node.FullAddress, node.HexUniqueId);
-            node.ProductName = message.StringValue;
+            node.ProductName = message.StringValue.Trim();
         }
 
         if (message.StringId == 1)
         {
             logger.LogDebug("Set user name '{StringValue}' to {FullAddress}/{HexUniqueId}", message.StringValue, node.FullAddress, node.HexUniqueId);
-            node.UserName = message.StringValue;
+            node.UserName = message.StringValue.Trim();
         }
     }
 }

@@ -7,8 +7,14 @@ namespace org.bidib.Net.Core.Models.Messages.Input;
 [InputMessage(BiDiBMessage.MSG_ACCESSORY_STATE)]
 public class AccessoryStateMessage : BiDiBInputMessage
 {
-    public AccessoryStateMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_ACCESSORY_STATE, 5)
+    public AccessoryStateMessage(byte[] messageBytes) : this(messageBytes, BiDiBMessage.MSG_ACCESSORY_STATE)
     {
+
+    }
+
+    protected AccessoryStateMessage(byte[] messageBytes, BiDiBMessage messageType) : base(messageBytes, messageType, 5)
+    {
+
         Number = MessageParameters[0];
         Aspect = MessageParameters[1];
         Total = MessageParameters[2];
@@ -22,6 +28,8 @@ public class AccessoryStateMessage : BiDiBInputMessage
         Options = new byte[MessageParameters.Length - 5];
         Array.Copy(MessageParameters, 5, Options, 0, Options.LongLength);
     }
+
+
 
     public byte[] Options { get; }
 

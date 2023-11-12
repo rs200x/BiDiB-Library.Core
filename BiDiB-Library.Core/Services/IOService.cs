@@ -230,11 +230,12 @@ public class IoService : IIoService
         if (files == null || !files.Any()) { return; }
 
         var zip = ZipFile.Open(filePath, ZipArchiveMode.Create);
+        var tempFolder = GetTempFolder();
         foreach (var file in files)
         {
             try
             {
-                var tempFile = Path.GetRandomFileName();
+                var tempFile =GetPath(tempFolder, Path.GetRandomFileName());
                 File.Copy(file, tempFile);
                 zip.CreateEntryFromFile(tempFile, GetFileName(file), CompressionLevel.Optimal);
                 File.Delete(tempFile);
@@ -243,8 +244,8 @@ public class IoService : IIoService
             {
                 logger.LogError(e, "File '{File}' could not be added to archive '{Archive}'", file, filePath);
             }
-               
         }
         zip.Dispose();
+        DeleteDirectory(tempFolder);
     }
 }
