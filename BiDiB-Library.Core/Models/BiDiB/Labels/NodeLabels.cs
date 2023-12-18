@@ -13,7 +13,10 @@ public class NodeLabels
 {
     [XmlAttribute("defaultLabelsApplied")]
     public DefaultLabelsAction DefaultLabelsApplied { get; set; }
-        
+
+    [XmlAttribute("defaultLabelsVersion")]
+    public string DefaultLabelsVersion { get; set; }
+
     [XmlAttribute("lang")]
     public string Language { get; set; }
 
