@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml.Serialization;
 using org.bidib.Net.Core.Models.Common;
 using org.bidib.Net.Core.Models.Xml;
@@ -20,7 +22,27 @@ public class CvReference
     [XmlIgnore]
     public CvBase CvItem { get; set; }
 
+
+    public IEnumerable<Cv> AllCvs
+    {
+        get
+        {
+            if (CvItem is Cv cv)
+            {
+                return new List<Cv> { cv };
+            }
+
+            if (CvItem is CvGroup grp)
+            {
+                return grp.Cvs;
+            }
+
+            return Enumerable.Empty<Cv>();
+        }
+    }
+
     #region Overrides of Object
+
 
     public override string ToString()
     {

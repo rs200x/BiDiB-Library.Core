@@ -9,7 +9,7 @@ namespace org.bidib.Net.Core.Models.Product;
 [DebuggerStepThrough]
 [XmlType(AnonymousType = true, Namespace = Namespaces.DecoderNamespaceUrl)]
 [XmlRoot("decoderDefinition", Namespace = Namespaces.DecoderNamespaceUrl, IsNullable = false)]
-public class DecoderDefinition : ItemWithVersion
+public class DecoderDefinition : ItemWithVersion, IFileSourceItem
 {
     [XmlElement("decoder")]
     public Decoder Decoder { get; set; }
@@ -18,4 +18,6 @@ public class DecoderDefinition : ItemWithVersion
     {
         return Decoder.ToString();
     }
+
+    public string SourceFile { get; set; }
 }

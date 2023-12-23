@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml.Serialization;
 using org.bidib.Net.Core.Models.Common;
+using Cv = org.bidib.Net.Core.Models.Common.Cv;
 
 namespace org.bidib.Net.Core.Models.Firmware;
 
@@ -16,4 +19,19 @@ public class Category
     [XmlElement("idReference", typeof(CvReference))]
     [XmlElement("category", typeof(Category))]
     public object[] Items { get; set; }
+
+    public IEnumerable<Cv> AllCvs
+    {
+        get
+        {
+            if (Items == null)
+            {
+                return new List<Cv>();
+            }
+
+            var allCvs = Items.OfType<CvReference>().SelectMany(x => x.AllCvs).ToList();
+            allCvs.AddRange(Items.OfType<Category>().SelectMany(x => x.AllCvs));
+            return allCvs.OrderBy(x => x.Number);
+        }
+    }
 }
