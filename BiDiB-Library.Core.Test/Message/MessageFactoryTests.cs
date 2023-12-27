@@ -600,8 +600,40 @@ namespace org.bidib.Net.Core.Test.Message
             message.PortNumber.Should().Be(0);
             message.PortType.Should().Be(PortType.Motor);
             message.Status.Should().HaveCount(1);
-        } 
-        
+        }
+
+        [TestMethod]
+        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOFFShort()
+        {
+            // Arrange
+            byte[] bytes = GetBytes("04-00-C5-B0-01");
+
+            // Act
+            BoostStatMessage message = Target.CreateInputMessage(bytes) as BoostStatMessage;
+
+            // Assert
+            Assert.IsNotNull(message);
+            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_OFF_SHORT);
+            message.Control.Should().Be(BoosterControl.Bus);
+        }
+       
+        [TestMethod]
+        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOnHot()
+        {
+            // Arrange
+            byte[] bytes = GetBytes("04-00-C5-B0-82");
+
+            // Act
+            BoostStatMessage message = Target.CreateInputMessage(bytes) as BoostStatMessage;
+
+
+            // Assert
+            Assert.IsNotNull(message);
+            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON_HOT);
+            message.Control.Should().Be(BoosterControl.Bus);
+        }
+
+
         [TestMethod]
         public void CreateInputMessage_ShouldReturnBoostStatMessage_WithBusControl()
         {
