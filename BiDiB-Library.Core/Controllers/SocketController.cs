@@ -54,7 +54,7 @@ public class SocketController<TConfig> : ConnectionController<TConfig>, ISocketC
     
     public override void Initialize(TConfig config)
     {
-        if (Equals(config, default(TConfig)))
+        if (Equals(config, default(TConfig)) || config == null)
         {
             throw new ArgumentNullException(nameof(config));
         }

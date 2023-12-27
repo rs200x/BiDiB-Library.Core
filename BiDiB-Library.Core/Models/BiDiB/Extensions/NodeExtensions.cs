@@ -152,14 +152,14 @@ public static class NodeExtensions
     {
         if (node?.Features == null || !node.Features.Any()) { return null; }
 
-        return node.Features.FirstOrDefault(x => x.FeatureId == featureId);
+        return Array.Find(node.Features, x => x.FeatureId == featureId);
     }
 
     public static bool IsFeatureActive(this Node node, BiDiBFeature featureType)
     {
-        if (node.Features == null || !node.Features.Any()) { return false; }
+        if (node?.Features == null || !node.Features.Any()) { return false; }
 
-        var feature = node.Features.FirstOrDefault(x => x.FeatureType == featureType);
+        var feature = Array.Find(node.Features, x => x.FeatureType == featureType);
 
         return feature is { Value: > 0 };
     }
