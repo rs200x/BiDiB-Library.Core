@@ -5,17 +5,22 @@ namespace org.bidib.Net.Core.Models.BiDiB;
 
 [Serializable]
 [XmlType(Namespace = Namespaces.BiDiB20NamespaceUrl)]
-public class Aspect
+public class Aspect : ModelBase
 {
-    
+    private string name;
+
     [XmlAttribute("number")]
     public int Number { get; set; }
 
     
     [XmlAttribute("name")]
-    public string Name { get; set; }
+    public string Name
+    {
+        get => name;
+        set => Set(() => Name, ref name, value);
+    }
 
-    
+
     [XmlAttribute("macroNumber")]
     public int MacroNumber { get; set; }
 
