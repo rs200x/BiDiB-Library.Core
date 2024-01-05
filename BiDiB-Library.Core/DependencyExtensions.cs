@@ -12,6 +12,7 @@ public static class DependencyExtensions
     {
         services.AddSingleton<IIoService, IoService>();
         services.AddSingleton<IJsonService, JsonService>();
+        services.AddSingleton<IXmlService, XmlService>();
         services.AddSingleton<IBiDiBInterface, BiDiBInterface>();
         services.AddSingleton<IConnectionService, ConnectionService>();
         services.AddSingleton<IBiDiBNodesFactory, BiDiBNodesFactory>();
