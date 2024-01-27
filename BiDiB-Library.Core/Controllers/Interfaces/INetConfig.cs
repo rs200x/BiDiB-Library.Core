@@ -5,6 +5,4 @@ public interface INetConfig : IConnectionConfig
     string NetworkHostAddress { get; set; }
 
     int NetworkPortNumber { get; set; }
-
-    string ApplicationName { get; set; }
 }

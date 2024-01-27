@@ -8,6 +8,8 @@ public interface IConnectionConfig
 
     string Name { get; set; }
 
+    string ApplicationName { get; set; }
+
     InterfaceConnectionType ConnectionType { get; set; }
 
     ConnectionStrategyType ConnectionStrategyType { get; set; }
