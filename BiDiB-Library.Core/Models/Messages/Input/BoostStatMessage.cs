@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using org.bidib.Net.Core.Enumerations;
+﻿using org.bidib.Net.Core.Enumerations;
 
 namespace org.bidib.Net.Core.Models.Messages.Input;
 
@@ -20,11 +19,10 @@ public class BoostStatMessage : BiDiBInputMessage
         State = (BoosterState)stateValue;
     }
 
-    public bool IsOn { get; set; }
 
     public BoosterState State { get; }
 
     public BoosterControl Control { get; }
 
-    public override string ToString() => $"{base.ToString()}, {State}, {Control}, {IsOn}";
+    public override string ToString() => $"{base.ToString()}, {State}, {Control}";
 }
