@@ -22,7 +22,6 @@ public class CvReference
     [XmlIgnore]
     public CvBase CvItem { get; set; }
 
-
     public IEnumerable<Cv> AllCvs
     {
         get
