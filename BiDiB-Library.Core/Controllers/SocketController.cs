@@ -23,7 +23,7 @@ public class SocketController : SocketController<INetConfig>
 
 [Localizable(false)]
 public class SocketController<TConfig> : ConnectionController<TConfig>, ISocketController<TConfig>
-    where TConfig : INetConfig
+    where TConfig : class, INetConfig
 {
     private readonly ILogger<SocketController> logger;
     private readonly ILogger rawLogger;

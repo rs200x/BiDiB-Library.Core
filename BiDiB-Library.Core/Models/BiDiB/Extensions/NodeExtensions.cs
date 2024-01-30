@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using org.bidib.Net.Core.Utils;
@@ -20,7 +19,7 @@ public static class NodeExtensions
         var parentAddressLength = node.Address.Length;
 
         // is interface node below root
-        if (node.Address.Last() == 0)
+        if (node.Address[^1] == 0)
         {
             parentAddressLength--;
         }
@@ -126,8 +125,8 @@ public static class NodeExtensions
     {
         if (node == null || newFeature == null) { return; }
 
-        var features = node.Features?.ToList() ?? new List<Feature>();
-        var feature = features.FirstOrDefault(x => x.FeatureId == newFeature.FeatureId);
+        var features = node.Features?.ToList() ?? [];
+        var feature =  features.Find(x => x.FeatureId == newFeature.FeatureId);
 
         if (feature != null)
         {
@@ -138,28 +137,28 @@ public static class NodeExtensions
             features.Add(newFeature);
         }
 
-        node.Features = features.ToArray();
+        node.Features = [..features];
     }
 
     public static Feature GetFeature(this Node node, BiDiBFeature featureType)
     {
         if (node?.Features == null || !node.Features.Any()) { return null; }
 
-        return node.Features.FirstOrDefault(x => x.FeatureType == featureType);
+        return Array.Find(node.Features, x => x.FeatureType == featureType);
     }
 
     public static Feature GetFeature(this Node node, byte featureId)
     {
         if (node?.Features == null || !node.Features.Any()) { return null; }
 
-        return node.Features.FirstOrDefault(x => x.FeatureId == featureId);
+        return Array.Find(node.Features, x => x.FeatureId == featureId);
     }
 
     public static bool IsFeatureActive(this Node node, BiDiBFeature featureType)
     {
-        if (node.Features == null || !node.Features.Any()) { return false; }
+        if (node?.Features == null || !node.Features.Any()) { return false; }
 
-        var feature = node.Features.FirstOrDefault(x => x.FeatureType == featureType);
+        var feature = Array.Find(node.Features, x => x.FeatureType == featureType);
 
         return feature is { Value: > 0 };
     }

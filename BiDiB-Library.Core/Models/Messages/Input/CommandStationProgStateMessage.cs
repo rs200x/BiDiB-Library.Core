@@ -6,14 +6,14 @@ namespace org.bidib.Net.Core.Models.Messages.Input;
 [InputMessage(BiDiBMessage.MSG_CS_PROG_STATE)]
 public class CommandStationProgStateMessage : BiDiBInputMessage
 {
-    public CommandStationProgStateMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_CS_PROG_STATE, 5)
+    public CommandStationProgStateMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_CS_PROG_STATE, 4)
     {
         ProgState = (CommandStationProgState)MessageParameters[0]; // Status
         Time = Convert.ToInt32(MessageParameters[1]) * 100; // value * 100ms
 
         CvLow = MessageParameters[2];
         CvHigh = MessageParameters[3];
-        Data = MessageParameters[4]; // CV Value
+        Data = MessageParameters.Length > 4 ? MessageParameters[4] : default; // CV Value
     }
 
     public byte CvHigh { get;  }

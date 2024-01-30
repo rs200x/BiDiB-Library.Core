@@ -9,7 +9,7 @@ namespace org.bidib.Net.Core.Models.Firmware;
 [DebuggerStepThrough]
 [XmlType(AnonymousType = true, Namespace = Namespaces.DecoderFirmwareNamespaceUrl)]
 [XmlRoot("decoderFirmwareDefinition", Namespace = Namespaces.DecoderFirmwareNamespaceUrl, IsNullable = false)]
-public class FirmwareDefinition : ItemWithVersion
+public class FirmwareDefinition : ItemWithVersion, IFileSourceItem
 {
     [XmlElement("firmware")]
     public Firmware Firmware { get; set; }
@@ -22,4 +22,6 @@ public class FirmwareDefinition : ItemWithVersion
     }
 
     #endregion
+
+    public string SourceFile { get; set; }
 }

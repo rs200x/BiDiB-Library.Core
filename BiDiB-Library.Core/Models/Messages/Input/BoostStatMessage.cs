@@ -7,10 +7,18 @@ public class BoostStatMessage : BiDiBInputMessage
 {
     public BoostStatMessage(byte[] messageBytes) : base(messageBytes, BiDiBMessage.MSG_BOOST_STAT, 1)
     {
-        State = (BoosterState)(MessageParameters[0] & 0x80);
+        int stateValue = MessageParameters[0];
 
         Control = (BoosterControl)((MessageParameters[0] & 0x70) >> 6);
+
+        if (Control > BoosterControl.Bus)
+        {
+            stateValue -= 64;
+        }
+
+        State = (BoosterState)stateValue;
     }
+
 
     public BoosterState State { get; }
 
