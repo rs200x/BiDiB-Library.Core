@@ -24,7 +24,7 @@ public class FeedbackDynStateMessage : FeedbackMessage
 
     public DecoderDirection Direction { get; }
 
-    public short Distance => (short)(MessageParameters.Length >= 6 ? BitConverter.ToInt16(MessageParameters, 4) : 0);
+    public ushort Distance => (ushort)(MessageParameters.Length >= 6 ? BitConverter.ToUInt16(MessageParameters, 4) : 0);
 
     /// <summary>
     /// Returns the state specific value
