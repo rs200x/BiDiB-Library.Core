@@ -139,23 +139,37 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
         var currentReceivers = messageReceivers.Values.ToList(); // take a copy to avoid modification
 
         inputProcessWatch.Restart();
-        foreach (var receiver in currentReceivers)
+
+        Task.WaitAll(
+            currentReceivers.Select(receiver => Task.Run(() => SendMessageToReceiver(messageItem, receiver))).ToArray(),
+            10_000);
+
+        inputProcessWatch.Stop();
+
+        if (inputProcessWatch.ElapsedMilliseconds > 100)
         {
-            try
-            {
-                receiver.ProcessMessage(messageItem);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Message could not be processed by {ReceiverName}. {MessageItem}", receiver.GetType().Name, messageItem);
-            }
+            logger.LogWarning("Total message processing of '{Sequence}-{MessageType}' took {ElapsedMilliseconds}ms!", messageItem.SequenceNumber, messageItem.MessageType, inputProcessWatch.ElapsedMilliseconds);
+        }
+    }
+
+    private void SendMessageToReceiver(BiDiBInputMessage messageItem, IMessageReceiver receiver)
+    {
+        var receiverWatch = new Stopwatch();
+        receiverWatch.Start();
+        try
+        {
+            receiver.ProcessMessage(messageItem);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Message could not be processed by {ReceiverName}. {MessageItem}", receiver.GetType().Name, messageItem);
         }
 
         inputProcessWatch.Stop();
 
         if (inputProcessWatch.ElapsedMilliseconds > 100)
         {
-            logger.LogWarning("Message {MessageType} processed ({ElapsedMilliseconds}ms)", messageItem.MessageType, inputProcessWatch.ElapsedMilliseconds);
+            logger.LogWarning("Message processing of '{Sequence}-{MessageType}' for {Receiver} took {ElapsedMilliseconds}ms", messageItem.SequenceNumber, messageItem.MessageType, receiver.GetType().Name, inputProcessWatch.ElapsedMilliseconds);
         }
     }
 
