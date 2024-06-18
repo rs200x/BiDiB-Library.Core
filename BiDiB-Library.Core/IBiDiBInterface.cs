@@ -28,7 +28,14 @@ public interface IBiDiBInterface : IDisposable
 
     void SendMessage(BiDiBOutputMessage message);
 
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage) where TResponseMessage : BiDiBInputMessage;
+    /// <summary>
+    /// Sends a bidib message to the bus
+    /// </summary>
+    /// <typeparam name="TResponseMessage">Type of the expected response message</typeparam>
+    /// <param name="outputMessage">The message to be sent</param>
+    /// <param name="timeout">Timeout in ms to wait for response</param>
+    /// <returns>The expected message object</returns>
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500) where TResponseMessage : BiDiBInputMessage;
 
     void Register(IMessageReceiver messageReceiver);
 
