@@ -263,7 +263,7 @@ public class BiDiBNode : Node, IOccupanciesHost
 
     public void GetFeatures()
     {
-        // not possible to retrieve features if node in boot loader mode
+        // not possible to retrieve features if node in bootloader mode
         if (BootLoaderActive) { return; }
 
         var featureCountMessage = SendMessage<FeatureCountMessage>(new FeatureGetAllMessage(Address, false));
@@ -344,7 +344,7 @@ public class BiDiBNode : Node, IOccupanciesHost
         var feedbackStateBytes = new byte[stateSize];
         if (multipleMessage != null)
         {
-            Array.Copy(multipleMessage.MessageParameters, 2, feedbackStateBytes, 0, multipleMessage.MessageParameters.Length - 2);
+            Array.Copy(multipleMessage.MessageParameters, 2, feedbackStateBytes, 0, stateSize);
         }
 
         List<FeedbackPort> feedbackPorts = new();
