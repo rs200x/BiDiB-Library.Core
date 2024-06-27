@@ -14,16 +14,9 @@ namespace org.bidib.Net.Core.Services;
 
 [Export(typeof(IIoService))]
 [PartCreationPolicy(CreationPolicy.NonShared)]
-public class IoService : IIoService
+[method: ImportingConstructor]
+public class IoService(ILogger<IoService> logger) : IIoService
 {
-    private readonly ILogger<IoService> logger;
-
-    [ImportingConstructor]
-    public IoService(ILoggerFactory loggerFactory)
-    {
-        logger = loggerFactory.CreateLogger<IoService>();
-    }
-
     public bool DirectoryExists(string directoryPath)
     {
         return Directory.Exists(directoryPath);
@@ -73,6 +66,22 @@ public class IoService : IIoService
         if (paths == null || paths.Length == 0) { return string.Empty; }
 
         return Path.Combine(paths);
+    }
+
+    /// <inheritdoc />
+    public bool TryDelete(string filePath)
+    {
+        try
+        {
+            File.Delete(filePath);
+            return true;
+        }
+        catch (Exception e)
+        {
+            logger.LogDebug("File could not be deleted: {File} {Error}", GetFileName(filePath), e.Message);
+        }
+
+        return false;
     }
 
     /// <inheritdoc />

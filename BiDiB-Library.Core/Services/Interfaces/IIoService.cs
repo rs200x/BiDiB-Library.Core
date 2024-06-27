@@ -126,4 +126,11 @@ public interface IIoService
 
 
     string GetPath(params string[] paths);
+
+    /// <summary>
+    /// Tries to delete the specified file
+    /// </summary>
+    /// <param name="filePath">The file to be deleted</param>
+    /// <returns><c>true</c> if success</returns>
+    bool TryDelete(string filePath);
 }
