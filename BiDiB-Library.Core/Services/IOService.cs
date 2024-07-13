@@ -220,10 +220,20 @@ public class IoService(ILogger<IoService> logger) : IIoService
             return null;
         }
 
-        var archive = ZipFile.OpenRead(archiveFileName);
+        using var archive = ZipFile.OpenRead(archiveFileName);
         var entry = archive.Entries.FirstOrDefault(x => x.Name == entryFileName);
 
-        return entry?.Open();
+        if (entry == null)
+        {
+            return null; 
+        }
+
+        var dataStream = entry.Open();
+        MemoryStream readerStream = new MemoryStream();
+        dataStream.CopyTo(readerStream);
+        readerStream.Position = 0;
+
+        return readerStream;
     }
 
     /// <inheritdoc />
