@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 using System.Security;
 using System.Text;
 using System.Xml;
@@ -208,22 +206,6 @@ public class XmlService : IXmlService
             logger.LogError(ex, $"Migration of '{filePath}' failed!");
             return false;
         }
-    }
-
-    public void SaveToArchive(string filePath, string fileName, XmlDocument xml)
-    {
-        if (!ioService.FileExists(filePath)) { return; }
-        using var archive = ZipFile.Open(filePath, ZipArchiveMode.Update);
-        var entry = archive.Entries.FirstOrDefault(x => x.Name == fileName);
-
-        if (entry == null)
-        {
-            return;
-        }
-
-        using var entryStream = entry.Open();
-        xml.Save(entryStream);
-        entryStream.Flush();
     }
 
     private static IXmlValidationInfo GetInvalidFileInfo(string fileName)

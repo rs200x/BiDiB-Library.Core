@@ -17,11 +17,13 @@ namespace org.bidib.Net.Core.Services;
 [method: ImportingConstructor]
 public class IoService(ILogger<IoService> logger) : IIoService
 {
+    /// <inheritdoc />
     public bool DirectoryExists(string directoryPath)
     {
         return Directory.Exists(directoryPath);
     }
 
+    /// <inheritdoc />
     public void CreateDirectory(string directoryPath)
     {
         try
@@ -42,6 +44,7 @@ public class IoService(ILogger<IoService> logger) : IIoService
         Directory.Delete(directoryPath, true);
     }
 
+    /// <inheritdoc />
     public bool FileExists(string filePath)
     {
         return File.Exists(filePath);
@@ -53,6 +56,7 @@ public class IoService(ILogger<IoService> logger) : IIoService
         return !string.IsNullOrEmpty(filePath) ? new FileInfo(filePath).Name : string.Empty;
     }
 
+    /// <inheritdoc />
     public string GetTempFolder()
     {
         var randomDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -92,11 +96,13 @@ public class IoService(ILogger<IoService> logger) : IIoService
         return fileInfo.DirectoryName;
     }
 
+    /// <inheritdoc />
     public string[] GetDirectories(string directoryPath)
     {
         return Directory.GetDirectories(directoryPath);
     }
 
+    /// <inheritdoc />
     public string[] GetFiles(string directoryPath, string filter)
     {
         return !DirectoryExists(directoryPath) ? Array.Empty<string>() : Directory.GetFiles(directoryPath, filter);
@@ -128,6 +134,7 @@ public class IoService(ILogger<IoService> logger) : IIoService
         return false;
     }
 
+    /// <inheritdoc />
     public void ExtractZip(string filePath, string destinationPath)
     {
         if (!FileExists(filePath)) { return; }
@@ -136,6 +143,7 @@ public class IoService(ILogger<IoService> logger) : IIoService
         ZipFile.ExtractToDirectory(filePath, destinationPath);
     }
 
+    /// <inheritdoc />
     public string GetSha1(string filePath)
     {
         if (!FileExists(filePath))
@@ -154,6 +162,12 @@ public class IoService(ILogger<IoService> logger) : IIoService
 
         return string.Join("", hashValue.Select(x => $"{x:x2}"));
 
+    }
+
+    /// <inheritdoc />
+    public string GetData(string filePath)
+    {
+        return !FileExists(filePath) ? null : File.ReadAllText(filePath);
     }
 
     /// <inheritdoc />
@@ -196,20 +210,12 @@ public class IoService(ILogger<IoService> logger) : IIoService
         return dataLines;
     }
 
-    private static IEnumerable<string> GetLinesFromStream(StreamReader stream)
+    /// <inheritdoc />
+    public string GetDataFromArchive(string filePath, string fileName)
     {
-        var dataLines = new List<string>();
-        if (stream == null)
-        {
-            return dataLines;
-        }
-
-        while (!stream.EndOfStream)
-        {
-            dataLines.Add(stream.ReadLine());
-        }
-
-        return dataLines;
+        var stream = GetFileStreamFromArchive(filePath, fileName);
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
     }
 
     /// <inheritdoc />
@@ -248,7 +254,7 @@ public class IoService(ILogger<IoService> logger) : IIoService
         if (string.IsNullOrEmpty(filePath)) { return; }
         if (files == null || !files.Any()) { return; }
 
-        var zip = ZipFile.Open(filePath, ZipArchiveMode.Create);
+        using var zip = ZipFile.Open(filePath, ZipArchiveMode.Create);
         var tempFolder = GetTempFolder();
         foreach (var file in files)
         {
@@ -264,7 +270,42 @@ public class IoService(ILogger<IoService> logger) : IIoService
                 logger.LogError(e, "File '{File}' could not be added to archive '{Archive}'", file, filePath);
             }
         }
-        zip.Dispose();
         DeleteDirectory(tempFolder);
+    }
+
+    /// <inheritdoc />
+    public void SaveToZip(string filePath, string fileName, string fileContent)
+    {
+        if (string.IsNullOrEmpty(filePath) 
+            || !FileExists(filePath) 
+            || string.IsNullOrEmpty(fileName) 
+            || string.IsNullOrEmpty(fileContent)) { return; }
+
+        using var archive = ZipFile.Open(filePath, ZipArchiveMode.Update);
+
+        var entry = archive.Entries.FirstOrDefault(x => x.Name == fileName);
+
+        entry?.Delete();
+
+        entry = archive.CreateEntry(fileName);
+
+        using StreamWriter writer = new StreamWriter(entry.Open());
+        writer.Write(fileContent);
+    }
+
+    private static IEnumerable<string> GetLinesFromStream(StreamReader stream)
+    {
+        var dataLines = new List<string>();
+        if (stream == null)
+        {
+            return dataLines;
+        }
+
+        while (!stream.EndOfStream)
+        {
+            dataLines.Add(stream.ReadLine());
+        }
+
+        return dataLines;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using org.bidib.Net.Core.Models.Xml;
 
 namespace org.bidib.Net.Core.Services.Interfaces;
@@ -20,8 +19,6 @@ public interface IXmlService
     T LoadFromStream<T>(Stream dataStream) where T : class;
 
     bool SaveToFile<T>(T instance, string filePath, ICollection<XmlNamespace> requiredNamespaces = null, bool prettyPrintAttributes = false) where T : class;
-
-    void SaveToArchive(string filePath, string fileName, XmlDocument xml);
 
     /// <summary>
     /// Determines if xml file is specified with given namespace

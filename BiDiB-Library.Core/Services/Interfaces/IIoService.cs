@@ -45,6 +45,13 @@ public interface IIoService
     string GetTempFolder();
 
     /// <summary>
+    /// Reads all data from the specified file
+    /// </summary>
+    /// <param name="filePath">The full file path</param>
+    /// <returns>The file content</returns>
+    string GetData(string filePath);
+
+    /// <summary>
     /// Reads all lines from the specified file
     /// </summary>
     /// <param name="filePath">The full file path</param>
@@ -96,6 +103,14 @@ public interface IIoService
     string GetSha1(string filePath);
 
     /// <summary>
+    /// Gets the data content of the specified file
+    /// </summary>
+    /// <param name="filePath">The archive file path</param>
+    /// <param name="fileName">The entry file name</param>
+    /// <returns>The entry file content</returns>
+    string GetDataFromArchive(string filePath, string fileName);
+
+    /// <summary>
     /// Gets the file stream from a file inside a zip archive
     /// </summary>
     /// <param name="archiveFileName">The archive file name</param>
@@ -124,7 +139,19 @@ public interface IIoService
     /// <param name="files">The content files</param>
     void SaveToZip(string filePath, ICollection<string> files);
 
+    /// <summary>
+    /// Stores the content as a file into the specified archive
+    /// </summary>
+    /// <param name="filePath">The target file path</param>
+    /// <param name="fileName">The entry file name</param>
+    /// <param name="fileContent">The content of the entry</param>
+    void SaveToZip(string filePath, string fileName, string fileContent);
 
+    /// <summary>
+    /// Combines the path parameters to a full path
+    /// </summary>
+    /// <param name="paths">The path parameters</param>
+    /// <returns>The combined path</returns>
     string GetPath(params string[] paths);
 
     /// <summary>
