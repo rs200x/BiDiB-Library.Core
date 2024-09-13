@@ -39,8 +39,8 @@ public sealed class BiDiBInterface : IBiDiBInterface
         IBiDiBMessageProcessor messageProcessor,
         IBiDiBNodesFactory nodesFactory,
         IBiDiBBoosterNodesManager boosterNodesManager,
-        [ImportMany]IEnumerable<IMessageReceiver> messageReceivers,
-        [ImportMany]IEnumerable<IConnectionStrategy> connectionStrategies,
+        [ImportMany] IEnumerable<IMessageReceiver> messageReceivers,
+        [ImportMany] IEnumerable<IConnectionStrategy> connectionStrategies,
         ILogger<BiDiBInterface> logger)
     {
         this.connectionService = connectionService;
@@ -54,7 +54,8 @@ public sealed class BiDiBInterface : IBiDiBInterface
 
         this.logger = logger;
 
-        ConnectionState = new ConnectionStateInfo(InterfaceConnectionState.Disconnected, InterfaceConnectionType.SerialPort);
+        ConnectionState =
+            new ConnectionStateInfo(InterfaceConnectionState.Disconnected, InterfaceConnectionType.SerialPort);
     }
 
     public void Initialize()
@@ -84,10 +85,12 @@ public sealed class BiDiBInterface : IBiDiBInterface
 
     public async Task ConnectAsync(IConnectionConfig connectionConfig)
     {
-        currentConnectionStrategy = connectionStrategies.FirstOrDefault(x => x.Type == connectionConfig.ConnectionStrategyType);
+        currentConnectionStrategy =
+            connectionStrategies.FirstOrDefault(x => x.Type == connectionConfig.ConnectionStrategyType);
         if (currentConnectionStrategy == null)
         {
-            logger.LogWarning("No connection strategy found for type {Strategy}", connectionConfig.ConnectionStrategyType);
+            logger.LogWarning("No connection strategy found for type {Strategy}",
+                connectionConfig.ConnectionStrategyType);
             return;
         }
 
@@ -132,7 +135,20 @@ public sealed class BiDiBInterface : IBiDiBInterface
         messageProcessor.SendMessage(message);
     }
 
-    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500, bool acceptFromAnySender = false) where TResponseMessage : BiDiBInputMessage
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(outputMessage, 500, false);
+    }
+
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(outputMessage, timeout, false);
+    }
+
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout,
+        bool acceptFromAnySender) where TResponseMessage : BiDiBInputMessage
     {
         return messageProcessor.SendMessage<TResponseMessage>(outputMessage, timeout, acceptFromAnySender);
     }
@@ -190,7 +206,8 @@ public sealed class BiDiBInterface : IBiDiBInterface
     private void HandleConnectionClosed(object sender, EventArgs eventArgs)
     {
         DisconnectCore();
-        ConnectionState = new ConnectionStateInfo(InterfaceConnectionState.Disconnected, InterfaceConnectionType.SerialPort, Resources.ConnectionClosedByRemote);
+        ConnectionState = new ConnectionStateInfo(InterfaceConnectionState.Disconnected,
+            InterfaceConnectionType.SerialPort, Resources.ConnectionClosedByRemote);
     }
 
     private void HandleConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
