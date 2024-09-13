@@ -34,8 +34,9 @@ public interface IBiDiBInterface : IDisposable
     /// <typeparam name="TResponseMessage">Type of the expected response message</typeparam>
     /// <param name="outputMessage">The message to be sent</param>
     /// <param name="timeout">Timeout in ms to wait for response</param>
+    /// <param name="acceptFromAnySender">Defines if message matching response type is accepted from any node</param>
     /// <returns>The expected message object</returns>
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500, bool acceptFromAnySender = false) where TResponseMessage : BiDiBInputMessage;
 
     void Register(IMessageReceiver messageReceiver);
 

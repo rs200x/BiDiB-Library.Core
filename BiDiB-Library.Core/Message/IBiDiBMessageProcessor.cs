@@ -15,12 +15,16 @@ public interface IBiDiBMessageProcessor
     /// <param name="parentAddress">The parent node address</param>
     void GetChildNodes(byte[] parentAddress);
 
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, bool acceptFromAnySender, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
+    
     TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
 
     TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
 
     TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage) where TResponseMessage : BiDiBInputMessage;
 
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout, bool acceptFromAnySender) where TResponseMessage : BiDiBInputMessage;
+    
     TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout) where TResponseMessage : BiDiBInputMessage;
 
     void SendMessage(BiDiBOutputMessage outputMessage);

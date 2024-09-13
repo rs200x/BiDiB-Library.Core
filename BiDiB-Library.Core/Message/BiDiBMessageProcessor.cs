@@ -85,10 +85,16 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters)
         where TResponseMessage : BiDiBInputMessage
     {
-        return SendMessage<TResponseMessage>(node, messageType, ResponseTimeout, parameters);
+        return SendMessage<TResponseMessage>(node, messageType, ResponseTimeout, false, parameters);
+    }
+    
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(node, messageType, timeout, false, parameters);
     }
 
-    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters)
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, bool acceptFromAnySender, params byte[] parameters)
         where TResponseMessage : BiDiBInputMessage
     {
         if (node == null)
@@ -97,7 +103,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
         }
         
         var messages = new List<BiDiBOutputMessage> { new(node.Address, messageType, parameters) };
-        return SendMessageMultiResponseMessage<TResponseMessage>(node.Address, messages, 1, timeout).FirstOrDefault();
+        return SendMessageMultiResponseMessage<TResponseMessage>(node.Address, messages, 1, timeout, acceptFromAnySender).FirstOrDefault();
     }
 
     public void SendMessage(BiDiBOutputMessage outputMessage)
@@ -110,13 +116,19 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         return SendMessage<TResponseMessage>(outputMessage, ResponseTimeout);
     }
-
+    
     public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(outputMessage, timeout, false);
+    }
+
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout, bool acceptFromAnySender)
         where TResponseMessage : BiDiBInputMessage
     {
         return outputMessage == null ?
             default
-            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, new List<BiDiBOutputMessage> { outputMessage }, 1, timeout)
+            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, new List<BiDiBOutputMessage> { outputMessage }, 1, timeout, acceptFromAnySender)
                 .FirstOrDefault();
     }
 
@@ -149,7 +161,8 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     private IEnumerable<TResponseMessage> SendMessageMultiResponseMessage<TResponseMessage>(byte[] address,
         ICollection<BiDiBOutputMessage> outputMessages,
         int expectedMessages,
-        int timeout = ResponseTimeout)
+        int timeout = ResponseTimeout,
+        bool acceptFromAnySender = false)
         where TResponseMessage : BiDiBInputMessage
     {
         var timedout = false;
@@ -159,7 +172,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
 
         RuntimeMessageReceiver<TResponseMessage> messageReceiver = new(x =>
         {
-            if (x.Address.GetArrayValue() != address.GetArrayValue())
+            if (!acceptFromAnySender && x.Address.GetArrayValue() != address.GetArrayValue())
             {
                 logger.LogDebug("Skip processing message of other node {MessageAddress} -> {Address2}",
                     NodeExtensions.GetFullAddressString(x.Address),

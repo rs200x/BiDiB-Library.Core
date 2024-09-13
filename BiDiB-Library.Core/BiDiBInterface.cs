@@ -132,9 +132,9 @@ public sealed class BiDiBInterface : IBiDiBInterface
         messageProcessor.SendMessage(message);
     }
 
-    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500) where TResponseMessage : BiDiBInputMessage
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout = 500, bool acceptFromAnySender = false) where TResponseMessage : BiDiBInputMessage
     {
-        return messageProcessor.SendMessage<TResponseMessage>(outputMessage, timeout);
+        return messageProcessor.SendMessage<TResponseMessage>(outputMessage, timeout, acceptFromAnySender);
     }
 
     public void Register(IMessageReceiver messageReceiver)
