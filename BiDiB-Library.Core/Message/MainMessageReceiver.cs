@@ -303,7 +303,7 @@ public class MainMessageReceiver : IMessageReceiver
         occupancyInfo.Temperature = value switch
         {
             <= 127 => value,
-            >= 226 and <= 255 => value,
+            >= 226 and <= 255 => (sbyte)value,
             _ => occupancyInfo.Temperature
         };
     }
