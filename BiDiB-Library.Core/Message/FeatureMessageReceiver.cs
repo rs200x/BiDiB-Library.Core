@@ -7,16 +7,9 @@ namespace org.bidib.Net.Core.Message;
 
 [Export(typeof(IMessageReceiver))]
 [PartCreationPolicy(CreationPolicy.Shared)]
-public class FeatureMessageReceiver : IMessageReceiver
+[method: ImportingConstructor]
+public class FeatureMessageReceiver(IBiDiBNodesFactory nodesFactory) : IMessageReceiver
 {
-    private readonly IBiDiBNodesFactory nodesFactory;
-
-    [ImportingConstructor]
-    public FeatureMessageReceiver(IBiDiBNodesFactory nodesFactory)
-    {
-        this.nodesFactory = nodesFactory;
-    }
-
     public void ProcessMessage(BiDiBInputMessage message)
     {
         if(message == null) { return;}

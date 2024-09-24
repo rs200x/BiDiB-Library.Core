@@ -14,12 +14,7 @@ using org.bidib.Net.Core.Utils;
 namespace org.bidib.Net.Core.Controllers;
 
 
-public class SocketController : SocketController<INetConfig>
-{
-    public SocketController(ILoggerFactory loggerFactory) : base(loggerFactory)
-    {
-    }
-}
+public class SocketController(ILoggerFactory loggerFactory) : SocketController<INetConfig>(loggerFactory);
 
 [Localizable(false)]
 public class SocketController<TConfig> : ConnectionController<TConfig>, ISocketController<TConfig>

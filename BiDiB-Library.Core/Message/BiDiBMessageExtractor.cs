@@ -8,18 +8,12 @@ namespace org.bidib.Net.Core.Message;
 
 [Export(typeof(IBiDiBMessageExtractor))]
 [PartCreationPolicy(CreationPolicy.NonShared)]
-public class BiDiBMessageExtractor : IBiDiBMessageExtractor
+[method: ImportingConstructor]
+public class BiDiBMessageExtractor(IMessageFactory messageFactory) : IBiDiBMessageExtractor
 {
-    private readonly IMessageFactory messageFactory;
     private byte[] lastOutput;
     private const byte EscapeChar = 0xfd;
     private const byte MagicChar = 0xfe;
-
-    [ImportingConstructor]
-    public BiDiBMessageExtractor(IMessageFactory messageFactory)
-    {
-        this.messageFactory = messageFactory;
-    }
 
     public IEnumerable<BiDiBInputMessage> ExtractMessage(byte[] messageBytes, bool checkCrc)
     {
@@ -125,7 +119,10 @@ public class BiDiBMessageExtractor : IBiDiBMessageExtractor
 
             messages.Add(message);
 
-            if (!checkCrc || index != output.Length - 1) continue;
+            if (!checkCrc || index != output.Length - 1)
+            {
+                continue;
+            }
 
             ValidateCrc(output);
             break;

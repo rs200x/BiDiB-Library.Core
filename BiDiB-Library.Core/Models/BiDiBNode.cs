@@ -22,9 +22,8 @@ using FeatureGetAllMessage = org.bidib.Net.Core.Models.Messages.Output.FeatureGe
 
 namespace org.bidib.Net.Core.Models;
 
-public class BiDiBNode : Node, IOccupanciesHost
+public class BiDiBNode(ILogger<BiDiBNode> logger) : Node, IOccupanciesHost
 {
-    private readonly ILogger<BiDiBNode> logger;
     private string fullUserName;
     private int serialNumber;
     private bool isEnabled;
@@ -40,13 +39,6 @@ public class BiDiBNode : Node, IOccupanciesHost
     internal BiDiBNode(IBiDiBMessageProcessor messageProcessor, ILogger<BiDiBNode> logger) : this(logger)
     {
         MessageProcessor = messageProcessor;
-    }
-
-    public BiDiBNode(ILogger<BiDiBNode> logger)
-    {
-        this.logger = logger;
-        PositionPorts = new Dictionary<ushort, PositionPort>();
-        GlobalOccupancies = new Dictionary<ushort, OccupancyInfo>();
     }
 
     /// <summary>
@@ -116,10 +108,10 @@ public class BiDiBNode : Node, IOccupanciesHost
     public VendorCv.VendorCv VendorCv { get; set; }
 
     [XmlIgnore]
-    public Dictionary<ushort, PositionPort> PositionPorts { get; }
+    public Dictionary<ushort, PositionPort> PositionPorts { get; } = new();
 
     [XmlIgnore]
-    public Dictionary<ushort, OccupancyInfo> GlobalOccupancies { get; }
+    public Dictionary<ushort, OccupancyInfo> GlobalOccupancies { get; } = new();
 
     /// <summary>
     /// Determines if node is running in simple boot loader mode
@@ -223,7 +215,7 @@ public class BiDiBNode : Node, IOccupanciesHost
         // node is in boot loader mode
         BootLoaderActive = true;
         FeatureCount = 1;
-        Features = new[] { new Feature { FeatureId = (int)BiDiBFeature.FEATURE_FW_UPDATE_MODE, Value = 1 } };
+        Features = [new Feature { FeatureId = (int)BiDiBFeature.FEATURE_FW_UPDATE_MODE, Value = 1 }];
 
         return magicMessage.Magic;
     }
@@ -270,7 +262,7 @@ public class BiDiBNode : Node, IOccupanciesHost
         if (featureCountMessage == null) { return; }
 
         FeatureCount = featureCountMessage.Count;
-        List<BiDiBOutputMessage> nextMessages = new();
+        List<BiDiBOutputMessage> nextMessages = [];
         for (var i = 0; i < featureCountMessage.Count; i++)
         {
             nextMessages.Add(new FeatureNextMessage(Address));
@@ -288,10 +280,10 @@ public class BiDiBNode : Node, IOccupanciesHost
 
     private void ProcessFeatureMessages(IEnumerable<FeatureMessage> featureMessages)
     {
-        var features = Features?.ToList() ?? new List<Feature>();
+        var features = Features?.ToList() ?? [];
         foreach (var featureMessage in featureMessages)
         {
-            var feature = features.FirstOrDefault(x => x.FeatureId == featureMessage.FeatureId);
+            var feature = features.Find(x => x.FeatureId == featureMessage.FeatureId);
             if (feature == null)
             {
                 feature = new Feature { FeatureId = featureMessage.FeatureId, Value = featureMessage.Value };
@@ -304,7 +296,8 @@ public class BiDiBNode : Node, IOccupanciesHost
 
             EvaluateFeature(feature);
         }
-        Features = features.OrderBy(x => x.FeatureId).ToArray();
+
+        Features = [..features.OrderBy(x => x.FeatureId)];
     }
 
     private void EvaluateFeature(Feature feature)
@@ -347,7 +340,7 @@ public class BiDiBNode : Node, IOccupanciesHost
             Array.Copy(multipleMessage.MessageParameters, 2, feedbackStateBytes, 0, stateSize);
         }
 
-        List<FeedbackPort> feedbackPorts = new();
+        List<FeedbackPort> feedbackPorts = [];
 
         BitArray feedbackStates = new(feedbackStateBytes);
         for (var i = 0; i < feedbackStates.Length; i++)
@@ -379,7 +372,7 @@ public class BiDiBNode : Node, IOccupanciesHost
                     aspects.Add(new Aspect { Number = j });
                 }
 
-                accessory.Aspects = aspects.ToArray();
+                accessory.Aspects = [..aspects];
                 accessory.ExecutionState = accessoryState.ExecutionState;
                 accessory.ActiveAspect = accessoryState.Aspect;
             }

@@ -148,7 +148,8 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
 
         if (inputProcessWatch.ElapsedMilliseconds > 100)
         {
-            logger.LogWarning("Total message processing of '{Sequence}-{MessageType}' took {ElapsedMilliseconds}ms!", messageItem.SequenceNumber, messageItem.MessageType, inputProcessWatch.ElapsedMilliseconds);
+            logger.LogWarning("Total message processing of '{Sequence}-{MessageType}' took {ElapsedMilliseconds}ms!",
+                messageItem.SequenceNumber, messageItem.MessageType, inputProcessWatch.ElapsedMilliseconds);
         }
     }
 
@@ -169,7 +170,10 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
 
         if (inputProcessWatch.ElapsedMilliseconds > 100)
         {
-            logger.LogWarning("Message processing of '{Sequence}-{MessageType}' for {Receiver} took {ElapsedMilliseconds}ms", messageItem.SequenceNumber, messageItem.MessageType, receiver.GetType().Name, inputProcessWatch.ElapsedMilliseconds);
+            logger.LogWarning(
+                "Message processing of '{Sequence}-{MessageType}' for {Receiver} took {ElapsedMilliseconds}ms",
+                messageItem.SequenceNumber, messageItem.MessageType, receiver.GetType().Name,
+                inputProcessWatch.ElapsedMilliseconds);
         }
     }
 
@@ -245,6 +249,11 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
 
     public void SendMessages(ICollection<BiDiBOutputMessage> outputMessages)
     {
+        if (outputMessages == null)
+        {
+            return;
+        }
+
         foreach (var outputMessage in outputMessages)
         {
             outputMessage.SequenceNumber = GetNextSequenceNumber(outputMessage);
@@ -334,7 +343,7 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
 
     public void Register(IMessageReceiver messageReceiver)
     {
-        if (!messageReceivers.ContainsKey(messageReceiver.GetHashCode()))
+        if (messageReceiver != null && !messageReceivers.ContainsKey(messageReceiver.GetHashCode()))
         {
             messageReceivers.AddOrUpdate(messageReceiver.GetHashCode(), messageReceiver, (_, receiver) => receiver);
         }
@@ -342,6 +351,11 @@ public sealed class BiDiBMessageService : IBiDiBMessageService
 
     public void Unregister(IMessageReceiver messageReceiver)
     {
+        if (messageReceiver == null)
+        {
+            return;
+        }
+
         messageReceivers.TryRemove(messageReceiver.GetHashCode(), out _);
     }
 
