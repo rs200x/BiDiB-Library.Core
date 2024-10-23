@@ -27,7 +27,7 @@ public class MainMessageReceiver : IMessageReceiver
         this.messageService = messageService;
         this.nodesFactory = nodesFactory;
         logger = loggerFactory.CreateLogger<MainMessageReceiver>();
-        messageHandlers = new Dictionary<BiDiBMessage, Action<BiDiBInputMessage>>();
+        messageHandlers = [];
         RegisterMessageHandlers();
     }
 

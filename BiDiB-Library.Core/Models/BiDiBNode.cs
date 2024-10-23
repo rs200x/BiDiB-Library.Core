@@ -108,10 +108,10 @@ public class BiDiBNode(ILogger<BiDiBNode> logger) : Node, IOccupanciesHost
     public VendorCv.VendorCv VendorCv { get; set; }
 
     [XmlIgnore]
-    public Dictionary<ushort, PositionPort> PositionPorts { get; } = new();
+    public Dictionary<ushort, PositionPort> PositionPorts { get; } = [];
 
     [XmlIgnore]
-    public Dictionary<ushort, OccupancyInfo> GlobalOccupancies { get; } = new();
+    public Dictionary<ushort, OccupancyInfo> GlobalOccupancies { get; } = [];
 
     /// <summary>
     /// Determines if node is running in simple boot loader mode
@@ -432,7 +432,7 @@ public class BiDiBNode(ILogger<BiDiBNode> logger) : Node, IOccupanciesHost
     private IEnumerable<Port> GetPorts(PortType portType, BiDiBFeature countFeature)
     {
         var feature = this.GetFeature(countFeature);
-        return feature?.Value > 0 ? MessageProcessor.GetPorts(this, portType, feature.Value) : new List<Port>();
+        return feature?.Value > 0 ? MessageProcessor.GetPorts(this, portType, feature.Value) : [];
     }
 
     public bool SetFeature(Feature feature)

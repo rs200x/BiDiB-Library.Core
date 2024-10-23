@@ -20,11 +20,11 @@ public class VendorCvConverter
         
         if (vendorCv.CvDefinition == null)
         {
-            vendorCv.Cvs = Array.Empty<Cv>();
+            vendorCv.Cvs = [];
             return;
         }
 
-        cvDictionary = new Dictionary<string, Cv>();
+        cvDictionary = [];
         foreach (var cvNode in vendorCv.CvDefinition)
         {
             RestructureCvNode(cvNode, vendorCv.Templates);

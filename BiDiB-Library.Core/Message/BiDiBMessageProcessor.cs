@@ -128,7 +128,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         return outputMessage == null ?
             default
-            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, new List<BiDiBOutputMessage> { outputMessage }, 1, timeout, acceptFromAnySender)
+            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, [outputMessage], 1, timeout, acceptFromAnySender)
                 .FirstOrDefault();
     }
 
@@ -137,7 +137,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         if (outputMessages == null || !outputMessages.Any())
         {
-            return Enumerable.Empty<TResponseMessage>();
+            return [];
         }
 
         return SendMessageMultiResponseMessage<TResponseMessage>(outputMessages.First().Address, outputMessages, outputMessages.Count, timeout);
@@ -168,7 +168,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
         var timedout = false;
         var receivedCount = 0;
         ManualResetEventSlim manualReset = new();
-        List<TResponseMessage> responseMessages = new();
+        List<TResponseMessage> responseMessages = [];
 
         RuntimeMessageReceiver<TResponseMessage> messageReceiver = new(x =>
         {
