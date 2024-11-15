@@ -17,7 +17,7 @@ public class Macro
 {
     [XmlArray("macroParameters")]
     [XmlArrayItem("macroParameter",IsNullable = false)]
-    public MacroParameter[] MacroParameters { get; set; }
+    public IMacroParameter[] MacroParameters { get; set; }
 
     [XmlArray("macroPoints")]
     [XmlArrayItem(IsNullable = false)]
