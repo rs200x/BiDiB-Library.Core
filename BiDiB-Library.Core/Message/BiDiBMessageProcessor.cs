@@ -14,6 +14,7 @@ using org.bidib.Net.Core.Models.Messages.Input;
 using org.bidib.Net.Core.Models.Messages.Output;
 using org.bidib.Net.Core.Services.Interfaces;
 using org.bidib.Net.Core.Utils;
+using ConfigXGetAllOutMessage = org.bidib.Net.Core.Models.Messages.Output.ConfigXGetAllMessage;
 
 namespace org.bidib.Net.Core.Message;
 
@@ -152,7 +153,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
         
         var outputMessages = new List<BiDiBOutputMessage>
         {
-            new ConfigXGetAllMessage(node.Address, portType, 0, portType, (byte)expectedItems)
+            new ConfigXGetAllOutMessage(node.Address, portType, 0, portType, (byte)expectedItems)
         };
         var configXMessages = SendMessageMultiResponseMessage<LcConfigXMessage>(node.Address, outputMessages, expectedItems);
         return configXMessages.Select(configXMessage => GetNewPort(portType, configXMessage.PortNumber)).Where(port => port != null).ToList();

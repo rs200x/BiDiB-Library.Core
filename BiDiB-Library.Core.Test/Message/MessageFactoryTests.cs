@@ -756,5 +756,23 @@ namespace org.bidib.Net.Core.Test.Message
             Assert.IsNotNull(message);
             message.Address.GetArrayValue().Should().Be(1);
         }
+
+        [TestMethod]
+        public void CreateInputMessage_ShouldReturnConfigXGetAllMessage_WhenNoParameters()
+        {
+            // Arrange
+            var bytes = GetBytes("03-00-1C-45");
+
+            // Act
+            var inputMessage = Target.CreateInputMessage(bytes);
+            var message = inputMessage as ConfigXGetAllMessage;
+
+            // Assert
+            Assert.IsNotNull(message);
+            message.StartPort.Should().Be(PortType.Switch);
+            message.StartIndex.Should().Be(0);
+            message.EndPort.Should().Be(PortType.All);
+            message.EndIndex.Should().Be(0xff);
+        }
     }
 }
