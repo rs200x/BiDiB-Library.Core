@@ -57,7 +57,7 @@ steps:
       codeCoverageEnabled: true
       runSettingsFile: '$(System.DefaultWorkingDirectory)\CodeCoverage.runsettings'
 
-  - task: BuildQualityChecks@8
+  - task: BuildQualityChecks@9
     inputs:
       checkWarnings: true
       warningFailOption: "build"
