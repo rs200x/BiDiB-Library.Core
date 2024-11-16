@@ -4,46 +4,49 @@ using MacroParameterType = org.bidib.Net.Core.Enumerations.MacroParameter;
 
 namespace org.bidib.Net.Core.Models.BiDiB;
 
-[XmlInclude(typeof (MacroParameterClockStart))]
-[XmlInclude(typeof (MacroParameterRepeat))]
-[XmlInclude(typeof (MacroParameterSlowdown))]
-//[Serializable]
+[XmlInclude(typeof(MacroParameterClockStart))]
+[XmlInclude(typeof(MacroParameterRepeat))]
+[XmlInclude(typeof(MacroParameterSlowdown))]
+[Serializable]
 [XmlType(Namespace = Namespaces.BiDiB20NamespaceUrl)]
-public interface IMacroParameter
+public abstract class MacroParameter
 {
-    public MacroParameterType Type { get; }
-    public byte[] Value { get; }
+    [XmlIgnore]
+    public abstract MacroParameterType Type { get; }
+    
+    [XmlIgnore]
+    public virtual byte[] Value { get; } = [];
 }
 
 [Serializable]
 [XmlType(Namespace = Namespaces.BiDiB20NamespaceUrl)]
-public class MacroParameterSlowdown : IMacroParameter
+public class MacroParameterSlowdown : MacroParameter
 {
-    public MacroParameterType Type => MacroParameterType.MACRO_PARA_SLOWDOWN;
+    public override MacroParameterType Type => MacroParameterType.MACRO_PARA_SLOWDOWN;
 
     [XmlAttribute("speed")]
     public byte Speed { get; set; }
 
-    public byte[] Value => [Speed];
+    public override byte[] Value => [Speed];
 }
 
 [Serializable]
 [XmlType(Namespace = Namespaces.BiDiB20NamespaceUrl)]
-public class MacroParameterRepeat : IMacroParameter
+public class MacroParameterRepeat : MacroParameter
 {
-    public MacroParameterType Type => MacroParameterType.MACRO_PARA_REPEAT;
+    public override MacroParameterType Type => MacroParameterType.MACRO_PARA_REPEAT;
 
     [XmlAttribute("repetitions")]
     public byte Repetitions { get; set; }
 
-    public byte[] Value => [Repetitions];
+    public override byte[] Value => [Repetitions];
 }
 
 [Serializable]
 [XmlType(Namespace = Namespaces.BiDiB20NamespaceUrl)]
-public class MacroParameterClockStart : IMacroParameter
+public class MacroParameterClockStart : MacroParameter
 {
-    public MacroParameterType Type => MacroParameterType.MACRO_PARA_START_CLK;
+    public override MacroParameterType Type => MacroParameterType.MACRO_PARA_START_CLK;
 
     [XmlAttribute("isEnabled")]
     public bool IsEnabled { get; set; }
@@ -57,5 +60,5 @@ public class MacroParameterClockStart : IMacroParameter
     [XmlAttribute("minute")]
     public string Minute { get; set; }
 
-    public byte[] Value => [0x3f, 0xbf, 0x7f, 0xff];
+    public override byte[] Value => [0x3f, 0xbf, 0x7f, 0xff];
 }
