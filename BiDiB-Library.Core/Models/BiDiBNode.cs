@@ -360,10 +360,10 @@ public class BiDiBNode(ILogger<BiDiBNode> logger) : Node, IOccupanciesHost
 
         var accessories = new List<Accessory>();
 
-        for (var i = 0; i < feature.Value; i++)
+        for (byte i = 0; i < feature.Value; i++)
         {
             var accessory = new Accessory { Number = i };
-            var accessoryState = SendMessage<AccessoryStateMessage>(BiDiBMessage.MSG_ACCESSORY_GET, (byte)i);
+            var accessoryState = SendMessage<AccessoryStateMessage>(BiDiBMessage.MSG_ACCESSORY_GET, i);
             if (accessoryState != null)
             {
                 var aspects = new List<Aspect>();
@@ -377,7 +377,7 @@ public class BiDiBNode(ILogger<BiDiBNode> logger) : Node, IOccupanciesHost
                 accessory.ActiveAspect = accessoryState.Aspect;
             }
 
-            var accessoryPara = SendMessage<AccessoryParaMessage>(new AccessoryParaGetMessage(Address, (byte)i, AccessoryParameter.ACCESSORY_PARA_STARTUP));
+            var accessoryPara = SendMessage<AccessoryParaMessage>(new AccessoryParaGetMessage(Address, i, AccessoryParameter.ACCESSORY_PARA_STARTUP));
             if (accessoryPara != null)
             {
                 accessory.StartupState = accessoryPara.Data?[0] ?? 255;

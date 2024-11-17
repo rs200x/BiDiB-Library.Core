@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using org.bidib.Net.Core.Enumerations;
 
@@ -17,15 +18,16 @@ public class Accessories
 public class Accessory : ModelBase
 {
     private AccessoryExecutionState executionState;
-    private int activeAspect;
+    private byte activeAspect;
     private string name;
+
 
     [XmlArray("aspects")]
     [XmlArrayItem("aspect", IsNullable = false)]
     public Aspect[] Aspects { get; set; }
 
     [XmlAttribute("number")]
-    public int Number { get; set; }
+    public byte Number { get; set; }
 
     [XmlAttribute("name")]
     public string Name
@@ -45,11 +47,13 @@ public class Accessory : ModelBase
     }
 
     [XmlIgnore]
-    public int ActiveAspect
+    public byte ActiveAspect
     {
         get => activeAspect;
         set => Set(() => ActiveAspect, ref activeAspect, value);
     }
+
+    public IDictionary<AccessoryParameter, byte[]> Parameters { get; } = new Dictionary<AccessoryParameter, byte[]>();
 
     public override string ToString()
     {
