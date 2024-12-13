@@ -26,7 +26,7 @@ namespace org.bidib.Net.Core.Test.Services
         {
             base.OnTestInitialize();
 
-            Target = new IoService(NullLoggerFactory.Instance);
+            Target = new IoService(NullLogger<IoService>.Instance);
         }
 
         [TestMethod]

@@ -14,6 +14,8 @@ using org.bidib.Net.Core.Models.Messages.Input;
 using org.bidib.Net.Core.Models.Messages.Output;
 using org.bidib.Net.Core.Services.Interfaces;
 using org.bidib.Net.Core.Utils;
+using ConfigXGetAllOutMessage = org.bidib.Net.Core.Models.Messages.Output.ConfigXGetAllMessage;
+using LcConfigXInMessage = org.bidib.Net.Core.Models.Messages.Input.LcConfigXMessage;
 
 namespace org.bidib.Net.Core.Message;
 
@@ -85,10 +87,16 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters)
         where TResponseMessage : BiDiBInputMessage
     {
-        return SendMessage<TResponseMessage>(node, messageType, ResponseTimeout, parameters);
+        return SendMessage<TResponseMessage>(node, messageType, ResponseTimeout, false, parameters);
+    }
+    
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(node, messageType, timeout, false, parameters);
     }
 
-    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters)
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, bool acceptFromAnySender, params byte[] parameters)
         where TResponseMessage : BiDiBInputMessage
     {
         if (node == null)
@@ -97,7 +105,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
         }
         
         var messages = new List<BiDiBOutputMessage> { new(node.Address, messageType, parameters) };
-        return SendMessageMultiResponseMessage<TResponseMessage>(node.Address, messages, 1, timeout).FirstOrDefault();
+        return SendMessageMultiResponseMessage<TResponseMessage>(node.Address, messages, 1, timeout, acceptFromAnySender).FirstOrDefault();
     }
 
     public void SendMessage(BiDiBOutputMessage outputMessage)
@@ -110,13 +118,19 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         return SendMessage<TResponseMessage>(outputMessage, ResponseTimeout);
     }
-
+    
     public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout)
+        where TResponseMessage : BiDiBInputMessage
+    {
+        return SendMessage<TResponseMessage>(outputMessage, timeout, false);
+    }
+
+    public TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout, bool acceptFromAnySender)
         where TResponseMessage : BiDiBInputMessage
     {
         return outputMessage == null ?
             default
-            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, new List<BiDiBOutputMessage> { outputMessage }, 1, timeout)
+            : SendMessageMultiResponseMessage<TResponseMessage>(outputMessage.Address, [outputMessage], 1, timeout, acceptFromAnySender)
                 .FirstOrDefault();
     }
 
@@ -125,7 +139,7 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
     {
         if (outputMessages == null || !outputMessages.Any())
         {
-            return Enumerable.Empty<TResponseMessage>();
+            return [];
         }
 
         return SendMessageMultiResponseMessage<TResponseMessage>(outputMessages.First().Address, outputMessages, outputMessages.Count, timeout);
@@ -140,26 +154,27 @@ public class BiDiBMessageProcessor : IBiDiBMessageProcessor
         
         var outputMessages = new List<BiDiBOutputMessage>
         {
-            new ConfigXGetAllMessage(node.Address, portType, 0, portType, (byte)expectedItems)
+            new ConfigXGetAllOutMessage(node.Address, portType, 0, portType, (byte)expectedItems)
         };
-        var configXMessages = SendMessageMultiResponseMessage<LcConfigXMessage>(node.Address, outputMessages, expectedItems);
+        var configXMessages = SendMessageMultiResponseMessage<LcConfigXInMessage>(node.Address, outputMessages, expectedItems);
         return configXMessages.Select(configXMessage => GetNewPort(portType, configXMessage.PortNumber)).Where(port => port != null).ToList();
     }
 
     private IEnumerable<TResponseMessage> SendMessageMultiResponseMessage<TResponseMessage>(byte[] address,
         ICollection<BiDiBOutputMessage> outputMessages,
         int expectedMessages,
-        int timeout = ResponseTimeout)
+        int timeout = ResponseTimeout,
+        bool acceptFromAnySender = false)
         where TResponseMessage : BiDiBInputMessage
     {
         var timedout = false;
         var receivedCount = 0;
         ManualResetEventSlim manualReset = new();
-        List<TResponseMessage> responseMessages = new();
+        List<TResponseMessage> responseMessages = [];
 
         RuntimeMessageReceiver<TResponseMessage> messageReceiver = new(x =>
         {
-            if (x.Address.GetArrayValue() != address.GetArrayValue())
+            if (!acceptFromAnySender && x.Address.GetArrayValue() != address.GetArrayValue())
             {
                 logger.LogDebug("Skip processing message of other node {MessageAddress} -> {Address2}",
                     NodeExtensions.GetFullAddressString(x.Address),

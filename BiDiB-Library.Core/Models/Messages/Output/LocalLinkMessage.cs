@@ -9,7 +9,7 @@ namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class LocalLinkMessage : BiDiBOutputMessage
 {
-    public LocalLinkMessage(LocalLinkType linkType, ICollection<byte> data) : base(new byte[] { 0 }, BiDiBMessage.MSG_LOCAL_LINK)
+    public LocalLinkMessage(LocalLinkType linkType, ICollection<byte> data) : base([0], BiDiBMessage.MSG_LOCAL_LINK)
     {
         SequenceNumber = 0;
         LinkType = linkType;

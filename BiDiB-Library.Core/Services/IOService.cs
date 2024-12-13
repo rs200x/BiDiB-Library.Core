@@ -14,21 +14,16 @@ namespace org.bidib.Net.Core.Services;
 
 [Export(typeof(IIoService))]
 [PartCreationPolicy(CreationPolicy.NonShared)]
-public class IoService : IIoService
+[method: ImportingConstructor]
+public class IoService(ILogger<IoService> logger) : IIoService
 {
-    private readonly ILogger<IoService> logger;
-
-    [ImportingConstructor]
-    public IoService(ILoggerFactory loggerFactory)
-    {
-        logger = loggerFactory.CreateLogger<IoService>();
-    }
-
+    /// <inheritdoc />
     public bool DirectoryExists(string directoryPath)
     {
         return Directory.Exists(directoryPath);
     }
 
+    /// <inheritdoc />
     public void CreateDirectory(string directoryPath)
     {
         try
@@ -49,6 +44,7 @@ public class IoService : IIoService
         Directory.Delete(directoryPath, true);
     }
 
+    /// <inheritdoc />
     public bool FileExists(string filePath)
     {
         return File.Exists(filePath);
@@ -60,6 +56,7 @@ public class IoService : IIoService
         return !string.IsNullOrEmpty(filePath) ? new FileInfo(filePath).Name : string.Empty;
     }
 
+    /// <inheritdoc />
     public string GetTempFolder()
     {
         var randomDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -76,6 +73,22 @@ public class IoService : IIoService
     }
 
     /// <inheritdoc />
+    public bool TryDelete(string filePath)
+    {
+        try
+        {
+            File.Delete(filePath);
+            return true;
+        }
+        catch (Exception e)
+        {
+            logger.LogDebug("File could not be deleted: {File} {Error}", GetFileName(filePath), e.Message);
+        }
+
+        return false;
+    }
+
+    /// <inheritdoc />
     public string GetDirectory(string fileName)
     {
         if (!FileExists(fileName)) { return string.Empty; }
@@ -83,11 +96,13 @@ public class IoService : IIoService
         return fileInfo.DirectoryName;
     }
 
+    /// <inheritdoc />
     public string[] GetDirectories(string directoryPath)
     {
         return Directory.GetDirectories(directoryPath);
     }
 
+    /// <inheritdoc />
     public string[] GetFiles(string directoryPath, string filter)
     {
         return !DirectoryExists(directoryPath) ? Array.Empty<string>() : Directory.GetFiles(directoryPath, filter);
@@ -119,6 +134,7 @@ public class IoService : IIoService
         return false;
     }
 
+    /// <inheritdoc />
     public void ExtractZip(string filePath, string destinationPath)
     {
         if (!FileExists(filePath)) { return; }
@@ -127,6 +143,7 @@ public class IoService : IIoService
         ZipFile.ExtractToDirectory(filePath, destinationPath);
     }
 
+    /// <inheritdoc />
     public string GetSha1(string filePath)
     {
         if (!FileExists(filePath))
@@ -145,6 +162,12 @@ public class IoService : IIoService
 
         return string.Join("", hashValue.Select(x => $"{x:x2}"));
 
+    }
+
+    /// <inheritdoc />
+    public string GetData(string filePath)
+    {
+        return !FileExists(filePath) ? null : File.ReadAllText(filePath);
     }
 
     /// <inheritdoc />
@@ -187,20 +210,12 @@ public class IoService : IIoService
         return dataLines;
     }
 
-    private static IEnumerable<string> GetLinesFromStream(StreamReader stream)
+    /// <inheritdoc />
+    public string GetDataFromArchive(string filePath, string fileName)
     {
-        var dataLines = new List<string>();
-        if (stream == null)
-        {
-            return dataLines;
-        }
-
-        while (!stream.EndOfStream)
-        {
-            dataLines.Add(stream.ReadLine());
-        }
-
-        return dataLines;
+        var stream = GetFileStreamFromArchive(filePath, fileName);
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
     }
 
     /// <inheritdoc />
@@ -211,10 +226,20 @@ public class IoService : IIoService
             return null;
         }
 
-        var archive = ZipFile.OpenRead(archiveFileName);
+        using var archive = ZipFile.OpenRead(archiveFileName);
         var entry = archive.Entries.FirstOrDefault(x => x.Name == entryFileName);
 
-        return entry?.Open();
+        if (entry == null)
+        {
+            return null; 
+        }
+
+        var dataStream = entry.Open();
+        MemoryStream readerStream = new MemoryStream();
+        dataStream.CopyTo(readerStream);
+        readerStream.Position = 0;
+
+        return readerStream;
     }
 
     /// <inheritdoc />
@@ -229,7 +254,7 @@ public class IoService : IIoService
         if (string.IsNullOrEmpty(filePath)) { return; }
         if (files == null || !files.Any()) { return; }
 
-        var zip = ZipFile.Open(filePath, ZipArchiveMode.Create);
+        using var zip = ZipFile.Open(filePath, ZipArchiveMode.Create);
         var tempFolder = GetTempFolder();
         foreach (var file in files)
         {
@@ -245,7 +270,42 @@ public class IoService : IIoService
                 logger.LogError(e, "File '{File}' could not be added to archive '{Archive}'", file, filePath);
             }
         }
-        zip.Dispose();
         DeleteDirectory(tempFolder);
+    }
+
+    /// <inheritdoc />
+    public void SaveToZip(string filePath, string fileName, string fileContent)
+    {
+        if (string.IsNullOrEmpty(filePath) 
+            || !FileExists(filePath) 
+            || string.IsNullOrEmpty(fileName) 
+            || string.IsNullOrEmpty(fileContent)) { return; }
+
+        using var archive = ZipFile.Open(filePath, ZipArchiveMode.Update);
+
+        var entry = archive.Entries.FirstOrDefault(x => x.Name == fileName);
+
+        entry?.Delete();
+
+        entry = archive.CreateEntry(fileName);
+
+        using StreamWriter writer = new StreamWriter(entry.Open());
+        writer.Write(fileContent);
+    }
+
+    private static IEnumerable<string> GetLinesFromStream(StreamReader stream)
+    {
+        var dataLines = new List<string>();
+        if (stream == null)
+        {
+            return dataLines;
+        }
+
+        while (!stream.EndOfStream)
+        {
+            dataLines.Add(stream.ReadLine());
+        }
+
+        return dataLines;
     }
 }

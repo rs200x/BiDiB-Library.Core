@@ -20,11 +20,11 @@ public class VendorCvConverter
         
         if (vendorCv.CvDefinition == null)
         {
-            vendorCv.Cvs = Array.Empty<Cv>();
+            vendorCv.Cvs = [];
             return;
         }
 
-        cvDictionary = new Dictionary<string, Cv>();
+        cvDictionary = [];
         foreach (var cvNode in vendorCv.CvDefinition)
         {
             RestructureCvNode(cvNode, vendorCv.Templates);
@@ -85,7 +85,7 @@ public class VendorCvConverter
 
         GenerateNodesForCvItems(cvNode, template, nodeIndex, cvs, cvReferences);
 
-        foreach (var generatedCv in template.Items.OfType<Repeater>().Select(ProcessRepeater).SelectMany(cv => cv))
+        foreach (var generatedCv in template.Items.OfType<Repeater>().Select(r => ProcessRepeater(r, cvNode.Offset)).SelectMany(cv => cv))
         {
             AddCv(generatedCv, cvs, cvReferences);
         }
@@ -170,7 +170,7 @@ public class VendorCvConverter
         {
             if (repeater.Cvs != null)
             {
-                var repeaterCvs = ProcessRepeater(repeater);
+                var repeaterCvs = ProcessRepeater(repeater, cvNode.Offset);
                 foreach (var cv in repeaterCvs)
                 {
                     AddCv(cv,cvs,cvReferences);
@@ -304,10 +304,10 @@ public class VendorCvConverter
     }
 
 
-    private static IEnumerable<Cv> ProcessRepeater(Repeater repeater)
+    private static IEnumerable<Cv> ProcessRepeater(Repeater repeater, int baseOffset)
     {
         var cvs = new List<Cv>();
-        var offset = repeater.Offset;
+        var offset = repeater.Offset + baseOffset;
         for (var i = 0; i < repeater.Count; i++)
         {
             cvs.AddRange(repeater.Cvs.Select(cvTemplate => GetCvFromTemplate(cvTemplate, offset, i)));

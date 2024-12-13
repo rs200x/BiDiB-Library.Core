@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using org.bidib.Net.Core.Models.BiDiB;
 using org.bidib.Net.Core.Models.Messages.Input;
 using org.bidib.Net.Core.Services.Interfaces;
 
@@ -8,16 +7,9 @@ namespace org.bidib.Net.Core.Message;
 
 [Export(typeof(IMessageReceiver))]
 [PartCreationPolicy(CreationPolicy.Shared)]
-public class AccessoryMessageReceiver : IMessageReceiver
+[method: ImportingConstructor]
+public class AccessoryMessageReceiver(IBiDiBNodesFactory nodesFactory) : IMessageReceiver
 {
-    private readonly IBiDiBNodesFactory nodesFactory;
-
-    [ImportingConstructor]
-    public AccessoryMessageReceiver(IBiDiBNodesFactory nodesFactory)
-    {
-        this.nodesFactory = nodesFactory;
-    }
-
     public void ProcessMessage(BiDiBInputMessage message)
     {
         if (message == null) { return; }
@@ -34,7 +26,7 @@ public class AccessoryMessageReceiver : IMessageReceiver
 
         var node = nodesFactory.GetNode(message.Address);
 
-        var accessory = Array.Find( node?.Accessories ?? Array.Empty<Accessory>(), x => x.Number == message.Number);
+        var accessory = Array.Find( node?.Accessories ?? [], x => x.Number == message.Number);
         if (accessory == null) { return; }
 
         accessory.ExecutionState = message.ExecutionState;

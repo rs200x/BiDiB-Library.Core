@@ -35,5 +35,9 @@ public enum CvDataType
 
     DccAccAddr,
 
-    String
+    String,
+    BiDiB_UID,
+    NodeID,
+    MAC_Address,
+    IP_Address
 }

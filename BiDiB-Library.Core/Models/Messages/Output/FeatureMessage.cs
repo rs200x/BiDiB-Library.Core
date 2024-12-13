@@ -6,7 +6,7 @@ public class FeatureMessage : BiDiBOutputMessage
     {
         FeatureId = (byte)feature;
         Value = value;
-        Parameters = new[] { FeatureId, Value };
+        Parameters = [FeatureId, Value];
     }
 
     public byte FeatureId { get;}

@@ -4,6 +4,7 @@ using System.IO;
 using System.Security;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using org.bidib.Net.Core.Services.Interfaces;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -27,7 +28,8 @@ public class JsonService : IJsonService
     {
         NullValueHandling = NullValueHandling.Ignore,
         Formatting = Formatting.Indented,
-        DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff"
+        DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff",
+        ContractResolver = new CamelCasePropertyNamesContractResolver()
     };
 
     public T LoadFromFile<T>(string filePath) where T : class

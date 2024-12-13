@@ -5,7 +5,7 @@ namespace org.bidib.Net.Core.Models.Messages.Output;
 
 public class LocalLogonAckMessage : BiDiBOutputMessage
 {
-    public LocalLogonAckMessage(byte[] uniqueId) : base(new byte[] { 0 }, BiDiBMessage.MSG_LOCAL_LOGON_ACK)
+    public LocalLogonAckMessage(byte[] uniqueId) : base([0], BiDiBMessage.MSG_LOCAL_LOGON_ACK)
     {
         Node = 0;
         Uid = uniqueId;

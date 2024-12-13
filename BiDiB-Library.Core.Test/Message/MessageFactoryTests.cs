@@ -11,750 +11,783 @@ using org.bidib.Net.Core.Utils;
 using org.bidib.Net.Testing;
 using SysMagicMessage = org.bidib.Net.Core.Models.Messages.Input.SysMagicMessage;
 
-namespace org.bidib.Net.Core.Test.Message
+namespace org.bidib.Net.Core.Test.Message;
+
+[TestClass]
+[TestCategory(TestCategory.UnitTest)]
+public class MessageFactoryTests : TestClass<MessageFactory>
 {
-    [TestClass]
-    [TestCategory(TestCategory.UnitTest)]
-    public class MessageFactoryTests : TestClass<MessageFactory>
+    protected override void OnTestInitialize()
     {
-        protected override void OnTestInitialize()
-        {
-            base.OnTestInitialize();
+        base.OnTestInitialize();
 
-            Target = new MessageFactory(NullLogger<MessageFactory>.Instance);
-        }
+        Target = new MessageFactory(NullLogger<MessageFactory>.Instance);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysErrorMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("05-00-30-86-02-FC-56-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysErrorMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("05-00-30-86-02-FC-56-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Error.Should().Be(SystemError.BIDIB_ERR_CRC);
-            message.Data.Should().Be("MSG_NUM: FC");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Error.Should().Be(SystemError.BIDIB_ERR_CRC);
+        message.Data.Should().Be("MSG_NUM: FC");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysErrorMessage_ADDRSTACK()
-        {
-            // Arrange
-            var bytes = GetBytes("05-00-3E-86-11-01");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysErrorMessage_ADDRSTACK()
+    {
+        // Arrange
+        var bytes = GetBytes("05-00-3E-86-11-01");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Error.Should().Be(SystemError.BIDIB_ERR_ADDRSTACK);
-            message.Data.Should().Be("Node: 01, ADDR_STACK: ");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Error.Should().Be(SystemError.BIDIB_ERR_ADDRSTACK);
+        message.Data.Should().Be("Node: 01, ADDR_STACK: ");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysErrorMessage_NO_ACK_BY_HOST()
-        {
-            // Arrange
-            var bytes = GetBytes("06-01-00-30-86-30-00-6F-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysErrorMessage_NO_ACK_BY_HOST()
+    {
+        // Arrange
+        var bytes = GetBytes("06-01-00-30-86-30-00-6F-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysErrorMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Error.Should().Be(SystemError.BIDIB_ERR_NO_ACK_BY_HOST);
-            message.Data.Should().Be("ErrorCode: 00");
+        // Assert
+        Assert.IsNotNull(message);
+        message.Error.Should().Be(SystemError.BIDIB_ERR_NO_ACK_BY_HOST);
+        message.Data.Should().Be("ErrorCode: 00");
 
-        }
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysUniqueIdMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0A-00-02-84-DA-00-0D-68-00-F1-EA-11-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysUniqueIdMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0A-00-02-84-DA-00-0D-68-00-F1-EA-11-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysUniqueIdMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysUniqueIdMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.VendorProducerId.Should().Be("V 0D P 6800F1EA");
-            message.HexUId.Should().Be("DA.00.0D.68.00.F1.EA");
-            message.Fingerprint.Should().Be(0);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.VendorProducerId.Should().Be("V 0D P 6800F1EA");
+        message.HexUId.Should().Be("DA.00.0D.68.00.F1.EA");
+        message.Fingerprint.Should().Be(0);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysUniqueIdMessageWithFingerprint()
-        {
-            // Arrange
-            var bytes = GetBytes("0E-00-03-84-DA-00-0D-68-00-F1-EA-80-1B-CE-6F-3C-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysUniqueIdMessageWithFingerprint()
+    {
+        // Arrange
+        var bytes = GetBytes("0E-00-03-84-DA-00-0D-68-00-F1-EA-80-1B-CE-6F-3C-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysUniqueIdMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysUniqueIdMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.VendorProducerId.Should().Be("V 0D P 6800F1EA");
-            message.HexUId.Should().Be("DA.00.0D.68.00.F1.EA");
-            message.Fingerprint.Should().Be(1875778432);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.VendorProducerId.Should().Be("V 0D P 6800F1EA");
+        message.HexUId.Should().Be("DA.00.0D.68.00.F1.EA");
+        message.Fingerprint.Should().Be(1875778432);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnCommandStationProgStateMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("08-00-3F-EF-80-00-06-00-1F-C0-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnCommandStationProgStateMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("08-00-3F-EF-80-00-06-00-1F-C0-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as CommandStationProgStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as CommandStationProgStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.ProgState.Should().Be(CommandStationProgState.BIDIB_CS_PROG_OKAY);
-            message.CvHigh.Should().Be(0x00);
-            message.CvLow.Should().Be(0x06);
-            message.CvNumber.Should().Be(7);
-            message.Data.Should().Be(0x1f);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.ProgState.Should().Be(CommandStationProgState.BIDIB_CS_PROG_OKAY);
+        message.CvHigh.Should().Be(0x00);
+        message.CvLow.Should().Be(0x06);
+        message.CvNumber.Should().Be(7);
+        message.Data.Should().Be(0x1f);
+    }
         
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnCommandStationProgStateMessage_WithoutData()
-        {
-            // Arrange
-            var bytes = GetBytes("07-00-3F-EF-C0-00-06-00");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnCommandStationProgStateMessage_WithoutData()
+    {
+        // Arrange
+        var bytes = GetBytes("07-00-3F-EF-C0-00-06-00");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as CommandStationProgStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as CommandStationProgStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.ProgState.Should().Be(CommandStationProgState.BIDIB_CS_PROG_STOPPED);
-            message.CvHigh.Should().Be(0x00);
-            message.CvLow.Should().Be(0x06);
-            message.CvNumber.Should().Be(7);
-            message.Data.Should().Be(0x00);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.ProgState.Should().Be(CommandStationProgState.BIDIB_CS_PROG_STOPPED);
+        message.CvHigh.Should().Be(0x00);
+        message.CvLow.Should().Be(0x06);
+        message.CvNumber.Should().Be(7);
+        message.Data.Should().Be(0x00);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnCommandStationStateMessage()
-        {
-            // Arrange
-            var messageString = "04-00-3C-E1-08-09-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnCommandStationStateMessage()
+    {
+        // Arrange
+        var messageString = "04-00-3C-E1-08-09-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as CommandStationStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as CommandStationStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.State.Should().Be(CommandStationState.BIDIB_CS_STATE_PROG);
+        // Assert
+        Assert.IsNotNull(message);
+        message.State.Should().Be(CommandStationState.BIDIB_CS_STATE_PROG);
 
-        }
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnCommandStationPoMAckMessage()
-        {
-            // Arrange
-            var messageString = "09-00-93-E4-03-00-00-00-00-01-A7-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnCommandStationPoMAckMessage()
+    {
+        // Arrange
+        var messageString = "09-00-93-E4-03-00-00-00-00-01-A7-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as CommandStationPoMAckMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as CommandStationPoMAckMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.DecoderAddress.Should().Be(3);
-            message.Receipt.Should().Be(1);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.DecoderAddress.Should().Be(3);
+        message.Receipt.Should().Be(1);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackCvMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("08-00-77-A5-04-00-07-00-9D-03-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackCvMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("08-00-77-A5-04-00-07-00-9D-03-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackCvMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackCvMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.DecoderAddress.Should().Be(4);
-            message.CvNumber.Should().Be(8);
-            message.Data.Should().Be(157);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.DecoderAddress.Should().Be(4);
+        message.CvNumber.Should().Be(8);
+        message.Data.Should().Be(157);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnBoosterDiagnosticMessage()
-        {
-            // Arrange
-            var messageString = "09-00-B9-B2-00-1D-01-A4-02-16-B0-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnBoosterDiagnosticMessage()
+    {
+        // Arrange
+        var messageString = "09-00-B9-B2-00-1D-01-A4-02-16-B0-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as BoostDiagnosticMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as BoostDiagnosticMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Current.Should().Be(68);
-            message.Voltage.Should().Be(16400);
-            message.Temperature.Should().Be(22);
+        // Assert
+        Assert.IsNotNull(message);
+        message.Current.Should().Be(68);
+        message.Voltage.Should().Be(16400);
+        message.Temperature.Should().Be(22);
 
-        }
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnNodeNewMessage()
-        {
-            // Arrange
-            var messageString = "0C-00-27-8D-04-01-45-00-0D-79-00-01-EC-3E-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnNodeNewMessage()
+    {
+        // Arrange
+        var messageString = "0C-00-27-8D-04-01-45-00-0D-79-00-01-EC-3E-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as NodeNewMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as NodeNewMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.TableVersion.Should().Be(4);
-            message.LocalNodeAddress.Should().Be(1);
-            message.HexUid.Should().Be("45.00.0D.79.00.01.EC");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.TableVersion.Should().Be(4);
+        message.LocalNodeAddress.Should().Be(1);
+        message.HexUid.Should().Be("45.00.0D.79.00.01.EC");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnNodeLostMessage()
-        {
-            // Arrange
-            var messageString = "0C-00-28-8C-05-01-45-00-0D-79-00-01-EC-B3-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnNodeLostMessage()
+    {
+        // Arrange
+        var messageString = "0C-00-28-8C-05-01-45-00-0D-79-00-01-EC-B3-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as NodeLostMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as NodeLostMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.TableVersion.Should().Be(5);
-            message.LocalNodeAddress.Should().Be(1);
-            message.HexUid.Should().Be("45.00.0D.79.00.01.EC");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.TableVersion.Should().Be(5);
+        message.LocalNodeAddress.Should().Be(1);
+        message.HexUid.Should().Be("45.00.0D.79.00.01.EC");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnNodeTabMessage()
-        {
-            // Arrange
-            var messageString = "0C-00-30-89-05-01-45-00-0D-79-00-BD-EB-B9-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnNodeTabMessage()
+    {
+        // Arrange
+        var messageString = "0C-00-30-89-05-01-45-00-0D-79-00-BD-EB-B9-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as NodeTabMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as NodeTabMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.TableVersion.Should().Be(5);
-            message.LocalNodeAddress.Should().Be(1);
-            message.HexUid.Should().Be("45.00.0D.79.00.BD.EB");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.TableVersion.Should().Be(5);
+        message.LocalNodeAddress.Should().Be(1);
+        message.HexUid.Should().Be("45.00.0D.79.00.BD.EB");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnNodeTabCountMessage()
-        {
-            // Arrange
-            var messageString = "04-00-2E-88-05-19-FE";
-            var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnNodeTabCountMessage()
+    {
+        // Arrange
+        var messageString = "04-00-2E-88-05-19-FE";
+        var bytes = Array.ConvertAll(messageString.Split('-'), s => Convert.ToByte(s, 16));
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as NodeTabCountMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as NodeTabCountMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.NodeCount.Should().Be(5);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.NodeCount.Should().Be(5);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackAddressMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("08-00-18-A3-06-04-80-03-00-95-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackAddressMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("08-00-18-A3-06-04-80-03-00-95-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackAddressMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackAddressMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(6);
-            message.Addresses.Should().HaveCount(2);
-            message.Addresses.ElementAt(0).Address.Should().Be(4);
-            message.Addresses.ElementAt(0).Direction.Should().Be(DecoderDirection.BackwardDirection);
-            message.Addresses.ElementAt(1).Address.Should().Be(3);
-            message.Addresses.ElementAt(1).Direction.Should().Be(DecoderDirection.ForwardDirection);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(6);
+        message.Addresses.Should().HaveCount(2);
+        message.Addresses.ElementAt(0).Address.Should().Be(4);
+        message.Addresses.ElementAt(0).Direction.Should().Be(DecoderDirection.BackwardDirection);
+        message.Addresses.ElementAt(1).Address.Should().Be(3);
+        message.Addresses.ElementAt(1).Direction.Should().Be(DecoderDirection.ForwardDirection);
+    }
         
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackAddressMessage_WithSameAddress()
-        {
-            // Arrange
-            var bytes = GetBytes("09-04-00-00-A3-01-65-84-65-C4");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackAddressMessage_WithSameAddress()
+    {
+        // Arrange
+        var bytes = GetBytes("09-04-00-00-A3-01-65-84-65-C4");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackAddressMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackAddressMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(1);
-            message.Addresses.Should().HaveCount(2);
-            message.Addresses.ElementAt(0).Address.Should().Be(1125);
-            message.Addresses.ElementAt(0).Direction.Should().Be(DecoderDirection.BackwardDirection);
-            message.Addresses.ElementAt(1).Address.Should().Be(1125);
-            message.Addresses.ElementAt(1).Direction.Should().Be(DecoderDirection.ExtendedAccessoryDirection);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(1);
+        message.Addresses.Should().HaveCount(2);
+        message.Addresses.ElementAt(0).Address.Should().Be(1125);
+        message.Addresses.ElementAt(0).Direction.Should().Be(DecoderDirection.BackwardDirection);
+        message.Addresses.ElementAt(1).Address.Should().Be(1125);
+        message.Addresses.ElementAt(1).Direction.Should().Be(DecoderDirection.ExtendedAccessoryDirection);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackDynStateMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("08-00-00-AA-06-03-80-02-1E-C9-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackDynStateMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("08-00-00-AA-06-03-80-02-1E-C9-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackDynStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackDynStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(6);
-            message.DecoderAddress.Should().Be(3);
-            message.Direction.Should().Be(DecoderDirection.BackwardDirection);
-            message.DynState.Should().Be(DynState.Temperature);
-            message.Value.Should().Be(30);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(6);
+        message.DecoderAddress.Should().Be(3);
+        message.Direction.Should().Be(DecoderDirection.BackwardDirection);
+        message.DynState.Should().Be(DynState.Temperature);
+        message.Value.Should().Be(30);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackDynStateMessage_WithTimestamp()
-        {
-            // Arrange
-            var bytes = GetBytes("FE-0B-00-00-AA-06-03-80-06-01-05-02-0B-60-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackDynStateMessage_WithTimestamp()
+    {
+        // Arrange
+        var bytes = GetBytes("FE-0B-00-00-AA-06-03-80-06-01-05-02-0B-60-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackDynStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackDynStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(6);
-            message.DecoderAddress.Should().Be(3);
-            message.Direction.Should().Be(DecoderDirection.BackwardDirection);
-            message.DynState.Should().Be(DynState.Distance);
-            message.Distance.Should().Be(1281);
-            message.Timestamp.Should().Be(2818);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(6);
+        message.DecoderAddress.Should().Be(3);
+        message.Direction.Should().Be(DecoderDirection.BackwardDirection);
+        message.DynState.Should().Be(DynState.Distance);
+        message.Distance.Should().Be(1281);
+        message.Timestamp.Should().Be(2818);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("04-00-D6-A1-06-20-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("04-00-D6-A1-06-20-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.MessageType.Should().Be(BiDiBMessage.MSG_BM_FREE);
-            message.FeedbackNumber.Should().Be(6);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.MessageType.Should().Be(BiDiBMessage.MSG_BM_FREE);
+        message.FeedbackNumber.Should().Be(6);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackOccupiedMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("04-00-F2-A0-05-0C-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackOccupiedMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("04-00-F2-A0-05-0C-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackOccupiedMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackOccupiedMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(5);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(5);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackMultipleMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("07-06-00-21-A2-08-08-20");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackMultipleMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("07-06-00-21-A2-08-08-20");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackMultipleMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackMultipleMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackNumber.Should().Be(8);
-            message.StateSize.Should().Be(8);
-            message.PortStates[5].Should().BeTrue();
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackNumber.Should().Be(8);
+        message.StateSize.Should().Be(8);
+        message.PortStates[5].Should().BeTrue();
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackSpeedMessage_WithForwardDirection()
-        {
-            // Arrange
-            var bytes = GetBytes("07-00-0A-A6-03-00-09-00-8A-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackSpeedMessage_WithForwardDirection()
+    {
+        // Arrange
+        var bytes = GetBytes("07-00-0A-A6-03-00-09-00-8A-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackSpeedMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackSpeedMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.DecoderAddress.Should().Be(3);
-            message.Speed.Should().Be(9);
-            message.Direction.Should().Be(DecoderDirection.ForwardDirection);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.DecoderAddress.Should().Be(3);
+        message.Speed.Should().Be(9);
+        message.Direction.Should().Be(DecoderDirection.ForwardDirection);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackSpeedMessage_WithBackwardDirection()
-        {
-            // Arrange
-            var bytes = GetBytes("07-00-0A-A6-EC-A7-09-00-8A-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackSpeedMessage_WithBackwardDirection()
+    {
+        // Arrange
+        var bytes = GetBytes("07-00-0A-A6-EC-A7-09-00-8A-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackSpeedMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackSpeedMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.DecoderAddress.Should().Be(10220);
-            message.Speed.Should().Be(9);
-            message.Direction.Should().Be(DecoderDirection.BackwardDirection);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.DecoderAddress.Should().Be(10220);
+        message.Speed.Should().Be(9);
+        message.Direction.Should().Be(DecoderDirection.BackwardDirection);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnFeedbackPositionMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("09-01-00-2D-AC-01-00-00-03-00-22-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnFeedbackPositionMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("09-01-00-2D-AC-01-00-00-03-00-22-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as FeedbackPositionMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as FeedbackPositionMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.FeedbackAddress.Should().Be(1);
-            message.FeedbackType.Should().Be(0);
-            message.Location.Should().Be(3);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.FeedbackAddress.Should().Be(1);
+        message.FeedbackType.Should().Be(0);
+        message.Location.Should().Be(3);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysMagicMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("05-00-00-81-FE-AF-89-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysMagicMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("05-00-00-81-FE-AF-89-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysMagicMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysMagicMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.MagicHigh.Should().Be(0xAF);
-            message.MagicLow.Should().Be(0xFE);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.MagicHigh.Should().Be(0xAF);
+        message.MagicLow.Should().Be(0xFE);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnSysMagicMessage_WithBootMagic()
-        {
-            // Arrange
-            var bytes = GetBytes("05-00-00-81-0D-B0-89-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnSysMagicMessage_WithBootMagic()
+    {
+        // Arrange
+        var bytes = GetBytes("05-00-00-81-0D-B0-89-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as SysMagicMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as SysMagicMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.MagicHigh.Should().Be(0xB0);
-            message.MagicLow.Should().Be(0x0D);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.MagicHigh.Should().Be(0xB0);
+        message.MagicLow.Should().Be(0x0D);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnVendorAckMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("05-01-00-8D-94-01-F2-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnVendorAckMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("05-01-00-8D-94-01-F2-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as VendorAckMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as VendorAckMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.ConfigModeEnabled.Should().BeTrue();
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.ConfigModeEnabled.Should().BeTrue();
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnVendorMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0C-01-00-03-93-03-32-34-30-03-31-34-39-FD-DD-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnVendorMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0C-01-00-03-93-03-32-34-30-03-31-34-39-FD-DD-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as VendorMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as VendorMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.CvName.Should().Be("240");
-            message.CvValue.Should().Be("149");
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.CvName.Should().Be("240");
+        message.CvValue.Should().Be("149");
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnNull_WhenInvalidMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0D-01-00-03-93-03-32-34-30-03-31-34-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnNull_WhenInvalidMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0D-01-00-03-93-03-32-34-30-03-31-34-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes);
+        // Act
+        var message = Target.CreateInputMessage(bytes);
 
-            // Assert
-            message.Should().BeNull();
-        }
+        // Assert
+        message.Should().BeNull();
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnAccessoryParaMessage_NotExistingParam()
-        {
-            // Arrange
-            var bytes = GetBytes("07-01-00-6F-B9-01-FF-FC");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnAccessoryParaMessage_NotExistingParam()
+    {
+        // Arrange
+        var bytes = GetBytes("07-01-00-6F-B9-01-FF-FC");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as AccessoryParaMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as AccessoryParaMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Parameter.Should().Be(AccessoryParameter.ACCESSORY_PARA_NOTEXIST);
-            message.Data.Should().BeNull();
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Parameter.Should().Be(AccessoryParameter.ACCESSORY_PARA_NOTEXIST);
+        message.Data.Should().BeNull();
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnAccessoryParaMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("07-01-00-77-B9-05-FC-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnAccessoryParaMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("07-01-00-77-B9-05-FC-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as AccessoryParaMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as AccessoryParaMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Parameter.Should().Be(AccessoryParameter.ACCESSORY_PARA_STARTUP);
-            message.Data.Should().HaveCount(1);
-            message.Data[0].Should().Be(254);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Parameter.Should().Be(AccessoryParameter.ACCESSORY_PARA_STARTUP);
+        message.Data.Should().HaveCount(1);
+        message.Data[0].Should().Be(254);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnAccessoryStateMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0D-01-00-1D-B8-00-03-14-01-DB-01-69-02-14");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnAccessoryStateMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0D-01-00-1D-B8-00-03-14-01-DB-01-69-02-14");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as AccessoryStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as AccessoryStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Number.Should().Be(0);
-            message.Aspect.Should().Be(3);
-            message.Total.Should().Be(20);
-            message.Execute.Should().Be(1);
-            message.ExecutionState.Should().Be(AccessoryExecutionState.Running);
-            message.Wait.Should().Be(219);
-            message.WaitTime.Should().Be(91);
-            message.Options.Should().HaveCount(4);
-            message.Options.Should().ContainInOrder(1, 105, 2, 20);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Number.Should().Be(0);
+        message.Aspect.Should().Be(3);
+        message.Total.Should().Be(20);
+        message.Execute.Should().Be(1);
+        message.ExecutionState.Should().Be(AccessoryExecutionState.Running);
+        message.Wait.Should().Be(219);
+        message.WaitTime.Should().Be(91);
+        message.Options.Should().HaveCount(4);
+        message.Options.Should().ContainInOrder(1, 105, 2, 20);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnAccessoryStateMessageWithError()
-        {
-            // Arrange
-            var bytes = GetBytes("0D-01-00-54-B8-00-FF-30-80-01-01-00-02-00-37-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnAccessoryStateMessageWithError()
+    {
+        // Arrange
+        var bytes = GetBytes("0D-01-00-54-B8-00-FF-30-80-01-01-00-02-00-37-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as AccessoryStateMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as AccessoryStateMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Number.Should().Be(0);
-            message.Aspect.Should().Be(255);
-            message.Total.Should().Be(48);
-            message.Execute.Should().Be(128);
-            message.ExecutionState.Should().Be(AccessoryExecutionState.Error);
-            message.HasMoreErrors.Should().BeFalse();
-            message.ErrorState.Should().Be(AccessoryErrorState.BIDIB_ACC_STATE_ERROR_VOID);
-            message.Wait.Should().Be(1);
-            message.Options.Should().HaveCount(4);
-            message.Options.Should().ContainInOrder(1, 0, 2, 0);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Number.Should().Be(0);
+        message.Aspect.Should().Be(255);
+        message.Total.Should().Be(48);
+        message.Execute.Should().Be(128);
+        message.ExecutionState.Should().Be(AccessoryExecutionState.Error);
+        message.HasMoreErrors.Should().BeFalse();
+        message.ErrorState.Should().Be(AccessoryErrorState.BIDIB_ACC_STATE_ERROR_VOID);
+        message.Wait.Should().Be(1);
+        message.Options.Should().HaveCount(4);
+        message.Options.Should().ContainInOrder(1, 0, 2, 0);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnLcConfigXMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("10-01-00-2C-C6-01-03-44-00-01-43-00-06-02-03-01-CB-0B-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnLcConfigXMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("10-01-00-2C-C6-01-03-44-00-01-43-00-06-02-03-01-CB-0B-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as LcConfigXMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as LcConfigXMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.PortNumber.Should().Be(3);
-            message.PortType.Should().Be(PortType.Light);
-            message.Data.Should().HaveCount(10);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.PortNumber.Should().Be(3);
+        message.PortType.Should().Be(PortType.Light);
+        message.Data.Should().HaveCount(10);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnLStatMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("07-01-00-04-C0-04-00-E3-5E-FE");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnLStatMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("07-01-00-04-C0-04-00-E3-5E-FE");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as LcStatMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as LcStatMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.PortNumber.Should().Be(0);
-            message.PortType.Should().Be(PortType.Motor);
-            message.Status.Should().HaveCount(1);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.PortNumber.Should().Be(0);
+        message.PortType.Should().Be(PortType.Motor);
+        message.Status.Should().HaveCount(1);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOFFShort()
-        {
-            // Arrange
-            var bytes = GetBytes("04-00-C5-B0-01");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOFFShort()
+    {
+        // Arrange
+        var bytes = GetBytes("04-00-C5-B0-01");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_OFF_SHORT);
-            message.Control.Should().Be(BoosterControl.Bus);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.State.Should().Be(BoosterState.BIDIB_BST_STATE_OFF_SHORT);
+        message.Control.Should().Be(BoosterControl.Bus);
+    }
        
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOnHot()
-        {
-            // Arrange
-            var bytes = GetBytes("04-00-C5-B0-82");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnBoostStatMessage_WithOnHot()
+    {
+        // Arrange
+        var bytes = GetBytes("04-00-C5-B0-82");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
-
-
-            // Assert
-            Assert.IsNotNull(message);
-            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON_HOT);
-            message.Control.Should().Be(BoosterControl.Bus);
-        }
+        // Act
+        var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
 
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithBusControl()
-        {
-            // Arrange
-            var bytes = GetBytes("06-01-05-00-69-B0-80");
+        // Assert
+        Assert.IsNotNull(message);
+        message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON_HOT);
+        message.Control.Should().Be(BoosterControl.Bus);
+    }
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON);
-            message.Control.Should().Be(BoosterControl.Bus);
-        }
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnBoostStatMessage_WithBusControl()
+    {
+        // Arrange
+        var bytes = GetBytes("06-01-05-00-69-B0-80");
+
+        // Act
+        var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
+
+        // Assert
+        Assert.IsNotNull(message);
+        message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON);
+        message.Control.Should().Be(BoosterControl.Bus);
+    }
         
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnBoostStatMessage_WithLocalControl()
-        {
-            // Arrange
-            var bytes = GetBytes("06-01-05-00-67-B0-C0");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnBoostStatMessage_WithLocalControl()
+    {
+        // Arrange
+        var bytes = GetBytes("06-01-05-00-67-B0-C0");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as BoostStatMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON);
-            message.Control.Should().Be(BoosterControl.Local);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.State.Should().Be(BoosterState.BIDIB_BST_STATE_ON);
+        message.Control.Should().Be(BoosterControl.Local);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnResponseSubscriptionMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0D-01-00-00-51-09-00-00-00-00-00-FD-01-01-C0");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnResponseSubscriptionMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0D-01-00-00-51-09-00-00-00-00-00-FD-01-01-C0");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as GuestResponseSubscriptionMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as GuestResponseSubscriptionMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Result.Should().Be(SubscriptionResult.SubscriptionNotEstablished);
-            message.MultiNodeResolution.Should().BeTrue();
-            message.TargetMode.Should().Be(TargetMode.BIDIB_TARGET_MODE_BOOSTER);
-            message.DownstreamSubscriptions.Should().Be(1);
-            message.UpstreamSubscriptions.Should().Be(1);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Result.Should().Be(SubscriptionResult.SubscriptionNotEstablished);
+        message.MultiNodeResolution.Should().BeTrue();
+        message.TargetMode.Should().Be(TargetMode.BIDIB_TARGET_MODE_BOOSTER);
+        message.DownstreamSubscriptions.Should().Be(1);
+        message.UpstreamSubscriptions.Should().Be(1);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnResponseSentMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0D-01-00-00-52-09-00-00-00-00-00-02-02-01-C0");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnResponseSentMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0D-01-00-00-52-09-00-00-00-00-00-02-02-01-C0");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as GuestResponseSentMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as GuestResponseSentMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Result.Should().Be(RequestResult.GrantedNoResponse);
-            message.AckSequenceNumber.Should().Be(2);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Result.Should().Be(RequestResult.GrantedNoResponse);
+        message.AckSequenceNumber.Should().Be(2);
+    }
 
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnResponseNotifyMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0C-01-00-00-53-09-00-00-00-00-00-02-A1-C0");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnResponseNotifyMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0C-01-00-00-53-09-00-00-00-00-00-02-A1-C0");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as GuestResponseNotifyMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as GuestResponseNotifyMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.SubSequenceNumber.Should().Be(2);
-            message.SubMessageType.Should().Be(BiDiBMessage.MSG_BM_FREE);
-        }        
+        // Assert
+        Assert.IsNotNull(message);
+        message.SubSequenceNumber.Should().Be(2);
+        message.SubMessageType.Should().Be(BiDiBMessage.MSG_BM_FREE);
+    }        
         
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnResponseSubscriptionCountMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("0B-00-50-50-00-0D-84-00-24-00-01-00");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnResponseSubscriptionCountMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("0B-00-50-50-00-0D-84-00-24-00-01-00");
 
-            // Act
-            var message = Target.CreateInputMessage(bytes) as GuestResponseSubscriptionCountMessage;
+        // Act
+        var message = Target.CreateInputMessage(bytes) as GuestResponseSubscriptionCountMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Count.Should().Be(1);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Count.Should().Be(1);
+    }
         
-        [TestMethod]
-        public void CreateInputMessage_ShouldReturnResponseCommandStationDriveAckMessage()
-        {
-            // Arrange
-            var bytes = GetBytes("07-01-00-11-E2-10-00-01");
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnResponseCommandStationDriveAckMessage()
+    {
+        // Arrange
+        var bytes = GetBytes("07-01-00-11-E2-10-00-01");
 
-            // Act
-            var inputMessage = Target.CreateInputMessage(bytes);
-            var message = inputMessage as CommandStationDriveAckMessage;
+        // Act
+        var inputMessage = Target.CreateInputMessage(bytes);
+        var message = inputMessage as CommandStationDriveAckMessage;
 
-            // Assert
-            Assert.IsNotNull(message);
-            message.Address.GetArrayValue().Should().Be(1);
-        }
+        // Assert
+        Assert.IsNotNull(message);
+        message.Address.GetArrayValue().Should().Be(1);
+    }
+
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnConfigXGetAllMessage_WhenNoParameters()
+    {
+        // Arrange
+        var bytes = GetBytes("03-00-1C-45");
+
+        // Act
+        var inputMessage = Target.CreateInputMessage(bytes);
+        var message = inputMessage as ConfigXGetAllMessage;
+
+        // Assert
+        Assert.IsNotNull(message);
+        message.StartPort.Should().Be(PortType.Switch);
+        message.StartIndex.Should().Be(0);
+        message.EndPort.Should().Be(PortType.All);
+        message.EndIndex.Should().Be(0xff);
+    }
+
+    [TestMethod]
+    public void CreateInputMessage_ShouldReturnLcMacroParaGet()
+    {
+        // Arrange
+        var bytes = GetBytes("05-00-20-4C-01-03");
+
+        // Act
+        var inputMessage = Target.CreateInputMessage(bytes);
+        var message = inputMessage as LcMacroParaGetMessage;
+
+        // Assert
+        Assert.IsNotNull(message);
+        message.MacroNumber.Should().Be(1);
+        message.MacroParameter.Should().Be(MacroParameter.MACRO_PARA_START_CLK);
     }
 }

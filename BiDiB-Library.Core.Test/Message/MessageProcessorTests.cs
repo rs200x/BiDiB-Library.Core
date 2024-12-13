@@ -141,4 +141,32 @@ public class MessageProcessorTests : TestClass<BiDiBMessageProcessor>
         // Assert
        messageService.Verify(x=>x.SendMessage(BiDiBMessage.MSG_BM_CV, It.IsAny<byte[]>(), It.IsAny<byte[]>()));
     } 
+    
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void SendMessage_ShouldReturnReceivedMessage_WhenFromOtherNode(bool acceptOther)
+    {
+        // Arrange
+        IMessageReceiver registeredReceiver = null;
+        messageService.Setup(x => x.Register(It.IsAny<IMessageReceiver>()))
+            .Callback((IMessageReceiver receiver) => registeredReceiver = receiver);
+
+        var vendorMessage = new VendorMessage(GetBytes("0C-01-00-03-93-03-32-34-30-03-31-34-39-FD-DD-FE"));
+        messageService.Setup(x => x.SendMessages(It.IsAny<ICollection<BiDiBOutputMessage>>()))
+            .Callback((ICollection<BiDiBOutputMessage> _) => registeredReceiver?.ProcessMessage(vendorMessage));
+        
+        // Act
+        var response = Target.SendMessage<VendorMessage>(new VendorGetMessage([0], "1"), timeout:10, acceptOther);
+        
+        // Assert
+        if (acceptOther)
+        {
+            response.Should().Be(vendorMessage);
+        }
+        else
+        {
+            response.Should().BeNull();
+        }
+    } 
 }

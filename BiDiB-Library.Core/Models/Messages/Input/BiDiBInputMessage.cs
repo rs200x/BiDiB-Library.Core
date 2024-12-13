@@ -28,15 +28,14 @@ public class BiDiBInputMessage
         }
         Size += messageBytes[index++];
 
-        IList<byte> addrBytes = new List<byte>();
+        IList<byte> addrBytes = [];
 
         while (messageBytes[index] != 0)
         {
             addrBytes.Add(messageBytes[index++]);
             if (index >= messageBytes.Length)
             {
-                //logger.LogWarning("Invalid message: {}", messageBytes);
-                //throw new ProtocolException("address too long");
+                // handle if causing issues
             }
         }
         if (!addrBytes.Any())
@@ -44,21 +43,21 @@ public class BiDiBInputMessage
             addrBytes.Add(0);
         }
 
-        Address = addrBytes.ToArray();
+        Address = [.. addrBytes];
         index++;
 
         SequenceNumber = messageBytes[index++];
         MessageType = (BiDiBMessage)messageBytes[index++];
 
         // data
-        IList<byte> dataBytes = new List<byte>();
+        IList<byte> dataBytes = [];
 
         while (index <= Size)
         {
             dataBytes.Add(messageBytes[index++]);
         }
 
-        MessageParameters = dataBytes.ToArray();
+        MessageParameters = [.. dataBytes];
     }
 
     public byte[] Message { get; }
@@ -68,7 +67,7 @@ public class BiDiBInputMessage
 
     public BiDiBMessage MessageType { get; }
 
-    public byte Size { get; }
+    private byte Size { get; }
 
     public byte[] MessageParameters { get; }
 

@@ -73,7 +73,6 @@ namespace org.bidib.Net.Core.Test.Models
                     var featureMessages = new List<FeatureInputMessage>();
                     if (mi is ICollection<BiDiBOutputMessage> messages)
                     {
-
                         for (int i = 0; i < messages.Count; i++)
                         {
                             featureMessages.Add(new FeatureInputMessage(GetBytes($"05-00-15-90-0{featureIndex++}-01")));
@@ -102,8 +101,10 @@ namespace org.bidib.Net.Core.Test.Models
 
 
             // Act
-            Target.GetType().GetMethod("GetFeedbackInfo", BindingFlags.NonPublic | BindingFlags.Instance)
-                .Invoke(Target, new[] { new Feature { Value = 20 } });
+            Target
+                .GetType()
+                .GetMethod("GetFeedbackInfo", BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.Invoke(Target, [new Feature { Value = 20 }]);
             
 
             // Assert
@@ -113,6 +114,33 @@ namespace org.bidib.Net.Core.Test.Models
             Target.FeedbackPorts.Count(x => x.IsFree).Should().Be(23);
 
             messageProcessor.Verify(x => x.SendMessage(Target, BiDiBMessage.MSG_BM_ADDR_GET_RANGE, 0, 20));
+            messageProcessor.Verify(x => x.SendMessage(Target, BiDiBMessage.MSG_BM_GET_CONFIDENCE));
+        }
+
+        [TestMethod]
+        public void GetFeedbackInfo_ShouldSetFeedbackPorts_WhenLongerResponse()
+        {
+            // Arrange
+            byte[] bytes = GetBytes("08-03-00-26-A2-00-10-08-00");
+            FeedbackMultipleMessage message = new FeedbackMultipleMessage(bytes);
+            messageProcessor.Setup(x => x.SendMessage<FeedbackMultipleMessage>(Target, BiDiBMessage.MSG_BM_GET_RANGE, 500, 0, 8))
+                .Returns(message);
+
+
+            // Act
+            Target
+                .GetType()
+                .GetMethod("GetFeedbackInfo", BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.Invoke(Target, [new Feature { Value = 8 }]);
+
+
+            // Assert
+            Target.FeedbackPorts.Should().HaveCount(8);
+            Target.FeedbackPorts.Count(x => !x.IsFree).Should().Be(1);
+            Target.FeedbackPorts[3].IsFree.Should().BeFalse();
+            Target.FeedbackPorts.Count(x => x.IsFree).Should().Be(7);
+
+            messageProcessor.Verify(x => x.SendMessage(Target, BiDiBMessage.MSG_BM_ADDR_GET_RANGE, 0, 8));
             messageProcessor.Verify(x => x.SendMessage(Target, BiDiBMessage.MSG_BM_GET_CONFIDENCE));
         }
     }

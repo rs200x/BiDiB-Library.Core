@@ -27,7 +27,7 @@ public class MainMessageReceiver : IMessageReceiver
         this.messageService = messageService;
         this.nodesFactory = nodesFactory;
         logger = loggerFactory.CreateLogger<MainMessageReceiver>();
-        messageHandlers = new Dictionary<BiDiBMessage, Action<BiDiBInputMessage>>();
+        messageHandlers = [];
         RegisterMessageHandlers();
     }
 
@@ -47,9 +47,11 @@ public class MainMessageReceiver : IMessageReceiver
 
     public void ProcessMessage(BiDiBInputMessage message)
     {
-        if (message == null || !messageHandlers.ContainsKey(message.MessageType)) { return; }
+        if (message == null || !messageHandlers.TryGetValue(message.MessageType, out var handler))
+        {
+            return;
+        }
 
-        var handler = messageHandlers[message.MessageType];
         handler(message);
     }
 
@@ -222,7 +224,9 @@ public class MainMessageReceiver : IMessageReceiver
     {
         if (feedbackNumber >= node.FeedbackPorts.Length)
         {
-            logger.LogWarning($"Feedback port '{feedbackNumber}' is out of range ({node.FeedbackPorts.Length}) of node {node.GetFullAddressString()}");
+            logger.LogWarning(
+                "Feedback port '{FeedbackNumber}' is out of range ({NumberOfPorts}) of node {NodeAddress}",
+                feedbackNumber, node.FeedbackPorts.Length, node.GetFullAddressString());
             return;
         }
 
@@ -262,9 +266,9 @@ public class MainMessageReceiver : IMessageReceiver
                 occupancyInfo.Quality = value;
                 break;
             case DynState.Temperature:
+            case DynState.Temperature2:
             {
-                if (value <= 127) { occupancyInfo.Temperature = value; }
-                if (value is >= 226 and <= 255) { occupancyInfo.Temperature = (sbyte)value; }
+                SetTemperature(occupancyInfo, value);
                 break;
             }
             case DynState.Container1:
@@ -291,6 +295,17 @@ public class MainMessageReceiver : IMessageReceiver
                 break;
             }
         }
+
+    }
+
+    private static void SetTemperature(OccupancyInfo occupancyInfo, int value)
+    {
+        occupancyInfo.Temperature = value switch
+        {
+            <= 127 => value,
+            >= 226 and <= 255 => (sbyte)value,
+            _ => occupancyInfo.Temperature
+        };
     }
 
     private void HandleIdentifyState(SysIdentifyStateMessage message)

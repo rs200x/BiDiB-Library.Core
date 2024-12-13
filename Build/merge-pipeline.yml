@@ -38,14 +38,6 @@ steps:
       nugetConfigPath: 'nuget.config'
       restoreArguments: '/property:Configuration=$(BuildConfiguration)'
 
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: 'rs200x'
-      organization: 'rs200x-github'
-      scannerMode: 'MSBuild'
-      projectKey: 'BiDiB-Library.Core'
-      projectVersion: '$(version)'
-
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
@@ -65,7 +57,7 @@ steps:
       codeCoverageEnabled: true
       runSettingsFile: '$(System.DefaultWorkingDirectory)\CodeCoverage.runsettings'
 
-  - task: BuildQualityChecks@8
+  - task: BuildQualityChecks@9
     inputs:
       checkWarnings: true
       warningFailOption: "build"

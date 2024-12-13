@@ -15,19 +15,30 @@ public interface IBiDiBMessageProcessor
     /// <param name="parentAddress">The parent node address</param>
     void GetChildNodes(byte[] parentAddress);
 
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout,
+        bool acceptFromAnySender, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
 
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, int timeout,
+        params byte[] parameters) where TResponseMessage : BiDiBInputMessage;
 
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters)
+        where TResponseMessage : BiDiBInputMessage;
 
-    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout) where TResponseMessage : BiDiBInputMessage;
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage)
+        where TResponseMessage : BiDiBInputMessage;
+
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout,
+        bool acceptFromAnySender) where TResponseMessage : BiDiBInputMessage;
+
+    TResponseMessage SendMessage<TResponseMessage>(BiDiBOutputMessage outputMessage, int timeout)
+        where TResponseMessage : BiDiBInputMessage;
 
     void SendMessage(BiDiBOutputMessage outputMessage);
 
     void SendMessage(BiDiBNode node, BiDiBMessage messageType, params byte[] parameters);
 
     IEnumerable<Port> GetPorts(BiDiBNode node, PortType portType, int expectedItems);
-        
-    IEnumerable<TResponseMessage> SendMessages<TResponseMessage>(ICollection<BiDiBOutputMessage> outputMessages, int timeout = 300) where TResponseMessage : BiDiBInputMessage;
+
+    IEnumerable<TResponseMessage> SendMessages<TResponseMessage>(ICollection<BiDiBOutputMessage> outputMessages,
+        int timeout = 300) where TResponseMessage : BiDiBInputMessage;
 }
