@@ -23,5 +23,6 @@ public class FirmwareDefinition : ItemWithVersion, IFileSourceItem
 
     #endregion
 
+    [XmlIgnore]
     public string SourceFile { get; set; }
 }
