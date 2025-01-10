@@ -30,7 +30,7 @@ public enum BiDiBFeature : byte
     //-- booster
     FEATURE_BST_VOLT_ADJUSTABLE = 15,   // booster output voltage is adjustable
     FEATURE_BST_VOLT = 16,   // booster output voltage setting (unit: V)
-    FEATURE_BST_CUTOUT_AVAIALABLE = 17,   // booster can do cutout for railcom
+    FEATURE_BST_CUTOUT_AVAILABLE = 17,   // booster can do cutout for railcom
     FEATURE_BST_CUTOUT_ON = 18,   // cutout is enabled
     FEATURE_BST_TURNOFF_TIME = 19,   // time in ms until booster turns off in case of a short (unit 2ms)
     FEATURE_BST_INRUSH_TURNOFF_TIME = 20,   // time in ms until booster turns off in case of a short after the first power up (unit 2ms)
@@ -40,7 +40,7 @@ public enum BiDiBFeature : byte
     FEATURE_BST_CV_AVAILABLE = 24,   // (deprecated, now synonym to 13) CV readback available
     FEATURE_BST_CV_ON = 25,   // (deprecated, now synonym to 14) CV readback enabled
     FEATURE_BST_INHIBIT_AUTOSTART = 26,   // 1: Booster does no automatic BOOST_ON when DCC at input wakes up.
-    FEATURE_BST_INHIBIT_LOCAL_ONOFF = 27,   // 1: Booster announces local STOP/GO key stroke only, no local action
+    FEATURE_BST_INHIBIT_LOCAL_ONOFF = 27,   // 1: Booster announces local STOP/GO keystroke only, no local action
 
     //-- bidi detection & occupacy
     FEATURE_BM_DYN_STATE_INTERVAL = 28,   // transmit interval of MSG_BM_DYN_STATE (unit 100ms)
@@ -85,7 +85,7 @@ public enum BiDiBFeature : byte
     FEATURE_GEN_LOK_DB_STRING = 105,   
     FEATURE_GEN_POM_REPEAT = 106,   // supported service modes
     FEATURE_GEN_DRIVE_BUS = 107,   // 1: this node drive the dcc bus.
-    FEATURE_GEN_LOK_LOST_DETECT = 108,   // 1: command station annouces lost loco
+    FEATURE_GEN_LOK_LOST_DETECT = 108,   // 1: command station announces lost loco
     FEATURE_GEN_NOTIFY_DRIVE_MANUAL = 109,   // 1: dcc gen reports manual operation
     FEATURE_GEN_START_STATE = 110,   // 1: power up state, 0=off, 1=on
     FEATURE_GEN_EXT_AVAILABLE = 111,   // 1: supports rcplus messages
