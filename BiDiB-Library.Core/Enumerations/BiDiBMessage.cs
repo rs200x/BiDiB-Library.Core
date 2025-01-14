@@ -89,12 +89,17 @@ public enum BiDiBMessage : byte
 
     //-- dcc gen messages
     MSG_CS_ALLOCATE = 96,
-    MSG_CS_SET_STATE = 98,       // 1:state
-    MSG_CS_DRIVE = 100,       // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
-    MSG_CS_ACCESSORY = 101,       // 1:addrl, 2:addrh, 3:data(aspect), 4:time_l, 5:time_h
-    MSG_CS_BIN_STATE = 102,       // 1:addrl, 2:addrh, 3:bin_statl, 4:bin_stath
-    MSG_CS_POM = 103,       // 1..4:addr/did, 5:MID, 6:opcode, 7:cv_l, 8:cv_h, 9:cv_x, 10..13: data
-    MSG_CS_RCPLUS = 104,       // 1:opcode, [2..n:parameter]
+    MSG_CS_SET_STATE = 98,      // 1:state
+    MSG_CS_DRIVE = 100,         // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
+    MSG_CS_ACCESSORY = 101,     // 1:addrl, 2:addrh, 3:data(aspect), 4:time_l, 5:time_h
+    MSG_CS_BIN_STATE = 102,     // 1:addrl, 2:addrh, 3:bin_statl, 4:bin_stath
+    MSG_CS_POM = 103,           // 1..4:addr/did, 5:MID, 6:opcode, 7:cv_l, 8:cv_h, 9:cv_x, 10..13: data
+    MSG_CS_RCPLUS = 104,        // 1:opcode, [2..n:parameter]
+    MSG_CS_M4 = 105,            // 1:opcode, [2..n:parameter]
+    MSG_CS_QUERY = 106,         // 1:opcode (what (1=loco list), with MSB: all)
+    MSG_CS_DCCA = 107,          // 1:opcode, [2..n:parameter]
+
+    //-- service mode
     MSG_CS_PROG = 111,       // 1:opcode, 2:cv_l, 3:cv_h, 4: data
 
     //-- local message    // only locally used
@@ -189,19 +194,27 @@ public enum BiDiBMessage : byte
     MSG_CS_ALLOC_ACK = 224,       // noch genauer zu klaeren / to be specified
     MSG_CS_STATE = 225,
     MSG_CS_DRIVE_ACK = 226,
-    MSG_CS_ACCESSORY_ACK = 227,       // 1:addrl, 2:addrh, 3:data
-    MSG_CS_POM_ACK = 228,       // 1:addrl, 2:addrh, 3:addrxl, 4:addrxh, 5:mid, 6:data
-    MSG_CS_DRIVE_MANUAL = 229,       // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
+    MSG_CS_ACCESSORY_ACK = 227,     // 1:addrl, 2:addrh, 3:data
+    MSG_CS_POM_ACK = 228,           // 1:addrl, 2:addrh, 3:addrxl, 4:addrxh, 5:mid, 6:data
+    MSG_CS_DRIVE_MANUAL = 229,      // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
     MSG_CS_DRIVE_EVENT = 230,       // 1:addrl, 2:addrh, 3:eventtype, Parameters
-    MSG_CS_ACCESSORY_MANUAL = 231,       // 1:addrl, 2:addrh, 3:data
-    MSG_CS_RCPLUS_ACK = 232,       // 1:opcode, [2..n:parameter]
-    MSG_CS_PROG_STATE = 239,       // 1: state, 2:time, 3:cv_l, 4:cv_h, 5:data
+    MSG_CS_ACCESSORY_MANUAL = 231,  // 1:addrl, 2:addrh, 3:data
+    MSG_CS_RCPLUS_ACK = 232,        // 1:opcode, [2..n:parameter]
+    MSG_CS_M4_ACK = 233,            // 1:opcode, [2..n:parameter]
+    MSG_CS_DRIVE_STATE = 234,       // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
+    MSG_CS_DCCA_ACK = 235,          // 1:opcode, [2..n:parameter]
+
+    //-- service mode
+    MSG_CS_PROG_STATE = 239,        // 1: state, 2:time, 3:cv_l, 4:cv_h, 5:data
+
 
     //-- local message     // only locally used
     MSG_LOCAL_LOGON = 240,
     MSG_LOCAL_PONG = 241,    // only locally used
     MSG_LOCAL_LOGOFF = 242,
     MSG_LOCAL_ANNOUNCE = 243,
+
+    //-- special local messages
     MSG_LOCAL_PROTOCOL_SIGNATURE = 254,
     MSG_LOCAL_LINK = 255
 }
