@@ -369,7 +369,7 @@ public class MainMessageReceiverTests : TestClass<MainMessageReceiver>
         HandleFeedbackDynStateMessage(
             DynState.SignalQuality, 
             o => o.Quality ?? 0, 
-            227);
+            -127);
     }
     
     [TestMethod]
