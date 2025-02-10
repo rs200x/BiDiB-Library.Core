@@ -27,4 +27,13 @@ public interface IJsonService
     /// <param name="filePath">The target file path</param>
     /// <returns></returns>
     bool SaveToFile(object data, string filePath);
+
+    /// <summary>
+    /// Persists the object to the specified file.
+    /// </summary>
+    /// <param name="data">The object to be persisted</param>
+    /// <param name="filePath">The target file path</param>
+    /// <param name="compressed">Use compressed file formatting</param>
+    /// <returns></returns>
+    bool SaveToFile(object data, string filePath, bool compressed);
 }

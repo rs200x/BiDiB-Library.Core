@@ -12,17 +12,11 @@ namespace org.bidib.Net.Core.Services;
 
 [Export(typeof(IJsonService))]
 [PartCreationPolicy(CreationPolicy.NonShared)]
-public class JsonService : IJsonService
+[method: ImportingConstructor]
+public class JsonService(ILoggerFactory loggerFactory) : IJsonService
 {
-    private readonly ILogger<JsonService> logger;
-    private readonly ILogger exceptionLogger;
-
-    [ImportingConstructor]
-    public JsonService(ILoggerFactory loggerFactory)
-    {
-        logger = loggerFactory.CreateLogger<JsonService>();
-        exceptionLogger = loggerFactory.CreateLogger(BiDiBConstants.LoggerContextException);
-    }
+    private readonly ILogger<JsonService> logger = loggerFactory.CreateLogger<JsonService>();
+    private readonly ILogger exceptionLogger = loggerFactory.CreateLogger(BiDiBConstants.LoggerContextException);
 
     private readonly JsonSerializerSettings serializerSettings = new()
     {
@@ -75,10 +69,19 @@ public class JsonService : IJsonService
         return data;
     }
 
+    /// <inheritdoc />
     public bool SaveToFile(object data, string filePath)
+    {
+        return SaveToFile(data, filePath, false);
+    }
+
+
+    /// <inheritdoc />
+    public bool SaveToFile(object data, string filePath, bool compressed)
     {
         try
         {
+            serializerSettings.Formatting = compressed ? Formatting.None : Formatting.Indented;
             var content = JsonConvert.SerializeObject(data, serializerSettings);
             File.WriteAllText(filePath, content);
             return true;
