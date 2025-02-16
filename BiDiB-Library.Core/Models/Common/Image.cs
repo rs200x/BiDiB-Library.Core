@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using org.bidib.Net.Core.Models.Xml;
 
 namespace org.bidib.Net.Core.Models.Common;
@@ -21,6 +22,7 @@ public class Image
     public string Source { get; set; }
         
     [XmlAttribute("lastModified")]
+    [JsonProperty("lastModified")]
     public string LastModifiedString
     {
         get => LastModified.ToString("s", CultureInfo.InvariantCulture);
@@ -28,6 +30,7 @@ public class Image
     }
 
     [XmlIgnore]
+    [JsonIgnore]
     public DateTime LastModified { get; set; }
 
     [XmlAttribute("copyright")]

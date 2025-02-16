@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using org.bidib.Net.Core.Models.Xml;
 
 namespace org.bidib.Net.Core.Models.Common;
@@ -21,6 +22,7 @@ public class Version
     public string Author { get; set; }
 
     [XmlAttribute("lastUpdate")]
+    [JsonProperty("lastUpdate")]
     public string LastUpdateString
     {
         get => LastUpdate.ToString("s", CultureInfo.CurrentCulture);
@@ -28,6 +30,7 @@ public class Version
     }
 
     [XmlIgnore]
+    [JsonIgnore]
     public DateTime LastUpdate { get; set; }
 
     [XmlAttribute("created", DataType = XmlDataTypes.Date)]
