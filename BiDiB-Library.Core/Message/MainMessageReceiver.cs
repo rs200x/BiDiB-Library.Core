@@ -263,7 +263,7 @@ public class MainMessageReceiver : IMessageReceiver
         switch (dynState)
         {
             case DynState.SignalQuality:
-                occupancyInfo.Quality = value;
+                occupancyInfo.Quality = 100 - value;
                 break;
             case DynState.Temperature:
             case DynState.Temperature2:

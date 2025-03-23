@@ -21,7 +21,7 @@ namespace org.bidib.Net.Core.Test.Services
     {
         private Mock<IIoService> ioService;
         private const string SampleCvFile = "TestData/BiDiBCV-13-104.xml";
-        private const string XsdFile = "TestData/decoder.xsd";
+        private const string XsdFile = "TestData/commonTypes.xsd";
 
         protected override void OnTestInitialize()
         {
@@ -157,7 +157,7 @@ namespace org.bidib.Net.Core.Test.Services
             ioService.Setup(x => x.GetPath(It.IsAny<string[]>())).Returns("TestData/commonTypes.xsd");
 
             // Act
-            var info = Target.ValidateFile("test.xml", Namespaces.DecoderNamespaceUrl, XsdFile);
+            var info = Target.ValidateFile("test.xml", Namespaces.CommonTypesNamespaceUrl, XsdFile);
 
             // Assert
             info.Result.Should().Be(XmlValidationResult.NoSchema);
