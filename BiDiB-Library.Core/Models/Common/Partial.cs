@@ -10,8 +10,10 @@ namespace org.bidib.Net.Core.Models.Common;
 [Serializable]
 [DebuggerStepThrough]
 [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "PartialType")]
-public class Partial
+public class Partial : CvItem
 {
+    public override CvItemType Type => CvItemType.Partial;
+    
     [XmlElement("valueCalculation")]
     public ValueCalculation ValueCalculation { get; set; }
 

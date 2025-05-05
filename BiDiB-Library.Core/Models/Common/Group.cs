@@ -7,8 +7,10 @@ namespace org.bidib.Net.Core.Models.Common;
 [Serializable]
 [DebuggerStepThrough]
 [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "GroupType")]
-public class Group
+public class Group : CvItem
 {
+    public override CvItemType Type => CvItemType.Group;
+    
     [XmlElement("description")]
     public Description[] Description { get; set; }
 
