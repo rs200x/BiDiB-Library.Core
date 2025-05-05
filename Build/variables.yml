@@ -2,6 +2,6 @@ variables:
   solution: "BiDiB-Library.Core.sln"
   buildPlatform: "Any CPU"
   buildConfiguration: "Release"
-  version: "1.0.8"
+  version: "1.0.9"
   revision: $[counter(variables['version'], 0)]
   packageVersion: '$(version)-dev.$(revision)'
