@@ -1,20 +1,38 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
-
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+# BiDiB-Library.Core
+BiDiB Infrastructure Library for connecting tools to BiDiB Bus
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Open BiDiB-Library.Core.sln with Visual Studio, VS Code or Rider.
+Build with Debug configuration for development.
+Build with Release configuration for release usage.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+or build via console from root folder:
+dotnet build --configuration debug
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+# Getting Started
+
+## register library at IOC
+- with MEF: scan assembly
+- with MS DI: use extension -> (builder.)services.AddBiDiBCore();
+
+## get from IOC and connect
+
+var bidibInterface = IServiceProvider.GetService<IBiDiBInterface>();
+
+bidibInterface.Initialize();
+
+var connectionConfig = new IConnectionConfig(); 
+
+await bidibInterface.ConnectAsync(connectionConfig);
+
+## consume messages
+To avoid handling with all the bits and bytes, the internal message receiver converts all data into handy message objects.
+To consume the messages a custom implementation of IMessageReceiver is needed.
+This receiver has to be registered at the interface.
+
+bidibInterface.Register(receiver);
+
+Messages can be send via the provided messages.
+bidibInterface.SendMessage(message);
+bidibInterface.SendMessage<TResponseType>(message);
+
