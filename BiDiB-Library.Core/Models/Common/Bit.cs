@@ -12,7 +12,7 @@ public class Bit : CvItem
     public override CvItemType Type => CvItemType.Bit;
     
     [XmlElement("description")]
-    public Description[] Description { get; set; }
+    public Description[] Descriptions { get; set; }
 
     [XmlAttribute("number")]
     public byte Number { get; set; }

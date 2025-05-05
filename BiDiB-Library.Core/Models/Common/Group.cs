@@ -12,7 +12,7 @@ public class Group : CvItem
     public override CvItemType Type => CvItemType.Group;
     
     [XmlElement("description")]
-    public Description[] Description { get; set; }
+    public Description[] Descriptions { get; set; }
 
     [XmlElement("option")]
     public Option[] Options { get; set; }

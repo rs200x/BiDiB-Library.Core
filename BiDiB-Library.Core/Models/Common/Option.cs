@@ -10,7 +10,7 @@ namespace org.bidib.Net.Core.Models.Common;
 public class Option
 {
     [XmlElement("description")]
-    public Description[] Description { get; set; }
+    public Description[] Descriptions { get; set; }
 
     [XmlAttribute("value")]
     public byte Value { get; set; }
