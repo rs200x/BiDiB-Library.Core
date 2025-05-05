@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace org.bidib.Net.Core.Models.Common;
 
-public abstract class CvItem
+public interface ICvItem
 {
     [XmlIgnore]
     [JsonProperty("type")]
-    public abstract CvItemType Type { get; }
+    CvItemType Type { get; }
 }

@@ -7,9 +7,9 @@ namespace org.bidib.Net.Core.Models.Common;
 [Serializable]
 [DebuggerStepThrough]
 [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "BitSelectionType")]
-public class BitSelection : CvItem
+public class BitSelection : ICvItem
 {
-    public override CvItemType Type => CvItemType.BitSelection;
+    public CvItemType Type => CvItemType.BitSelection;
     
     [XmlElement("option")]
     public Option[] Options { get; set; }

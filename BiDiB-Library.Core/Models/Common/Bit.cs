@@ -7,9 +7,9 @@ namespace org.bidib.Net.Core.Models.Common;
 [Serializable]
 [DebuggerStepThrough]
 [XmlType(Namespace = Namespaces.CommonTypesNamespaceUrl, TypeName = "BitType")]
-public class Bit : CvItem
+public class Bit : ICvItem
 {
-    public override CvItemType Type => CvItemType.Bit;
+    public CvItemType Type => CvItemType.Bit;
     
     [XmlElement("description")]
     public Description[] Descriptions { get; set; }
